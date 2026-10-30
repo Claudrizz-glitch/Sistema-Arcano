@@ -1,0 +1,12 @@
+{
+  "specialLevels": [3, 5, 8, 13, 21],
+  "commonLimit": 5,
+  "groups": [
+    { "group": "I",   "common": ["A Sacerdotisa", "A Estrela", "A Justiça"],        "extra": "O Mago" },
+    { "group": "II",  "common": ["A Força", "O Imperador", "O Julgamento"],         "extra": "O Carro" },
+    { "group": "III", "common": ["A Temperança", "O Sol", "O Mundo"],               "extra": "A Imperatriz" },
+    { "group": "IV",  "common": ["A Lua", "A Roda da Fortuna", "O Enforcado"],      "extra": "O Louco" },
+    { "group": "V",   "common": ["O Eremita", "O Hierofante"],                      "extra": "O Diabo" },
+    { "group": "VI",  "common": ["A Morte", "Os Enamorados"],                       "extra": "A Torre" }
+  ]
+}

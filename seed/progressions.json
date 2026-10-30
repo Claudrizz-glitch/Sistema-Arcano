@@ -1,0 +1,896 @@
+{
+ "humano": [
+  {
+   "level": 1,
+   "max_hp": 22,
+   "max_mana": 40,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 2,
+   "max_hp": 26,
+   "max_mana": 45,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 3,
+   "max_hp": 30,
+   "max_mana": 50,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 4,
+   "max_hp": 34,
+   "max_mana": 60,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 5,
+   "max_hp": 38,
+   "max_mana": 70,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 6,
+   "max_hp": 42,
+   "max_mana": 80,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 7,
+   "max_hp": 46,
+   "max_mana": 90,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 8,
+   "max_hp": 50,
+   "max_mana": 100,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 9,
+   "max_hp": 56,
+   "max_mana": 115,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 10,
+   "max_hp": 62,
+   "max_mana": 130,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 11,
+   "max_hp": 68,
+   "max_mana": 150,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 12,
+   "max_hp": 74,
+   "max_mana": 170,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 13,
+   "max_hp": 80,
+   "max_mana": 190,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 14,
+   "max_hp": 88,
+   "max_mana": 215,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 15,
+   "max_hp": 96,
+   "max_mana": 240,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 16,
+   "max_hp": 104,
+   "max_mana": 270,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 17,
+   "max_hp": 112,
+   "max_mana": 300,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 18,
+   "max_hp": 122,
+   "max_mana": 340,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 19,
+   "max_hp": 132,
+   "max_mana": 380,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 20,
+   "max_hp": 142,
+   "max_mana": 420,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 21,
+   "max_hp": 152,
+   "max_mana": 460,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  }
+ ],
+ "anao": [
+  {
+   "level": 1,
+   "max_hp": 34,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 2,
+   "max_hp": 40,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 3,
+   "max_hp": 46,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 4,
+   "max_hp": 52,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 5,
+   "max_hp": 58,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 6,
+   "max_hp": 64,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 7,
+   "max_hp": 70,
+   "max_mana": null,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 8,
+   "max_hp": 76,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 9,
+   "max_hp": 85,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 10,
+   "max_hp": 94,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 11,
+   "max_hp": 103,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 12,
+   "max_hp": 112,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 13,
+   "max_hp": 121,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 14,
+   "max_hp": 133,
+   "max_mana": null,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 6
+  },
+  {
+   "level": 15,
+   "max_hp": 145,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 16,
+   "max_hp": 157,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 17,
+   "max_hp": 169,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 18,
+   "max_hp": 184,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 19,
+   "max_hp": 199,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 20,
+   "max_hp": 214,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 21,
+   "max_hp": 229,
+   "max_mana": null,
+   "aa_dice_count": 3,
+   "aa_dice_sides": 20
+  }
+ ],
+ "druida": [
+  {
+   "level": 1,
+   "max_hp": 26,
+   "max_mana": 40,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 2,
+   "max_hp": 31,
+   "max_mana": 45,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 3,
+   "max_hp": 36,
+   "max_mana": 50,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 4,
+   "max_hp": 41,
+   "max_mana": 60,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 5,
+   "max_hp": 46,
+   "max_mana": 70,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 6,
+   "max_hp": 51,
+   "max_mana": 80,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 7,
+   "max_hp": 56,
+   "max_mana": 90,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 8,
+   "max_hp": 61,
+   "max_mana": 100,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 9,
+   "max_hp": 68,
+   "max_mana": 115,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 10,
+   "max_hp": 75,
+   "max_mana": 130,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 11,
+   "max_hp": 82,
+   "max_mana": 150,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 12,
+   "max_hp": 89,
+   "max_mana": 170,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 13,
+   "max_hp": 96,
+   "max_mana": 190,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 14,
+   "max_hp": 105,
+   "max_mana": 215,
+   "aa_dice_count": 4,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 15,
+   "max_hp": 114,
+   "max_mana": 240,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 16,
+   "max_hp": 123,
+   "max_mana": 270,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 17,
+   "max_hp": 132,
+   "max_mana": 300,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 18,
+   "max_hp": 144,
+   "max_mana": 340,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 19,
+   "max_hp": 156,
+   "max_mana": 380,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 20,
+   "max_hp": 168,
+   "max_mana": 420,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  },
+  {
+   "level": 21,
+   "max_hp": 180,
+   "max_mana": 460,
+   "aa_dice_count": 2,
+   "aa_dice_sides": 20
+  }
+ ],
+ "profano": [
+  {
+   "level": 1,
+   "max_hp": 6,
+   "max_mana": 10,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 2,
+   "max_hp": 8,
+   "max_mana": 14,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 3,
+   "max_hp": 10,
+   "max_mana": 18,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 4,
+   "max_hp": 12,
+   "max_mana": 24,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 5,
+   "max_hp": 14,
+   "max_mana": 30,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 6,
+   "max_hp": 16,
+   "max_mana": 36,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 7,
+   "max_hp": 18,
+   "max_mana": 42,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 8,
+   "max_hp": 20,
+   "max_mana": 48,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 9,
+   "max_hp": 23,
+   "max_mana": 57,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 10,
+   "max_hp": 26,
+   "max_mana": 66,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 11,
+   "max_hp": 29,
+   "max_mana": 76,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 12,
+   "max_hp": 32,
+   "max_mana": 86,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 13,
+   "max_hp": 35,
+   "max_mana": 96,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 14,
+   "max_hp": 40,
+   "max_mana": 110,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 15,
+   "max_hp": 45,
+   "max_mana": 124,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 16,
+   "max_hp": 50,
+   "max_mana": 140,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 17,
+   "max_hp": 55,
+   "max_mana": 156,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 18,
+   "max_hp": 62,
+   "max_mana": 175,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 19,
+   "max_hp": 69,
+   "max_mana": 194,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 20,
+   "max_hp": 76,
+   "max_mana": 213,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 21,
+   "max_hp": 83,
+   "max_mana": 232,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  }
+ ],
+ "forjado": [
+  {
+   "level": 1,
+   "max_hp": null,
+   "max_mana": 22,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 2,
+   "max_hp": null,
+   "max_mana": 26,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 3,
+   "max_hp": null,
+   "max_mana": 30,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 4,
+   "max_hp": null,
+   "max_mana": 34,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 5,
+   "max_hp": null,
+   "max_mana": 38,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 6,
+   "max_hp": null,
+   "max_mana": 42,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 7,
+   "max_hp": null,
+   "max_mana": 46,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 8,
+   "max_hp": null,
+   "max_mana": 50,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 9,
+   "max_hp": null,
+   "max_mana": 56,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 10,
+   "max_hp": null,
+   "max_mana": 62,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 11,
+   "max_hp": null,
+   "max_mana": 68,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 12,
+   "max_hp": null,
+   "max_mana": 74,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 13,
+   "max_hp": null,
+   "max_mana": 80,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 14,
+   "max_hp": null,
+   "max_mana": 88,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 15,
+   "max_hp": null,
+   "max_mana": 96,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 16,
+   "max_hp": null,
+   "max_mana": 104,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 17,
+   "max_hp": null,
+   "max_mana": 112,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 18,
+   "max_hp": null,
+   "max_mana": 122,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 19,
+   "max_hp": null,
+   "max_mana": 132,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 20,
+   "max_hp": null,
+   "max_mana": 142,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 21,
+   "max_hp": null,
+   "max_mana": 152,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  }
+ ],
+ "druida_puro": [
+  {
+   "level": 1,
+   "max_hp": 14,
+   "max_mana": 60,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 2,
+   "max_hp": 17,
+   "max_mana": 67,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 3,
+   "max_hp": 20,
+   "max_mana": 74,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 4,
+   "max_hp": 23,
+   "max_mana": 89,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 5,
+   "max_hp": 26,
+   "max_mana": 104,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 6,
+   "max_hp": 29,
+   "max_mana": 119,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 7,
+   "max_hp": 32,
+   "max_mana": 134,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 1
+  },
+  {
+   "level": 8,
+   "max_hp": 35,
+   "max_mana": 149,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 9,
+   "max_hp": 40,
+   "max_mana": 179,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 10,
+   "max_hp": 45,
+   "max_mana": 209,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 11,
+   "max_hp": 50,
+   "max_mana": 239,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 12,
+   "max_hp": 55,
+   "max_mana": 269,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 13,
+   "max_hp": 60,
+   "max_mana": 299,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 14,
+   "max_hp": 67,
+   "max_mana": 344,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 4
+  },
+  {
+   "level": 15,
+   "max_hp": 74,
+   "max_mana": 389,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 16,
+   "max_hp": 81,
+   "max_mana": 434,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 17,
+   "max_hp": 88,
+   "max_mana": 479,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 18,
+   "max_hp": 97,
+   "max_mana": 524,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 19,
+   "max_hp": 106,
+   "max_mana": 569,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 20,
+   "max_hp": 115,
+   "max_mana": 614,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  },
+  {
+   "level": 21,
+   "max_hp": 124,
+   "max_mana": 659,
+   "aa_dice_count": 1,
+   "aa_dice_sides": 10
+  }
+ ]
+}

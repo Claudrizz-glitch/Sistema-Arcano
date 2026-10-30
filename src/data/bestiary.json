@@ -1,0 +1,640 @@
+[
+ {
+  "name": "Montanhas Alpinas",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Montanhas Alpinas",
+  "description": "Montanhas Alpinas - Localizada na cordilheira do norte (Montanhas dos Anões) e na\ncordilheira oriental. Caracteriza-se por altitudes elevadas, clima frio, vegetação escassa nas\náreas mais altas, grandes paredões rochosos, vales profundos, minas naturais e nascentes\nque alimentam os principais rios do continente.\n\nFlora – Predominam pinheiros, abetos, cedros, zimbros, bétulas, gramíneas resistentes ao\nfrio, musgos, líquens e pequenas flores alpinas adaptadas aos solos rochosos.\n\nFauna – Habitado por cabras-montesas, carneiros-selvagens, lobos-cinzentos,\nursos-pardos, linces, raposas-vermelhas, águias-reais, falcões-peregrinos, corvos,\nmarmotas e lebres-da-montanha.",
+  "flora": "Predominam pinheiros, abetos, cedros, zimbros, bétulas, gramíneas resistentes ao frio, musgos, líquens e pequenas flores alpinas adaptadas aos solos rochosos.",
+  "fauna": null
+ },
+ {
+  "name": "Dragões de terra",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Montanhas Alpinas",
+  "description": "Dragões de terra Lagartos gigantes, montaria dos anões, iguaria na capital"
+ },
+ {
+  "name": "Taiga (Floresta Boreal)",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Taiga (Floresta Boreal)",
+  "description": "Taiga (Floresta Boreal) - Localizada ao norte do continente, entre as Montanhas dos\nAnões e as Águas de Cander. Possui invernos longos e rigorosos, verões curtos, extensas\nflorestas de coníferas, numerosos lagos formados pelo degelo e baixa ocupação humana\ndevido ao clima severo.\n\nFlora – Formada principalmente por pinheiros, píceas, abetos, larícios, cedros, zimbros,\nbétulas, musgos, liquens, mirtilos, amoras silvestres e diversas espécies de cogumelos.\n\nFauna – É o habitat natural de alces, renas, cervos, ursos-pardos, lobos-cinzentos, linces,\nglutões, martas, raposas-vermelhas, raposas-do-ártico, lebres-da-neve, esquilos-vermelhos,\ncorujas-das-neves, tetrazes, corvos e águias-reais.",
+  "flora": "Formada principalmente por pinheiros, píceas, abetos, larícios, cedros, zimbros, bétulas, musgos, liquens, mirtilos, amoras silvestres e diversas espécies de cogumelos.",
+  "fauna": null
+ },
+ {
+  "name": "Floresta Temperada",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Floresta Temperada - Localizada principalmente nas Florestas Druídicas do oeste e na\ngrande floresta do sudeste. Caracteriza-se por árvores de grande porte, clima ameno e\númido, rios abundantes, solo fértil e enorme diversidade biológica.\n\nFlora – Composta por carvalhos, faias, bordos, olmos, freixos, castanheiras, aveleiras,\nsamambaias, heras, musgos e uma grande variedade de cogumelos.\n\nFauna – Abriga cervos, veados, javalis, lobos, raposas, texugos, esquilos, lontras, corujas,\npica-paus, gaviões e doninhas.",
+  "flora": "Composta por carvalhos, faias, bordos, olmos, freixos, castanheiras, aveleiras, samambaias, heras, musgos e uma grande variedade de cogumelos.",
+  "fauna": null
+ },
+ {
+  "name": "Unicórnio",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Unicórnio é uma criatura sagrada e extremamente rara, uma manifestação mágica tal qual\num profano, porém tem harmonia absoluta com a natureza sua biologia está\nintrinsecamente ligada ao equilíbrio entre vida e magia. Não surge por reprodução comum:\ncada unicórnio nasce apenas em locais onde o fluxo natural de mana permanece puro por\nlongos períodos, o que limita drasticamente sua população. A morte de um unicórnio é visto\ncomo heresia e profanação"
+ },
+ {
+  "name": "Claberto",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Claberto Criatura arbórea que lembra uma cruza de mico com sapo. Pele lisa e malhada de\nverde, mãos e pés palmados, braços e pernas longos e flexíveis que permitem balanço\nentre galhos com agilidade de primata. Cabeça com pequenos chifres e boca larga cheia de\ndentes afiados como navalha. Come principalmente pequenos lagartos e aves. Sua\ncaracterística mais notável é uma pústula enorme no meio da testa que fica vermelha e\nfaísca quando detecta perigo. Bruxos americanos costumavam mantê-los nos jardins como\nsistema de alarme antecipado para detectar trouxas. A prática foi multada pela\nConfederação Internacional quando ficou óbvio que uma árvore cheia de pústulas brilhantes\nà noite atraía mais atenção trouxa do que afastava — particularmente em dezembro,\nquando os vizinhos começavam a perguntar sobre os enfeites de Natal."
+ },
+ {
+  "name": "Gira-Gira",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Gira-Gira Inseto nativo da Austrália de aproximadamente um centímetro e três milímetros,\nazul-safira intenso. Sua velocidade é tão grande que raramente é percebido antes de picar.\nAs asas saem do topo da cabeça e giram em alta velocidade durante o voo; na extremidade\noposta há um ferrão longo e fino. A picada causa tontura seguida de levitação. O efeito é\ntemporário em doses normais — em doses altas, a flutuação pode durar dias. Em casos de\nreação alérgica severa, pode se tornar permanente. Gerações de jovens bruxos\naustralianos têm tentado deliberadamente ser picados por gira-giras. Esse fato diz tudo o\nque precisa ser dito sobre o julgamento de jovens bruxos australianos. Em jogo:\npericulosidade I. O perigo não vem do inseto — vem do jogador impulsivo que decide\nprovocar um. A mecânica de levitação involuntária por dias cria situações que o mestre não\nprecisa planejar; elas se criam sozinhas."
+ },
+ {
+  "name": "Oraqui-Oralá",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Oraqui-Oralá Ave roliça, de penas fofas, incapaz de voo, que desaparece em nuvem de\npenas e reaparece em outro lugar quando ameaçada. Os trouxas o conheciam pelo nome\nde dodo e acreditaram tê-lo levado à extinção por caça excessiva. Esse equívoco despertou\nna cultura trouxa uma consciência sobre extinção de espécies que os bruxos consideraram\nsuficientemente útil para nunca corrigir. Em jogo: periculosidade I. O animal em si é\ninofensivo e impossível de capturar por meios físicos. O momento de um NPC trouxa entrar\n\nem colapso existencial ao ver um dodo vivo diante de si vale qualquer encontro mais\nelaborado."
+ },
+ {
+  "name": "Tronquilho",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Floresta Temperada",
+  "description": "Tronquilho Criatura guardiã de árvores encontrável no oeste da Inglaterra, sul da\nAlemanha e florestas escandinavas. Pequeno — no máximo vinte centímetros — e\ncomposto aparentemente de tronco e gravetos com dois olhinhos castanhos. Pacífico e\nextremamente tímido em condições normais. Se a árvore em que vive for ameaçada, fura\nos olhos do responsável com dedos longos e afiados sem hesitação. Pode ser acalmado\ncom bichos-de-conta por tempo suficiente para retirar madeira da árvore — material valioso\npara fabricação de varinhas. Em jogo: aliado de bolso literalmente. Cabe no bolso, não\nreclama, detecta ameaças à árvore com precisão, e o custo de manutenção é\nbichos-de-conta. O problema aparece quando o grupo esquece que o tronquilho está no\nbolso durante uma negociação delicada e alguém menciona lenha."
+ },
+ {
+  "name": "Bosques e Planícies Arborizadas",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Bosques e Planícies Arborizadas",
+  "description": "Bosques e Planícies Arborizadas - Distribuído por grande parte da região central do\ncontinente. É formado por colinas suaves, árvores espaçadas, áreas de pastagem natural e\npequenas comunidades agrícolas.\n\nFlora – Predominam carvalhos, salgueiros próximos aos rios, macieiras silvestres, pereiras,\narbustos variados, gramíneas e flores campestres.\n\nFauna – Encontram-se lebres, raposas, veados, faisões, perdizes, codornas, corujas,\ncorvos, esquilos, doninhas e ouriços.",
+  "flora": "Predominam carvalhos, salgueiros próximos aos rios, macieiras silvestres, pereiras, arbustos variados, gramíneas e flores campestres.",
+  "fauna": null
+ },
+ {
+  "name": "Amasso",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Bosques e Planícies Arborizadas",
+  "description": "Amasso Pequeno felino com pelo pintado ou malhado, orelhas grandes e rabo igual ao de\nleão. Inteligente, independente e às vezes agressivo — mas quando se afeiçoa a um bruxo,\ntorna-se aliado absolutamente leal. Detecta pessoas suspeitas ou perigosas com precisão\nconsistente e pode guiar o dono de volta para casa mesmo em território desconhecido.\nCruza com gatos normais. Em jogo: detector passivo de intenções. O amasso rosna — e\nagora o grupo tem que decidir se confia mais no gato ou no NPC de aparência\ncompletamente inofensiva. Raramente erra. O mestre pode usá-lo como dica sutil ou como\nfonte de paranoia constante dependendo de como jogar."
+ },
+ {
+  "name": "Campos e Pradarias",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Campos e Pradarias",
+  "description": "Campos e Pradarias - Ocupa a região central ao redor da Capital de Arkhabel.\nCaracteriza-se por extensas áreas abertas, solo fértil, fazendas, pastagens e estradas que\nconectam os principais povoados.\n\nFlora – Predominam capins altos, trigo, cevada, aveia, centeio, trevos, margaridas,\npapoulas e outras flores silvestres.\n\nFauna – Abriga cavalos selvagens, coelhos, lebres, raposas, codornas, perdizes, gaviões,\nfalcões, ratos-do-campo e toupeiras.",
+  "flora": "Predominam capins altos, trigo, cevada, aveia, centeio, trevos, margaridas, papoulas e outras flores silvestres.",
+  "fauna": null
+ },
+ {
+  "name": "Erumpente",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Campos e Pradarias",
+  "description": "Erumpente Animal africano cinzento de até uma tonelada (Substitutivo do rinoceronte e\nelefante, resumindo é pra ser exatamente um rinoceronte, só que ele mesmo explode se\nperfurar algo, aí vai ser sempre perigoso virar um bicho desse), superficialmente parecido\ncom rinoceronte. Couro que repele a maioria dos feitiços e maldições. Chifre afiado que\nperfura qualquer coisa desde pele até metal, contendo secreção que faz o alvo atingido\nexplodir. Não ataca a não ser quando provocado pela dor — o problema é que \"provocado\"\ninclui qualquer estímulo inesperado. Os machos frequentemente se causam explosões\nmutuamente durante a estação de acasalamento, o que limita naturalmente a população.\nEm jogo: periculosidade IV. O couro que repele feitiços obriga confronto físico ou estratégias\nindiretas. O chifre que explode o alvo transforma qualquer erro de posicionamento em\nconsequência permanente. Usar como obstáculo — algo que o grupo precisa contornar sem\nprovocar — é mais interessante do que confronto direto."
+ },
+ {
+  "name": "Furanzão",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Campos e Pradarias",
+  "description": "Furanzão Parece um furão de grande porte em quase tudo — exceto pelo fato de que fala.\nUma conversa propriamente dita está além de suas capacidades; o que ele produz é um\nfluxo contínuo de frases curtas, em geral grosseiras, sem pausa e sem filtro. Vive\nprincipalmente sob a terra perseguindo gnomos, mas sobe à superfície com frequência\nsuficiente para causar incidentes. O registro mais antigo de um furanzão em Arkhavel é de\num monge que o confundiu com um furão comum e levou uma mordida no nariz ao se\nabaixar para investigar. O furanzão gritou \"Dá o fora, careca!\" antes, durante e depois do\nincidente. Em jogo: periculosidade I. Extremamente difícil de interrogar. Se capturado,\nresponderá qualquer pergunta com um insulto relacionado ao tema da pergunta.\nInformações úteis ocasionalmente aparecem por acidente no meio dos xingamentos."
+ },
+ {
+  "name": "Pelúcio",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Campos e Pradarias",
+  "description": "Pelúcio Criatura fofa, preta, de focinho longo, que faz tocas subterrâneas e tem predileção\nabsoluta por qualquer coisa que brilhe. Manso e capaz de afeto genuíno pelo dono.\nCompletamente destrutivo em ambientes fechados. Duendes o usam para escavar em\nbusca de tesouros. Vive em covas de até seis metros de profundidade e tem de seis a oito\nfilhotes por ninhada. Em jogo: ferramenta de missão e de caos simultâneos. Útil em\nqualquer situação que envolva encontrar objetos brilhantes escondidos. Problemático em\nqualquer situação que envolva discrição, joias de NPC importantes ou tesouro que o grupo\nainda não deveria tocar. Nunca deve ser solto em um ambiente sem o grupo estar\npreparado para as consequências.."
+ },
+ {
+  "name": "Dedo-Duro",
+  "kind": "criatura",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Campos e Pradarias",
+  "description": "Dedo-Duro Minúscula ave azul sarapintada que come pequenos insetos e não produz som\nalgum durante toda a vida. Ao morrer, explode e emite um grito formado por todos os sons\nque ouviu condensados em 5s, em uma altura absurda."
+ },
+ {
+  "name": "Vales Fluviais",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Vales Fluviais",
+  "description": "Vales Fluviais - Distribuído ao longo de toda a rede hidrográfica do continente. Possui solos\nextremamente férteis, abundância de água doce, intensa agricultura e grande concentração\nde cidades.\n\nFlora – Formada por salgueiros, álamos, juncos, taboas, lírios-d'água, arbustos ribeirinhos,\nplantas aquáticas e vegetação adaptada às margens dos rios.\n\nFauna – Encontram-se lontras, castores, garças, martins-pescadores, patos, cisnes,\ngansos, rãs, tartarugas de água doce, trutas, carpas e bagres.",
+  "flora": "Formada por salgueiros, álamos, juncos, taboas, lírios-d'água, arbustos ribeirinhos, plantas aquáticas e vegetação adaptada às margens dos rios.",
+  "fauna": null
+ },
+ {
+  "name": "Costas Rochosas",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Costas Rochosas",
+  "description": "Costas Rochosas - Localizado principalmente no litoral leste e parte da costa sul.\nCaracteriza-se por penhascos, praias estreitas, enseadas naturais, ventos fortes e intensa\ninfluência marítima.\n\nFlora – Composta por gramíneas costeiras, arbustos resistentes à maresia, pinheiros\nmarítimos, samambaias, algas e liquens.\n\nFauna – Habitada por gaivotas, corvos-marinhos, albatrozes, focas, golfinhos, polvos,\ncaranguejos, lagostas, mexilhões e ostras.",
+  "flora": "Composta por gramíneas costeiras, arbustos resistentes à maresia, pinheiros marítimos, samambaias, algas e liquens.",
+  "fauna": null
+ },
+ {
+  "name": "Arquipélagos Oceânicos",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Arquipélagos Oceânicos",
+  "description": "Arquipélagos Oceânicos - Formado pelas diversas ilhas espalhadas ao redor do\ncontinente. Apresenta clima oceânico, vegetação costeira e forte dependência da pesca e\ndo comércio marítimo.\n\nFlora – Predominam palmeiras costeiras, pinheiros marítimos, arbustos resistentes ao\nvento, capins litorâneos e pequenas flores adaptadas ao ambiente salino.\n\nFauna – Abriga gaivotas, papagaios-do-mar, corvos-marinhos, focas, tartarugas marinhas,\ngolfinhos, baleias migratórias, atuns e cavalas.",
+  "flora": "Predominam palmeiras costeiras, pinheiros marítimos, arbustos resistentes ao vento, capins litorâneos e pequenas flores adaptadas ao ambiente salino.",
+  "fauna": null
+ },
+ {
+  "name": "Terras Corrompidas",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Terras Corrompidas",
+  "description": "Terras Corrompidas - Encontrado nas áreas marcadas pela corrupção profana.\nCaracteriza-se por solo enegrecido ou avermelhado, vegetação morta, névoa constante,\nrochas queimadas e intensa influência sobrenatural que altera o ambiente.\n\nFlora – Restam apenas árvores secas, arbustos espinhosos, liquens escuros, fungos\nnegros, gramíneas ressecadas e cipós mortos capazes de sobreviver às condições\nextremas.\n\nFauna – Poucos animais conseguem permanecer nessas regiões, sendo comuns corvos,\nurubus, ratos, raposas extremamente magras, lobos famintos, serpentes e escorpiões,\nenquanto a maioria das espécies evita naturalmente essas terras.",
+  "flora": "Restam apenas árvores secas, arbustos espinhosos, liquens escuros, fungos negros, gramíneas ressecadas e cipós mortos capazes de sobreviver às condições extremas.",
+  "fauna": null
+ },
+ {
+  "name": "Pântanos e Brejos",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Pântanos e Brejos",
+  "description": "Pântanos e Brejos - Presente em pequenas áreas próximas aos lagos do centro-leste.\nPossui solo permanentemente encharcado, águas rasas, vegetação densa e névoa\nfrequente.\n\nFlora – Formada por juncos, taboas, salgueiros, samambaias, musgos, cipós, nenúfares e\noutras plantas aquáticas.\n\nFauna – Abriga jacarés, serpentes, sapos, rãs, libélulas, garças, marrecos, tartarugas,\nlontras, mosquitos e caramujos.",
+  "flora": "Formada por juncos, taboas, salgueiros, samambaias, musgos, cipós, nenúfares e outras plantas aquáticas.",
+  "fauna": null
+ },
+ {
+  "name": "Grandes Lagos",
+  "kind": "bioma",
+  "category": "fauna_flora",
+  "periculosidade": null,
+  "region": "Grandes Lagos",
+  "description": "Grandes Lagos - Distribuído pelos grandes corpos de água doce do centro e sudoeste do\ncontinente. Influencia diretamente o clima das regiões vizinhas e sustenta importantes rotas\ncomerciais e pesqueiras.\n\nFlora – Composto por juncos, lírios-d'água, nenúfares, salgueiros, álamos, algas de água\ndoce e vegetação aquática abundante.\n\nFauna – Encontram-se trutas, carpas, bagres, lúcios, patos, cisnes, gansos, garças, lontras\ne castores.",
+  "flora": "Composto por juncos, lírios-d'água, nenúfares, salgueiros, álamos, algas de água doce e vegetação aquática abundante.",
+  "fauna": null
+ },
+ {
+  "name": "Pufoso",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 1,
+  "region": null,
+  "description": "Pufoso Criatura esférica coberta de pelos macios cor de amarelo. Não se importa de ser\nafagado, jogado, carregado ou ignorado. Emite zumbido surdo quando satisfeito. A\nintervalos, estende uma língua longa, fina e rosada que serpeia pela casa em busca de\ncomida — come qualquer coisa, desde sobras até aranhas, com preferência especial por\nenfiar a língua no nariz de bruxos adormecidos para comer o que encontrar. Essa tendência\no tornou favorito de crianças bruxas por gerações. Em jogo: mascote de campanha ideal.\nCria afeto nos jogadores sem fazer nada útil. Ron Weasley usava o seu para treinar\nrebatidas de balaços — o que diz bastante sobre a versatilidade do animal como ferramenta\nde entretenimento de baixo custo."
+ },
+ {
+  "name": "Gnomo",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 1,
+  "region": null,
+  "description": "Gnomo Praga comum de jardins por toda a Europa e América do Norte, o gnomo tem cerca\nde trinta centímetros de altura, cabeça desproporcionalmente grande e dura e pés ossudos.\nNão é perigoso — é inconveniente. Infesta jardins, destrói canteiros e resiste a remoção\ncom uma determinação que beira o heroísmo. O método padrão de controle é girar o animal\nno alto até a tontura e arremessá-lo por cima do muro. Ele volta. Sempre volta. Em jogo:\npericulosidade I. Encontros com gnomos são quase sempre involuntários — o grupo está\nfazendo outra coisa e os gnomos estão atrapalhando. Competição entre jogadores para ver\nquem arremessa mais longe é evento recorrente em qualquer jardim de NPC importante.\nUm furanzão resolve o problema mais rápido, mas com dano colateral considerável."
+ },
+ {
+  "name": "Carbunclo",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 1,
+  "region": null,
+  "description": "Carbunclo (folclore sul-americano) Animal pequeno e esquivo com uma pedra preciosa\nna testa que brilha na escuridão. Invisível quando parado. Deixa rastros de luz que\ndesaparecem ao amanhecer. A particularidade: caçadores de carbunclo enlouquecem\nprogressivamente — não por maldição, mas por obsessão. A pedra é genuinamente\n\nvaliosa, genuinamente existe, e genuinamente nunca é capturada. Cada caçador que\nencontrou um relata a mesma experiência: a criatura parou, olhou diretamente para ele, e\ndesapareceu. O que exatamente esse contato visual faz com quem o experimenta não está\ndocumentado em nenhum registro que o grupo consiga encontrar."
+ },
+ {
+  "name": "Pocotó",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Pocotó Guardião de cavalos encontrável em Dorset e no sul da Irlanda. Sessenta\ncentímetros de altura, coberto de pelagem comprida, nariz excepcionalmente grande e\npatas de casco fendido. Existe exclusivamente para proteger cavalos. Desconfia de\nhumanos e foge quando se aproximam. Se encontrado escondido no feno ou no meio de\numa manada, geralmente significa que os cavalos estão sob alguma ameaça que o grupo\nainda não percebeu. Em jogo: NPC animal involuntário. O pocotó não quer ser encontrado,\nnão quer ser útil e não quer interagir com ninguém. O fato de estar agitado é informação.\nGanhar sua confiança é uma missão inteira por si só, e a recompensa é um aliado que\nprotege cavalos com devoção absoluta — o que é mais útil do que parece em campanhas\nde longa viagem."
+ },
+ {
+  "name": "Grindylow",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Grindylow Demônio aquático de chifres e pele verde-clara encontrável em lagos da\nGrã-Bretanha e Irlanda. Alimenta-se de pequenos peixes. Agressivo com bruxos e trouxas\nindistintamente, com dedos muito longos que têm força considerável mas são facilmente\nquebráveis. Sereianos conseguem domesticá-los. Em jogo: encontro subaquático padrão de\nbaixa periculosidade — II no máximo. O perigo é proporcional a quanto os jogadores\nsubestimam o ambiente aquático. Dedos quebrando é a solução mecânica; o problema é\nalcançá-los debaixo d'água sem entrar em pânico."
+ },
+ {
+  "name": "Pogrebin",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Pogrebin Demônio russo de menos de trinta centímetros, corpo peludo e cabeça enorme,\ncinzenta e lisa. Quando encolhido, parece uma pedra redonda e brilhante. É atraído por\nhumanos e gosta de segui-los andando à sombra, abaixando-se rapidamente quando o alvo\nse vira. Se um humano permitir que o pogrebin o siga por horas, começa a sentir futilidade\ncrescente que evolui para letargia e desespero. Quando a vítima para de andar e cai de\njoelhos para chorar a inutilidade de tudo, o pogrebin salta sobre ela e tenta devorá-la. É\nfacilmente repelido com azarações simples. Chutá-lo para longe também é eficaz. Em jogo:\npericulosidade II. O perigo não é o pogrebin — é o jogador que não percebe que está sendo\nseguido por horas e de repente sente uma tristeza inexplicável e avassaladora no meio de\numa missão importante. O mestre pode usar como ferramenta de tensão cômica ou como\ndiagnóstico de quanto os jogadores prestam atenção ao ambiente."
+ },
+ {
+  "name": "Alp",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Alp (folclore germânico) Entidade que entra em casas durante a noite e senta sobre o\npeito de quem dorme, causando pesadelos e paralisia. Usa um chapéu que lhe dá poderes\n— sem ele é vulnerável e desorientado. A particularidade mecânica: o grupo que capturar o\nchapéu tem controle sobre o alp. Pode usá-lo como informante ou como ferramenta, mas\nele vai tentar recuperar o chapéu por qualquer meio enquanto estiver sem ele."
+ },
+ {
+  "name": "Eco",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Eco (mitologia grega — releitura) Não o fenômeno sonoro — a ninfa que foi amaldiçoada\na só repetir o que ouvia. Em versão de RPG: um ser que perdeu a voz própria por contrato\nmal interpretado e agora só consegue comunicar usando fragmentos de frases que ouviu de\noutros. Não é mudo — é literalmente incapaz de originar linguagem. A particularidade:\ndurante semanas antes do encontro, o grupo pode ter ouvido fragmentos de suas próprias\nconversas repetidos em lugares impossíveis. Eco estava praticando como se comunicar\ncom eles."
+ },
+ {
+  "name": "Encantado",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Encantado (folclore amazônico) Ser que vive em uma cidade submersa no fundo de rios e\nlagos, sobe à superfície em forma humana e pode se relacionar com humanos normalmente\n— até a transformação involuntária em boto ou outro animal aquático revelar sua natureza.\nA particularidade: o encantado não mente sobre ser humano porque acredita genuinamente\nque é. A transformação física é o único momento em que a ilusão quebra, e ele sofre com\nisso tanto quanto qualquer testemunha."
+ },
+ {
+  "name": "Will-o'-wisp",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Will-o'-wisp (folclore europeu) Luz flutuante que aparece em pântanos e florestas,\nguiando viajantes para locais perigosos — pântanos, penhascos, territórios de criaturas. Em\nalgumas tradições são espíritos maliciosos; em outras são almas perdidas que\nsimplesmente não sabem que estão mortas e acreditam que estão ajudando. A\nparticularidade: seguir o wisp é sempre perigoso, mas recusá-lo consistentemente e então\nobservar para onde ele vai sem segui-lo revela padrões — ele sempre leva para o mesmo\nlugar. O que está nesse lugar é mais interessante do que o wisp em si."
+ },
+ {
+  "name": "Drekavac",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 2,
+  "region": null,
+  "description": "Drekavac (folclore eslavo) Espírito de criança não batizada ou de adulto morto em\npecado, que possuí animais variáveis e grita durante a noite de forma que causa mal-estar\nfísico em quem ouve. Prevê doenças e mortes. A particularidade: o drekavac não sabe que\nestá morto. Está procurando a resolução que não teve — o ritual que nunca foi feito, a\nabsolvição que nunca veio. Em Arkhavel, onde contratos têm peso espiritual real, um\ndrekavac pode ser o resultado de um contrato que morreu com o contratante antes de ser\ncumprido, e a entidade que aparece é o resíduo do acordo não encerrado."
+ },
+ {
+  "name": "Hipogrifo",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Hipogrifo Cabeça de águia enorme sobre corpo de cavalo, nativo da Europa. Domesticável,\nmas exclusivamente por quem conhece o ritual de aproximação: contato visual mantido,\nreverência lenta, aguardar resposta. Um hipogrifo que retribui a reverência pode ser\naproximado. Um hipogrifo que não retribui vai atacar. Não há estado intermediário. Come\ninsetos, aves e pequenos mamíferos. Constrói ninho no chão e choca um único ovo em\nvinte e quatro horas. Em jogo: periculosidade III — grave se ignorado o protocolo,\nmanejável com conhecimento. O encontro com um hipogrifo é um teste de informação antes\nde ser um teste de combate. Jogadores que tentarem forçar a aproximação sem reverência\ndescobrirão que quatro metros de águia-cavalo atacando é mais rápido do que parece."
+ },
+ {
+  "name": "Mímico",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Mímico Criatura predadora capaz de imitar objetos inanimados comuns do ambiente,\nassumindo formas como baús, portas, cofres, móveis ou estruturas simples; permanece\nimóvel por longos períodos aguardando a interação da presa, atacando por emboscada ao\nser tocado ou aberto, possuindo superfície pegajosa e interior ácido, sendo normalmente\nencontrado em masmorras, ruínas e locais abandonados."
+ },
+ {
+  "name": "Strix",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Strix (mitologia romana) Ave noturna de mau augúrio que se alimenta de vísceras\nhumanas, especialmente de crianças. Na versão mais antiga do mito não é completamente\nanimal — é uma transformação, alguém que se tornou strix por maldição ou por escolha. A\nparticularidade: cada strix tem um nome humano que pode ser descoberto. Pronunciar esse\nnome em voz alta durante o ataque paralisa a criatura por um turno enquanto ela processa\no que era."
+ },
+ {
+  "name": "Jenny Greenteeth",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Jenny Greenteeth (folclore do norte da Inglaterra) Velha de pele verde e dentes longos\nque habita poças, rios lentos e pântanos cobertos de plantas aquáticas. Puxa para dentro\nda água qualquer pessoa que se aproxime demais. A particularidade: ela não age em água\nem movimento. Rios de correnteza forte, mesmo que passem pelo seu território, são\nseguros. A lógica dela é estagnação — prefere água parada como prefere vítimas que\nparam de se mover. O grupo que descobrir isso pode atravessar o território dela em\nsegurança usando o caminho errado no mapa."
+ },
+ {
+  "name": "Ceasg",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Ceasg (mitologia escocesa) Sereia de água doce — metade mulher, metade salmão —\nque concede três desejos a quem a capturar. Os desejos são concedidos literalmente e sem\nmalícia, mas a ceasg interpreta pedidos pelo significado mais estreito possível, não pela\nintenção. Não é má-fé: é simplesmente como ela processa linguagem humana. A\nparticularidade narrativa: ela sabe disso. Se o grupo tiver tempo para conversar antes de\nfazer o pedido, ela vai tentar ajudá-los a formular melhor — mas sem poder explicar por\nquê, apenas respondendo sim ou não a perguntas sobre se uma formulação específica vai\nfuncionar como o grupo quer."
+ },
+ {
+  "name": "Berggeist",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Berggeist (folclore germânico) Espírito de montanha que habita minas e cavernas, imita\nsons de trabalho — picaretas, vozes, carroças — para atrair mineiros para seções instáveis.\nA particularidade: o berggeist não mente. Os sons que ele imita são reais — são sons que\naconteceram naquela mina em algum momento do passado. Escutar atentamente revela\nnão apenas armadilha, mas história. Uma equipe de mineradores que desapareceu\ndécadas atrás pode ainda estar sendo reproduzida pelo berggeist sem que ele saiba que já\nnão há ninguém para ouvir."
+ },
+ {
+  "name": "Leshy",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Leshy (mitologia eslava) Espírito guardião de florestas que pode assumir qualquer\ntamanho — da altura de uma folha de grama à de uma árvore centenária. Imita vozes de\npessoas conhecidas para atrair viajantes para dentro da mata. Não é necessariamente\nhostil, mas tem senso de humor cruel: pessoas que entram na floresta sem respeito chegam\nao destino com as roupas viradas ao avesso e os sapatos trocados, sem memória das\núltimas horas. A particularidade: o leshy perde poder quando alguém inverte\nvoluntariamente a própria roupa dentro da floresta — o gesto espelha a lógica dele e o\nconfunde. Não está documentado por que isso funciona. Ele também não sabe."
+ },
+ {
+  "name": "Mapinguari",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Mapinguari (folclore amazônico) Criatura de tamanho imenso, coberta de pêlos\nvermelhos, com uma boca no meio do abdômen e olho único na testa. Seu grito causa\ndesorientação imediata — qualquer pessoa que o ouça perde o senso de direção por horas.\nA particularidade: o mapinguari se orienta por cheiro, não por visão. Banhar-se em barro\nantes de entrar no território dele é proteção razoável. O problema é que o barro precisa ser\nespecífico de certas regiões da floresta — e nenhum mapa marca quais são."
+ },
+ {
+  "name": "Cuca",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Cuca (folclore brasileiro/ibérico) Entidade que habita pântanos e beiradas de rios,\nassume formas variáveis mas sempre com elementos de réptil ou anfíbio. Não devora\ncrianças por maldade — devora por contrato. Pais que usaram seu nome como ameaça\nvazia criaram inadvertidamente um vínculo que ela cobra. Em Arkhavel é um profano\nmarcado que coleta dívidas verbais não intencionais. O grupo pode encontrá-la cobrando\numa promessa que ninguém se lembra de ter feito."
+ },
+ {
+  "name": "Revenant",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Revenant (folclore europeu medieval) Morto-vivo movido por propósito único e inabalável\n— não fome, não ódio genérico, mas uma missão específica que não foi completada em\nvida. O revenant não se desvia do objetivo por nenhum motivo. Pode ser interrompido, pode\nser destruído temporariamente, mas enquanto o objetivo não for cumprido ele ressurge. A\nparticularidade que D&D subutiliza: o revenant pode ter um objetivo que o grupo acha\nlegítimo. Vingar um assassinato injusto, recuperar algo roubado, proteger alguém\nespecífico. O grupo que descobrir o objetivo tem a escolha de ajudar a cumpri-lo — o que\nencerra o revenant de forma permanente — ou de continuar tentando destruir algo que não\npode ser destruído pela força."
+ },
+ {
+  "name": "Nachzehrer",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Nachzehrer (folclore germânico) Morto-vivo que ao invés de sair do túmulo, fica dentro e\nse alimenta de seus próprios mortalhas — e ao fazer isso drena a vida de familiares vivos à\ndistância. A particularidade: o grupo pode estar investigando mortes misteriosas numa\nfamília inteira sem encontrar nenhuma ameaça visível porque a fonte está enterrada no\ncemitério local e não sai de lá. A solução é encontrar o túmulo certo entre todos os outros e\nlidar com o que está dentro."
+ },
+ {
+  "name": "Ammit Menor",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 3,
+  "region": null,
+  "description": "Ammit Menor (derivação egípcia — variante de campo) Versão reduzida do devorador\nde corações, sem a grandiosidade ritual da original. Um carrancudo e persistente seguidor\nque aparece ao redor de pessoas que acumulam culpa sem resolução. Não ataca\nimediatamente — fica. Senta na periferia da visão, aparece em sonhos, começa a parecer\nfamiliar. A particularidade: quanto mais o alvo tenta ignorá-lo, mais presente ele se torna. A\núnica forma de dispensá-lo é resolver o que o invocou — ou aceitar conscientemente a\nculpa que carrega. A segunda opção tem custo narrativo que o mestre determina."
+ },
+ {
+  "name": "Mortalha-Viva",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Mortalha-Viva Manto negro de mana condensada, pouco mais de um centímetro de\nespessura em repouso, mais espesso após alimentação recente. Rasteja pelo chão durante\na noite buscando presas adormecidas. Após sufocar a vítima, digere no local e sai da\nhabitação levemente mais espessa, sem deixar rastro da criatura ou da vítima. O único\n\nfeitiço documentado eficaz contra ela é o Patrono. Ataques físicos e feitiços convencionais\nnão produzem efeito relevante. Em jogo: periculosidade IV em condições de surpresa, II\ncom preparação. O perigo é quase exclusivamente informacional — quem sabe o que está\nenfrentando e tem o Patrono disponível resolve o encontro imediatamente. Quem não sabe,\nprovavelmente não acorda."
+ },
+ {
+  "name": "Cavalo-do-Lago",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Cavalo-do-Lago Profano aquático que assume preferencialmente a forma de um cavalo\ncom crineira de folhas de taboa. Após atrair um cavaleiro, mergulha direto ao fundo e\ndevora a vítima. O maior espécime de Arkhavel vive no Lago das Brumas ao norte e prefere\na forma de serpente marinha — foi observado se transformando em lontra ao perceber\ninvestigadores trouxas e voltando à forma de serpente quando eles foram embora. O único\nmétodo de controle é o Feitiço de Colocação passado sobre as rédeas. Em jogo:\npericulosidade IV. Encontro de informação antes de ser encontro de combate — quem não\nsabe o que é o cavalo bonito à beira do lago está a uma ação impulsiva de um afogamento\ngarantido. O espécime do Lago das Brumas especificamente é avançado demais para\nconfronto direto e funciona melhor como presença constante e problema em aberto."
+ },
+ {
+  "name": "Devorador de Livros",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Devorador de Livros Criatura que se alimenta exclusivamente de livros e escritos, formado\npor páginas, começou como um mimíco de algum escrito habitando bibliotecas, arquivos,\ntorres arcanas e templos antigos; ao devorar um livro, assume a forma das criaturas\ndescritas na obra, sendo que formas derivadas de mitos ou lendas tendem a ser instáveis\nou distorcidas, retendo fragmentos de conhecimento dos textos consumidos e tornando-se\nmais perigosa conforme maior e mais raro é o acervo devorado."
+ },
+ {
+  "name": "Acromântula",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Acromântula Aranha monstruosa de oito olhos com envergadura de pernas de até quatro\nmetros e meio, dotada de fala humana. Originária de Bornéu, mas com colônia não\noficialmente confirmada nas florestas ao norte de Arkhavel. Carnívora, prefere presas\ngrandes. A fêmea pode depositar até cem ovos por postura. Seus ovos são Artigos Não\nComerciáveis Classe A. Inteligência quase humana — o que significa que negocia, engana\ne planeja. Não é treinável por nenhum método documentado. Em jogo: periculosidade V em\ngrupo, IV isolada. O perigo real não é um indivíduo — é uma colônia. O mestre que colocar\no grupo em contato com uma colônia de acromântulas sem preparação adequada está\ncometendo homicídio narrativo. A capacidade de fala torna possível negociação, o que é ao\nmesmo tempo a oportunidade e a armadilha: acromântulas negociam quando é conveniente\npara elas."
+ },
+ {
+  "name": "Wendigo",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Wendigo (mitologia algonquina) Espírito de fome que habita um corpo humano\nconsumido pelo câncer da necessidade. Quanto mais come, mais faminto fica — e quanto\nmais faminto, maior e mais distorcido o corpo se torna. A particularidade narrativa é que o\nwendigo não nasceu monstro: foi humano que comeu carne humana por sobrevivência, e a\nmagia da fome o consumiu por dentro. Em Arkhavel pode ser um profano excomungado\nque perdeu o limite entre si e a necessidade. Nunca está satisfeito. Pode reconhecer\npessoas que conhecia antes da transformação — e isso o tortura."
+ },
+ {
+  "name": "Bunyip",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Bunyip (mitologia aborígine australiana) Criatura aquática de forma indefinida que habita\npântanos, córregos e buracos d'água. Diferentes comunidades a descrevem de formas\n\ncompletamente distintas — e todas estão certas. O bunyip muda de forma baseado em\nquem o observa, assumindo a aparência mais aterrorizante para aquele observador\nespecífico. A particularidade: dois membros do grupo vendo o mesmo bunyip ao mesmo\ntempo descrevem criaturas completamente diferentes. Isso cria desconfiança e confusão\nque o bunyip explora ativamente."
+ },
+ {
+  "name": "Skin-Walker",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Skin-Walker (mitologia navajo) Feiticeiro que adquiriu o poder de assumir formas animais\natravés de um ritual de violação de tabu. Diferente do druída bestial, não é uma raça — é\numa escolha deliberada com custo permanente. Reconhecível pelos olhos que\npermanecem humanos independente da forma. A particularidade narrativa: o skin-walker\nconhece as fraquezas de quem observou por tempo suficiente. Se o grupo ficou em uma\ncidade por semanas, um skin-walker que os seguiu sabe mais sobre eles do que\nconfortável."
+ },
+ {
+  "name": "Leyak",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Leyak (mitologia balinesa) Ser que durante o dia é humano comum — à noite a cabeça se\nsepara do corpo e voa com os órgãos pendurados abaixo. Se alimenta de fetos e\ncadáveres. A particularidade: o corpo permanece vivo e ativo enquanto a cabeça está\nausente — mas vulnerável. Quem encontrar o corpo sem cabeça à noite pode imobilizá-lo,\no que força a cabeça a retornar ao amanhecer. O leyak então está completamente à mercê\nde quem o capturou — e vai negociar com tudo que tem para ser solto antes que o sol\nimpeça a reconexão permanentemente."
+ },
+ {
+  "name": "Stikini",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Stikini (mitologia seminole) Ser que à noite remove os próprios órgãos, transforma-se em\ncoruja e voa para se alimentar de corações humanos. Os órgãos são escondidos em uma\nárvore oca enquanto está ausente. A particularidade: encontrar os órgãos escondidos antes\ndo amanhecer mata o stikini permanentemente, porque ele não consegue se reconstituir\nsem eles. Mas os órgãos estão protegidos — não por magia, mas por desorientação\nespacial gerada pela própria natureza do ser. A floresta ao redor da árvore parece sempre\num pouco diferente de como estava um momento antes."
+ },
+ {
+  "name": "Jubokko",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Jubokko (mitologia japonesa) Árvore que cresceu em campo de batalha absorvendo\nsangue humano por gerações até desenvolver consciência e fome próprias. De dia é\nindistinguível de qualquer árvore velha. À noite estende galhos que parecem mãos e\ncaptura quem passa. A particularidade: o jubokko não escolhe vítimas aleatoriamente —\nprefere pessoas que carregam morte recente consigo, seja como culpa ou como trauma.\nUm personagem que acabou de matar alguém é alvo prioritário. E em Arkhavel, onde\ncombate é frequente, árvores velhas em cidades antigas merecem atenção."
+ },
+ {
+  "name": "Aswang",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Aswang (mitologia filipina) Ser que durante o dia é humano completamente normal —\nvizinho, comerciante, guardia. À noite caça e se alimenta de fetos, crianças doentes e\nmoribundos. A particularidade é que o aswang não é necessariamente consciente do que\nfaz à noite — alguns acordam sem memória e com mal-estar que atribuem a outros fatores.\nO grupo pode estar investigando um assassino em série numa cidade pequena e descobrir\nque o responsável é alguém que genuinamente não sabe o que é."
+ },
+ {
+  "name": "Jiangshi",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Jiangshi (mitologia chinesa) Morto-vivo rígido que se move aos saltos, absorve a força\nvital de quem toca. Braços estendidos à frente — não por convenção estética, mas porque\nficou muito tempo em caixão e os braços travaram assim. Sente as pessoas pela\nrespiração: prende a respiração e o jiangshi não consegue localizar a vítima. A\nparticularidade mecânica: é uma das poucas criaturas com fraqueza que exige controle\nfísico e mental simultâneos. Prender a respiração em combate é mais difícil do que parece.\nO grupo sob estresse vai descobrir que o membro mais nervoso é o primeiro a ser\nencontrado."
+ },
+ {
+  "name": "Nuckelavee",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Nuckelavee (mitologia orcadiana) Demônio marinho sem pele — músculos, tendões e\nveias expostos sobre um corpo que é meio humano meio cavalo, fundidos. Seu hálito\nmurcha plantações e causa doenças. Odeio a água fresca — rios e chuva o repelem. A\nparticularidade: é uma das poucas criaturas que tem fraqueza ambiental simples e\nexploitável. O encontro com o nuckelavee é um problema de logística — como o grupo\nchega a uma fonte de água fresca rápido o suficiente."
+ },
+ {
+  "name": "Nue",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Nue (mitologia japonesa) Quimera de macaco, tanuki, tigre e cobra — mas a\nparticularidade não é a forma, é o presságio. Onde o nue aparece, azar se instala. Não age\ndiretamente: simplesmente existe num local e a partir daí as coisas começam a dar errado\nde forma acumulativa e aparentemente não relacionada. Doenças que não respondem a\ntratamento, acidentes pequenos que se somam, decisões que parecem razoáveis e\nproduzem resultados absurdos. O grupo pode passar sessões inteiras investigando uma\nsérie de eventos ruins antes de alguém perceber que há uma criatura no centro de tudo — e\nque removê-la não desfaz o que já aconteceu."
+ },
+ {
+  "name": "Caoránach",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Caoránach (mitologia irlandesa) Mãe dos demônios da tradição celta, aprisionada no\nfundo de um lago. Não ataca diretamente — libera filhotes que se instalam em corpos de\nágua próximos, e cada filhote que amadurece acorda um pouco mais dela. A\nparticularidade: os filhotes são inofensivos individualmente. O perigo é perceber o padrão\nantes de haver filhotes demais — e o grupo raramente percebe antes de ser tarde."
+ },
+ {
+  "name": "Charybdis",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Charybdis (mitologia grega) Não necessariamente um redemoinho — em escala de RPG,\numa criatura que cria sucção em área, puxando tudo para si e engolindo. A particularidade\nmecânica: engolir não é morte imediata. O interior de Charybdis é um espaço distorcido\nonde o tempo passa diferente. Personagens engolidos podem encontrar outros que foram\nengolidos anos antes e ainda estão vivos, tentando descobrir como sair."
+ },
+ {
+  "name": "Zmey",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Zmey (mitologia eslava) Dragão de três a doze cabeças que guarda tesouros e sequestra\npessoas de interesse específico — não qualquer pessoa, mas aquelas com alguma\nqualidade que ele quer. Um zmey que quer força sequestra um guerreiro; um que quer\nconhecimento sequestra um sábio. As cabeças discordam entre si sobre quase tudo — o\nque torna negociação possível mas complicada, porque convencer uma cabeça não resolve\nas outras. A particularidade mecânica: cada cabeça destruída muda o comportamento das\nrestantes de forma imprevisível. Um zmey de doze cabeças é calculista e lento. Um de três\né errático e desesperado."
+ },
+ {
+  "name": "Peskye dust",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Peskye dust Profano que coloca os dormentes em um sonho profundo e só pode se\nalimentar de suas carnes quando matar eles no sonho, seu poder dentro do sonho vai\naumentando enquanto os personagens são enrolados ou ficam confusos, se alguém\nproclamar que está em um sonho acorda instantaneamente."
+ },
+ {
+  "name": "Dorian Gray",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "Dorian Gray Com aparência de um jovem de alta classe que transferiu o custo de sua\nexistência e mortalidade para um quadro, que envelhece e se corrompe em seu lugar. A\nparticularidade em Arkhavel: o objeto é um contrato. O ser em questão não envelheceu, não\nse corrompeu, não sofreu as consequências físicas de suas escolhas — tudo foi para o\nobjeto. Mas o objeto está em algum lugar. E está piorando. E quando alguém encontra o\nobjeto e entende o que está olhando, tem nas mãos o custo acumulado de décadas de\nconsequências não pagas — e o poder de devolvê-las todas de uma vez."
+ },
+ {
+  "name": "O Duplo",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 4,
+  "region": null,
+  "description": "O Duplo (Dostoiévski — como criatura) Não uma cópia física — uma manifestação da\nparte que o ser original nega existir. Quanto mais o original recalca, mais substancial o\nDuplo se torna. Age exatamente como o original gostaria de agir se não tivesse restrições.\nEm Arkhavel um personagem com conflito interno suficientemente profundo pode começar\na encontrar evidências de ações que não cometeu — mas que faziam exatamente o que ele\nqueria, sem as consequências morais que o impediam. O Duplo não é maligno: é honesto\nde uma forma que o original não consegue ser."
+ },
+ {
+  "name": "Basilisco",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Basilisco Profano que assume a forma de uma Cobra verde de até quinze metros criada\noriginalmente por Herpo, o Sujo, um ofidioglota grego após décadas de experimentos com\novos de galinha chocados por sapos. O macho tem pluma vermelha. As presas são\nexcepcionalmente venenosas. O olhar mata instantaneamente qualquer ser que estabeleça\ncontato visual direto — sem dado, sem teste, sem exceção. Contato indireto, via reflexo em\nágua ou superfície polida, causa inconsciência. Ofidiglotas exercem algum grau de controle\ninstável sobre a criatura. Sua criação é ilegal desde a Idade Média. Em jogo: periculosidade\nV absoluta. Não há encontro justo com um basilisco para a maioria dos grupos. A única\nmargem de sobrevivência documentada é o reflexo — e explorar esse detalhe requer que o\ngrupo saiba o que está enfrentando antes de entrar na sala. Boss de masmorra que exige\npreparação, informação e execução coordenada."
+ },
+ {
+  "name": "Manticora",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Manticora Profano de Cabeça humana, corpo de leão, rabo de escorpião. Canta baixinho\nenquanto devora a presa. Pele que repele quase todos os feitiços conhecidos. Mordida com\ncapacidade de causar morte instantânea. Tão feroz quanto rara. Em jogo: periculosidade V.\nA combinação de imunidade mágica e capacidade de morte instantânea torna a manticora\num dos encontros mais letais possíveis. O canto que desorienta é o aviso que o grupo\ngeralmente ignora. A estratégia de abordagem válida é a distância máxima, e mesmo assim\no ferrão tem alcance."
+ },
+ {
+  "name": "Falsa Hidra",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Falsa Hidra Profano com Corpo subterrâneo de proporções variáveis com múltiplos\npescoços que emergem discretamente à superfície — em poços, buracos de muro, sob\n\nassoalhos. Cada pescoço canta continuamente em frequência inaudível de forma\nconsciente. O efeito é absoluto: apaga a percepção da existência de seres específicos em\nraio proporcional ao tamanho da criatura. A vítima não morre imediatamente —\nsimplesmente deixa de ser percebida. Ninguém sente falta. Ninguém nota o vazio. A\nmemória não é apagada: é reescrita para que a pessoa nunca tenha existido. A Falsa Hidra\nse alimenta dessas pessoas sem que ninguém perceba que havia algo para ser devorado.\nCresce com cada consumo. Não tem limite de crescimento documentado. Destruir pescoços\nnão mata a criatura — dois crescem no lugar em 1d4 dias. O corpo principal só pode ser\nmorto se todos os pescoços forem destruídos simultaneamente, em uma janela de um único\nturno. Ao morrer, todas as memórias apagadas retornam de forma simultânea e\navassaladora a todos os afetados. Detecção: inconsistências materiais — uma tigela a\nmais, um nome em registro antigo sem correspondente vivo, uma criança que menciona um\nirmão que ninguém mais recorda. O Sol (bênção, Trilha III) e Leitura de Mana de centauros\nsão os únicos meios documentados de detecção direta. Em jogo: periculosidade V\nexistencial. Não é um encontro de combate — é um mistério de investigação que o grupo\nresolve antes de perceber que está resolvendo alguma coisa. O mestre deve introduzir\ninconsistências sutis por sessões antes do grupo ter nome para o que está acontecendo."
+ },
+ {
+  "name": "Nundu",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Nundu Profano com forma de leopardo de proporções sobrenaturais que se move em\nsilêncio absoluto independente do tamanho. Seu hálito carrega carga patogênica mágica\ncapaz de eliminar uma aldeia em minutos. A doença resultante não é tratável por meios\nconvencionais. Nenhum jamais o subjugou sozinho. O único registro de captura envolveu\ncem guardas qualificados trabalhando em coordenação por três dias. Em jogo:\npericulosidade V máxima. Não é um encontro — é uma catástrofe em andamento. O grupo\nnão confronta um Nundu; o grupo tenta não morrer enquanto cria as condições para que\nalguém mais capacitado o confronte, ou evacua a área e manda buscar reforços."
+ },
+ {
+  "name": "Quimera",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Quimera Profano com Cabeça de leão, corpo de bode, rabo de dragão. Mana instável que\nse manifesta como comportamento errático e destrutivo. Cada parte do corpo age com grau\nde autonomia próprio, o que torna os movimentos imprevisíveis mesmo para quem conhece\na criatura. Sopra fogo. O único registro de abate é de um bruxo anônimo que morreu de\nexaustão logo após. Em jogo: periculosidade V. A imprevisibilidade de ataque de múltiplos\nvetores simultâneos é o perigo principal — não há posicionamento seguro contra uma\ncriatura cujo rabo dispara independente de onde a cabeça está olhando."
+ },
+ {
+  "name": "Baba Yaga",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Baba Yaga (mitologia eslava) Não é simplesmente uma bruxa velha — é uma força\nprimordial que existe fora das categorias normais de bem e mal. Mora em uma casa com\npernas de galinha que se move. Pode ajudar, pode devorar, pode testar — a escolha\ndepende de como o visitante se apresenta. A regra dela é simples e absoluta: quem chega\nsem ser convidado e não faz a pergunta certa é devorado. Quem faz a pergunta certa\nrecebe o que precisa. A particularidade: ela sabe a pergunta certa. Mas não vai dizer qual é"
+ },
+ {
+  "name": "Aspidochelone",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Aspidochelone (bestiários medievais) Tartaruga ou baleia de tamanho tão imenso que\nmarinheiros a confundem com ilha e constroem acampamentos em seu casco. Quando ela\ndecide mergulhar — por fome, por irritação ou simplesmente por vontade — tudo que\n\nestava em cima afunda com ela. A particularidade: ela não sabe que há pessoas em cima.\nNão é maliciosa. Simplesmente existe em uma escala onde humanos são irrelevantes. O\ngrupo pode estar em uma missão inteira numa \"ilha\" antes de perceber que o terreno está\nrespirando."
+ },
+ {
+  "name": "Shai-Hulud",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Shai-Hulud (Duna — adaptado) Verme de areia, cada bioma e no mar vai ter um\nescrotamente grande."
+ },
+ {
+  "name": "Slender Man",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Slender Man (creepypasta — folclore moderno) Figura alta e sem rosto, membros\nalongados, aparência de terno. Não tem origem mítica real — surgiu como criação coletiva\ne foi adotado como medo urbano genuíno. A particularidade que o torna interessante\nnarrativamente: ele existe mais claramente quando documentado. Fotografias, desenhos,\ndiários que o descrevem aumentam sua presença. Em Arkhavel isso se traduz como uma\nentidade que se torna mais real quanto mais o grupo investiga — cada nota escrita, cada\nesboço feito para identificá-lo, cada testemunho coletado o ancora mais ao mundo. O grupo\nque entender isso enfrenta a escolha de parar de investigar e perdê-lo de vista, ou continuar\ne torná-lo progressivamente mais presente e mais real."
+ },
+ {
+  "name": "Castelo dos Anjos",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "Castelo dos Anjos Um castelo perdido nos bosques, corrompido pela natureza, dentro dele\nhá várias criaturas que se petrificam na forma de uma estátua de anjo quando observadas\ndiretamente. Quando não estão sendo vistas — mesmo por uma fração de segundo — se\nmovem, e caso toquem em alguém, esse alguém se torna mais um anjo. A particularidade\nde uso em mesa: criam tensão mecânica única — o grupo precisa garantir que nenhum\nmembro perca visão da criatura em nenhum momento, o que em combate com outras\nvariáveis simultâneas é sistematicamente impossível."
+ },
+ {
+  "name": "The Silence",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "The Silence (Doctor Who — adaptado) Criaturas que são esquecidas imediatamente após\ndeixarem o campo de visão. Ninguém lembra de tê-las visto. A memória do encontro não\nexiste no momento seguinte. Uma cidade inteira pode ter uma população considerável de\nSilences convivendo com os habitantes sem que ninguém perceba. A solução canônica —\nescrever na própria pele que você as viu antes de virá-la — é tecnicamente disponível em\nArkhavel. O problema é lembrar de escrever antes de esquecê-las."
+ },
+ {
+  "name": "O Coisa",
+  "kind": "criatura",
+  "category": "profano",
+  "periculosidade": 5,
+  "region": null,
+  "description": "O Coisa (The Thing — John Carpenter, adaptado) Entidade que imita perfeitamente\nqualquer ser vivo que absorve, incluindo memórias e comportamento. Não há diferença\ndetectável entre o original e a cópia. A particularidade que destrói grupos: a desconfiança é\na arma principal. Uma vez que o grupo sabe que a criatura existe e pode estar entre eles,\ncada membro começa a interpretar o comportamento dos outros como evidência. O\nmembro mais nervoso parece suspeito. O mais calmo parece suspeito de estar fingindo\ncalma."
+ }
+]
