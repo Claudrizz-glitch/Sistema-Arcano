@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 const CARDS = [
-  { href: "/regras", t: "Regras do sistema", d: "Progressão, combate, sangramento, economia e mais." },
   { href: "/racas", t: "Raças e progressão", d: "Humano, Anão, Druída, Profano, Forjado — tabelas de 21 níveis." },
   { href: "/feiticos", t: "Feitiços", d: "Técnicas fundamentais, gerais, elementais e druídicos." },
   { href: "/bencaos", t: "As 22 Bênçãos", d: "Seis grupos, cada um com sua bênção extra." },
   { href: "/itens", t: "Equipamentos e itens", d: "Armas, armaduras, poções e itens arcanos." },
+  { href: "/regras", t: "Regras do sistema", d: "Progressão, combate, sangramento, economia e mais." },
 ];
 export default function Home() {
   return (
@@ -19,9 +19,8 @@ export default function Home() {
           deixando suas bênçãos sob a guarda das Igrejas. A cada 22 anos, no primeiro dia da primavera, ocorre o Grande Eclipse —
           e uma conspiração busca roubar as bênçãos nesse momento.
         </p>
-        <div className="mt-6 flex justify-center gap-3">
-          <Link className="btn btn-primary no-underline" href="/regras">Ler as regras</Link>
-          <Link className="btn no-underline" href="/entrar">Entrar na campanha</Link>
+        <div className="mt-6 flex justify-center">
+          <Link className="btn btn-primary no-underline" href="/entrar">Entrar na campanha</Link>
         </div>
       </section>
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
