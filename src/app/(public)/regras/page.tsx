@@ -15,6 +15,10 @@ function RulesCards() {
       {/* CARD 1 — MAPA DE ARKHAVEL */}
       <section className="card">
         <h2 className="card-title">Mapa de Arkhavel</h2>
+        <figure className="mb-4">
+          <a href="/img/mapa-arkhavel.webp" target="_blank" rel="noopener"><img src="/img/mapa-arkhavel.webp" alt="Mapa do continente de Arkhavel" width={1536} height={1024} loading="lazy" className="w-full rounded-md border border-gold-600/30" /></a>
+          <figcaption className="mt-1 text-xs text-parch-500">Clique para ampliar.</figcaption>
+        </figure>
         <div className="space-y-3 text-sm text-parch-100/90">
           <p>Arkhavel é um reino gigantesco, uma verdadeira ilha continental. Seu território é cortado por inúmeros rios e lagos, enquanto o mar que o cerca é conhecido como <strong className="text-gold-300">Águas de Gander</strong>.</p>
           <p>As Águas de Gander são perigosas, habitadas por antigos profanos. Os poucos que se aventuram por suas águas geralmente encontram apenas as ilhas catalogadas próximas a Arkhavel. Cada uma dessas ilhas possui um posto do reino.</p>

@@ -5,6 +5,8 @@ import { Bar, Card, StatusBadge } from "@/components/ui";
 import { RealtimeRefresh } from "@/components/client";
 import { BlessingsSection, ContractsSection, GmEditForm, ItemsSection, LevelPanel, LogSection, ModifiersSection, PlayerEditForm, ResourcePanel, SpellsSection, StatusPanel, type OwnedBlessing, type OwnedItem, type OwnedSpell, type RaceCtx } from "@/components/GmPanels";
 import { BleedingPanel, ForgedPanel } from "@/components/BodyPanels";
+import { SheetPortrait } from "@/components/SheetPortrait";
+import { SheetOwnership, type PlayerOption } from "@/components/SheetOwnership";
 import type { Absorption, Bleeding, BleedGradeRow, Blessing, CharBlessing, CharContract, CharItem, CharModifier, CharSpell, Item, LogRow, Race, Sheet, Spell, Variant } from "@/lib/types";
 
 const TABLES = ["characters", "character_spells", "character_blessings", "character_items", "character_contracts", "character_modifiers", "character_bleedings", "mana_absorptions", "action_log"];
@@ -61,6 +63,18 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
   const xpNeeded = sheet.level === 0 ? null : 50 * sheet.level;
   const canEditText = !gm && mine && sheet.status !== "morta";
   const { data: owner } = sheet.owner_id ? await sb.from("profiles").select("display_name").eq("id", sheet.owner_id).maybeSingle() : { data: null };
+  let players: PlayerOption[] = [];
+  if (gm) {
+    const { data: mem } = await sb.from("campaign_members").select("user_id").eq("campaign_id", id).eq("role", "jogador");
+    const ids = ((mem ?? []) as { user_id: string }[]).map((m) => m.user_id);
+    if (ids.length) {
+      const [{ data: pf }, { data: owned }] = await Promise.all([
+        sb.from("profiles").select("id,display_name").in("id", ids),
+        sb.from("characters").select("owner_id").eq("campaign_id", id).in("owner_id", ids),
+      ]);
+      players = ((pf ?? []) as { id: string; display_name: string }[]).map((p) => ({ id: p.id, name: p.display_name, sheets: ((owned ?? []) as { owner_id: string }[]).filter((o) => o.owner_id === p.id).length }));
+    }
+  }
   const hasBar = sheet.hp_current !== null || shared;
   const barMax = shared ? sheet.max_mana : sheet.max_hp;
 
@@ -73,7 +87,7 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
           <div>
             <h1 className="text-3xl">{sheet.name}</h1>
             {sheet.title_line && <p className="text-parch-300">{sheet.title_line}</p>}
-            <p className="mt-1 text-sm text-parch-500">{ctx.name}{sheet.progression_slug === "druida_puro" && sheet.race_slug !== "druida_puro" ? ` (origem: ${sheet.race_slug})` : ""}{variant ? ` · ${variant.name}` : sheet.variant_slug ? ` · ${sheet.variant_slug}` : ""} · {sheet.kind === "mestre" ? "NPC privado do Mestre" : `Jogador: ${owner?.display_name ?? "—"}`}</p>
+            <p className="mt-1 text-sm text-parch-500">{ctx.name}{sheet.progression_slug === "druida_puro" && sheet.race_slug !== "druida_puro" ? ` (origem: ${sheet.race_slug})` : ""}{variant ? ` · ${variant.name}` : sheet.variant_slug ? ` · ${sheet.variant_slug}` : ""} · {sheet.kind === "mestre" ? (sheet.player_template ? "Ficha de jogador reservada (com o Mestre)" : "NPC privado do Mestre") : `Jogador: ${owner?.display_name ?? "—"}`}</p>
           </div>
           <div className="text-right"><StatusBadge status={sheet.status} />
             {sheet.status === "pendente" && !gm && <p className="mt-1 max-w-[16rem] text-xs text-amber-300">O Mestre precisa revisar e ativar esta ficha antes do uso.</p>}
@@ -106,6 +120,10 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
             {variant?.description && <p className="mt-2 border-t border-ink-700 pt-2 text-parch-300"><b>{variant.name}:</b> {variant.description}</p>}</details>)}
       </Card>
 
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Retrato"><SheetPortrait sheet={sheet} gm={gm} canEdit={gm || canEditText} /></Card>
+        {gm && <Card title="Dono da ficha"><SheetOwnership sheet={sheet} players={players} limit={campaign.max_sheets_per_player} ownerName={owner?.display_name ?? null} /></Card>}
+      </div>
       {gm && (
         <div className="grid gap-4 lg:grid-cols-2">
           <Card title="Estado da ficha"><StatusPanel sheet={sheet} /></Card>

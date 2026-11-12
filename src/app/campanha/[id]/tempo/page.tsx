@@ -16,7 +16,7 @@ export default async function Tempo({ params }: { params: Promise<{ id: string }
         {(() => { const fd = fictionalDate(campaign.current_turn, campaign.turn_seconds, campaign.calendar_config); return (<>
           <p className="text-2xl text-gold-300">{dateLabel(fd)}</p>
           <p className="text-sm text-parch-300">{fd.time} · {eclipseLabel(fd)}</p>
-          <p className="mt-2 text-xs text-parch-500">4 estações de 90 dias (360 dias por ano). A campanha começou no dia 68 do Inverno. Grande Eclipse a cada 22 anos, no 1º dia da primavera. O dia 68 de 90 deixa 22 dias até o fim do inverno; o 1º dia da primavera é o 23º dia a partir dali.</p></>); })()}
+          <p className="mt-2 text-xs text-parch-500">4 estações de 90 dias (360 dias por ano). A campanha começou no dia 69 do Inverno; o Inverno termina no dia 90, então do dia 69 faltam exatamente 22 dias para o 1º dia da Primavera — o Grande Eclipse (a cada 22 anos).</p></>); })()}
         <p className="mt-2 text-sm text-parch-300">Regeneração: {campaign.regen_hp} PV e {campaign.regen_mana} Mana a cada {campaign.regen_interval_turns} turno(s) — ajustável em Visão geral → Configurações.</p>
       </Card>
       <Card title="Histórico de avanços" className="lg:col-span-2">

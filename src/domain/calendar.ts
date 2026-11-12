@@ -2,10 +2,10 @@ export type CalendarConfig = {
   seasons: string[]; daysPerSeason: number; startSeason: string; startDay: number; startYear: number;
   startSecondsOfDay: number; eclipseEveryYears: number; firstEclipseYear: number;
 };
-/** Padrão da campanha: começa no dia 68 do Inverno; 4 estações de 90 dias; Grande Eclipse a cada 22 anos no 1º dia da primavera.
+/** Padrão da campanha: começa no dia 69 do Inverno (faltam 22 dias para o 1º da Primavera); 4 estações de 90 dias; Grande Eclipse a cada 22 anos no 1º dia da primavera.
  *  O número do ano inicial (1) e do primeiro eclipse (2) são marcadores configuráveis — o documento não os define. */
 export const DEFAULT_CALENDAR: CalendarConfig = {
-  seasons: ["Primavera", "Verão", "Outono", "Inverno"], daysPerSeason: 90, startSeason: "Inverno", startDay: 68, startYear: 1,
+  seasons: ["Primavera", "Verão", "Outono", "Inverno"], daysPerSeason: 90, startSeason: "Inverno", startDay: 69, startYear: 1,
   startSecondsOfDay: 0, eclipseEveryYears: 22, firstEclipseYear: 2,
 };
 export type FictionalDate = {
@@ -28,4 +28,21 @@ export function configFromJson(j: Record<string, any> | null | undefined): Calen
   if (!j || !j.seasons) return DEFAULT_CALENDAR;
   return { seasons: j.seasons, daysPerSeason: j.days_per_season, startSeason: j.start.season, startDay: j.start.day, startYear: j.start.year,
     startSecondsOfDay: j.start_seconds_of_day ?? 0, eclipseEveryYears: j.eclipse_every_years, firstEclipseYear: j.first_eclipse_year };
+}
+
+/** Índice absoluto de dia (0 = 1º dia da Primavera do ano 1) e o inverso — usados pelo diário por dia. */
+export function absDay(year: number, seasonIndex: number, day: number, cfg: CalendarConfig = DEFAULT_CALENDAR): number {
+  return (year - 1) * cfg.seasons.length * cfg.daysPerSeason + seasonIndex * cfg.daysPerSeason + (day - 1);
+}
+export type DayRef = { year: number; seasonIndex: number; season: string; day: number; abs: number };
+export function dayFromAbs(abs: number, cfg: CalendarConfig = DEFAULT_CALENDAR): DayRef {
+  const yearLen = cfg.seasons.length * cfg.daysPerSeason; const inYear = abs % yearLen; const si = Math.floor(inYear / cfg.daysPerSeason);
+  return { year: 1 + Math.floor(abs / yearLen), seasonIndex: si, season: cfg.seasons[si], day: (inYear % cfg.daysPerSeason) + 1, abs };
+}
+/** Dias da campanha, do dia de início até a data atual (inclusive). */
+export function campaignDays(turn: number, turnSeconds: number, cfg: CalendarConfig = DEFAULT_CALENDAR): DayRef[] {
+  const start = absDay(cfg.startYear, cfg.seasons.indexOf(cfg.startSeason), cfg.startDay, cfg);
+  const now = calendarDate(turn, turnSeconds, cfg); const end = absDay(now.year, now.seasonIndex, now.day, cfg);
+  const out: DayRef[] = []; for (let a = start; a <= end; a++) out.push(dayFromAbs(a, cfg));
+  return out;
 }

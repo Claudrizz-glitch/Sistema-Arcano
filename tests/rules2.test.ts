@@ -59,16 +59,16 @@ test("absorção: 1/s = 6 por turno; 5/s = 30; respeita destino e origem", () =>
   assert.equal(absorptionTransfer(30, 18, null), 18); assert.equal(absorptionTransfer(6, 22, 4), 4); assert.equal(absorptionTransfer(6, 0, 10), 0);
 });
 
-test("calendário: começa no dia 68 do inverno; ano de 360 dias; Grande Eclipse a cada 22 anos", () => {
+test("calendário: começa no dia 69 do inverno; 22 dias até a primavera; Grande Eclipse a cada 22 anos", () => {
   const d0 = calendarDate(0, 6);
-  assert.deepEqual([d0.season, d0.day, d0.year], ["Inverno", 68, 1]);
-  assert.equal(d0.eclipse.daysUntil, 23); // dia 68 → dia 90 são 22 dias; o 1º dia da primavera é o 23º
+  assert.deepEqual([d0.season, d0.day, d0.year], ["Inverno", 69, 1]);
+  assert.equal(d0.eclipse.daysUntil, 22); // inverno termina no dia 90; o 1º dia da primavera chega 22 dias depois do dia 69
   const day = 14400; // turnos de 6 s em 1 dia
-  assert.deepEqual([calendarDate(22 * day, 6).season, calendarDate(22 * day, 6).day], ["Inverno", 90]);
-  const e = calendarDate(23 * day, 6);
+  assert.deepEqual([calendarDate(21 * day, 6).season, calendarDate(21 * day, 6).day], ["Inverno", 90]);
+  const e = calendarDate(22 * day, 6);
   assert.deepEqual([e.season, e.day, e.year, e.eclipse.isToday], ["Primavera", 1, 2, true]);
-  const next = calendarDate(24 * day, 6); assert.equal(next.eclipse.year, 24); assert.equal(next.eclipse.daysUntil, 7919);
-  assert.equal(calendarDate((23 + 360) * day, 6).year, 3);
+  const next = calendarDate(23 * day, 6); assert.equal(next.eclipse.year, 24); assert.equal(next.eclipse.daysUntil, 7919);
+  assert.equal(calendarDate((22 + 360) * day, 6).year, 3);
 });
 
 test("Velocidade (N=4) e Força de Massa seguem piso((nível−1)/N); nível 0 dobra", () => {

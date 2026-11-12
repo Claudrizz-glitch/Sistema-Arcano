@@ -16,7 +16,8 @@ export default async function Fichas({ params, searchParams }: { params: Promise
   const selectable = ((rs ?? []) as Race[]).filter((r) => r.slug !== "druida_puro");
   let list = all;
   if (s) list = list.filter((x) => x.status === s);
-  if (k) list = list.filter((x) => x.kind === k);
+  if (k === "reservada") list = list.filter((x) => x.kind === "mestre" && x.player_template);
+  else if (k) list = list.filter((x) => x.kind === k && !(k === "mestre" && x.player_template));
   const mine = all.filter((x) => x.owner_id === user.id);
   const order = { pendente: 0, ativa: 1, inativa: 2, morta: 3 } as const;
   list = [...list].sort((a, b) => order[a.status] - order[b.status] || a.name.localeCompare(b.name));
@@ -28,16 +29,18 @@ export default async function Fichas({ params, searchParams }: { params: Promise
             {[["", "Todas"], ["pendente", "Pendentes"], ["ativa", "Ativas"], ["inativa", "Inativas"], ["morta", "Mortas"]].map(([v, l]) => (
               <Link key={v} href={`/campanha/${id}/fichas${v ? `?s=${v}` : ""}`} className={`badge no-underline ${(s ?? "") === v ? "border-gold-400" : "border-ink-600"}`}>{l}</Link>))}
             <Link href={`/campanha/${id}/fichas?k=mestre`} className={`badge no-underline ${k === "mestre" ? "border-gold-400" : "border-ink-600"}`}>Só NPCs</Link>
+            <Link href={`/campanha/${id}/fichas?k=reservada`} className={`badge no-underline ${k === "reservada" ? "border-gold-400" : "border-ink-600"}`}>Fichas de jogador reservadas</Link>
           </p>
         )}
         {list.length === 0 ? <Empty>{gm ? "Nenhuma ficha encontrada. Crie um NPC ao lado ou aguarde os jogadores criarem fichas." : "Você ainda não tem fichas. Crie a primeira ao lado — o Mestre a revisará e ativará."}</Empty> : (
           <ul className="grid gap-3 sm:grid-cols-2">{list.map((x) => (
             <li key={x.id} className="card">
               <div className="flex items-start justify-between gap-2">
-                <Link href={`/campanha/${id}/fichas/${x.id}`} className="font-display text-lg no-underline">{x.name}</Link>
+                {x.portrait_url && <img src={x.portrait_url} alt="" loading="lazy" className="h-14 w-14 shrink-0 rounded-md border border-gold-600/30 object-cover object-top" />}
+                <Link href={`/campanha/${id}/fichas/${x.id}`} className="mr-auto font-display text-lg no-underline">{x.name}</Link>
                 <StatusBadge status={x.status} />
               </div>
-              <p className="mb-2 text-xs text-parch-500">Nível {x.level} · {x.race_slug}{x.variant_slug ? ` (${x.variant_slug})` : ""}{x.kind === "mestre" ? " · NPC privado" : ""}</p>
+              <p className="mb-2 text-xs text-parch-500">Nível {x.level} · {x.race_slug}{x.variant_slug ? ` (${x.variant_slug})` : ""}{x.kind === "mestre" ? (x.player_template ? " · reservada p/ jogador" : " · NPC privado") : ""}</p>
               <div className="space-y-2"><Bar label="Vida" current={x.hp_current} max={x.max_hp} tone="hp" /><Bar label="Mana" current={x.mana_current} max={x.max_mana} tone="mana" /></div>
               {x.status === "pendente" && !gm && <p className="mt-2 text-xs text-amber-300">Aguardando revisão do Mestre antes de poder ser usada.</p>}
             </li>))}</ul>)}

@@ -18,7 +18,7 @@ export type Sheet = {
   hp_current: number | null; mana_current: number | null; sanity_current: number; reach_m: number;
   special_combat_notes: string; status: SheetStatus; version: number;
   max_hp: number | null; max_mana: number | null; aa_dice_count: number; aa_dice_sides: number; mana_blocked: boolean;
-  mass_force: number | null; speed_mps: number;
+  mass_force: number | null; speed_mps: number; player_template?: boolean;
 };
 export type Spell = {
   id: string; campaign_id: string | null; name: string; category: string; description: string; effect: string;
@@ -57,3 +57,4 @@ export type Bleeding = { id: string; character_id: string; kind: "ferimento" | "
 export type Absorption = { id: string; character_id: string; source_character_id: string | null; mode: "passiva" | "ativa"; rate_per_second: number; active: boolean; total_absorbed: number; ended_reason: string | null; started_turn: number };
 export type Region = { id: string; campaign_id: string | null; name: string; kind: "bioma" | "regiao" | "local"; description: string; flora: string; fauna: string; notes: string; status: PubStatus };
 export type Creature = { id: string; campaign_id: string | null; name: string; category: "fauna_flora" | "profano" | "outra"; periculosidade: number | null; region_id: string | null; description: string; traits: string; abilities: string; weaknesses: string; habitat: string; behavior: string; notes: string; is_secret: boolean; status: PubStatus };
+export type DayNote = { id: string; campaign_id: string; year: number; season_index: number; day: number; visibility: "publica" | "privada"; content: string; updated_at: string };
