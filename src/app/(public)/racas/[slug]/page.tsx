@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Card, PageTitle } from "@/components/ui";
@@ -6,6 +6,7 @@ import type { ProgRow, ProgTable, Race, Variant } from "@/lib/types";
 
 export default async function Raca({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (slug === "druida_puro") redirect("/racas/druida");
   const sb = await createClient();
   const { data: race } = await sb.from("races").select("*").eq("slug", slug).maybeSingle();
   if (!race) notFound();
@@ -22,7 +23,7 @@ export default async function Raca({ params }: { params: Promise<{ slug: string 
       <PageTitle>{r.name}</PageTitle>
       <Card><p className="text-parch-300">{r.description}</p>{r.notes && <p className="mt-2 whitespace-pre-line text-sm text-parch-500">{r.notes}</p>}</Card>
       {((vars ?? []) as Variant[]).length > 0 && (
-        <Card title="Variantes" className="mt-4"><ul className="space-y-3">{((vars ?? []) as Variant[]).map((v) => <li key={v.slug}><h3 className="text-lg">{v.name}</h3><p className="text-sm text-parch-300">{v.description || "Sem descrição cadastrada."}</p></li>)}</ul></Card>
+        <Card title="Variantes" className="mt-4"><ul className="space-y-3">{((vars ?? []) as Variant[]).map((v) => <li key={v.slug}><h3 className="text-lg">{v.name}</h3><p className="whitespace-pre-line text-sm text-parch-300">{v.description || "Sem descrição cadastrada."}</p></li>)}</ul></Card>
       )}
       {tables.map((t) => {
         const tb = info.find((x) => x.slug === t); const list = all.filter((x) => x.table_slug === t);

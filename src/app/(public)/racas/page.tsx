@@ -7,7 +7,8 @@ export const metadata = { title: "Raças" };
 export default async function Racas() {
   const sb = await createClient();
   const [{ data: races }, { data: vars }] = await Promise.all([sb.from("races").select("*").order("name"), sb.from("race_variants").select("*").order("name")]);
-  const rs = (races ?? []) as Race[]; const vs = (vars ?? []) as Variant[];
+  // Druída Puro é variante do Druída (o registro de raça existe só para as regras das fichas convertidas).
+  const rs = ((races ?? []) as Race[]).filter((r) => r.slug !== "druida_puro"); const vs = (vars ?? []) as Variant[];
   return (
     <>
       <PageTitle sub="Cada raça segue a sua própria tabela oficial — nenhuma progressão é compartilhada por suposição.">Raças e variantes</PageTitle>

@@ -46,8 +46,8 @@ export default async function Fichas({ params, searchParams }: { params: Promise
             </li>))}</ul>)}
       </div>
       <div>
-        {gm ? <Card title="Novo NPC / criatura (privado)"><CreateNpcForm campaignId={id} races={selectable} variants={(vs ?? []) as Variant[]} /></Card>
-          : <Card title="Nova ficha"><CreateSheetForm campaignId={id} races={selectable.filter((r) => r.slug !== "druida_puro")} variants={(vs ?? []) as Variant[]} limit={campaign.max_sheets_per_player} used={mine.length} /></Card>}
+        {gm ? <Card title="Novo NPC / criatura (privado)"><CreateNpcForm campaignId={id} races={selectable} variants={((vs ?? []) as Variant[]).filter((v) => v.slug !== "druida_puro")} /></Card>
+          : <Card title="Nova ficha"><CreateSheetForm campaignId={id} races={selectable.filter((r) => r.slug !== "druida_puro")} variants={((vs ?? []) as Variant[]).filter((v) => v.slug !== "druida_puro")} limit={campaign.max_sheets_per_player} used={mine.length} /></Card>}
       </div>
     </div>
   );
