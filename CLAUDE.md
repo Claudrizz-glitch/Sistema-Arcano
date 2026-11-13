@@ -87,3 +87,7 @@ Só o Mestre aciona; o jogador apenas vê o painel. Estado de cada item em chara
 Tabelas sessions (pública para membros depois de iniciada) e session_gm (roteiro e anotações do Mestre). RPCs: session_draft_save,
 session_start, session_gm_save, session_public_save. A tabela day_notes ficou sem uso (dados migrados para as sessões 1 e 2).
 ATENÇÃO: o banco, chamado pelo site, recusa DELETE/UPDATE sem WHERE dentro das funções — sempre usar "where true" em tabelas temporárias.
+
+## Membros e defesas (2026-11-16)
+remove_member(campanha, usuário): só o Mestre; as fichas do jogador voltam ao Mestre como reservadas. defense_wear: armaduras e
+escudos perdem 1d4 de mitigação por uso (estado em character_items.state.mit). Todas as lacunas de regra (rule_gaps) estão resolvidas.

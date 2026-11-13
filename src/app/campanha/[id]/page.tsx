@@ -3,6 +3,7 @@ import { Card, Empty, Bar, StatusBadge } from "@/components/ui";
 import { SettingsForm } from "@/components/CampaignForms";
 import { dateLabel, eclipseLabel, fictionalDate } from "@/lib/format";
 import Link from "next/link";
+import { RpcButton } from "@/components/client";
 import type { Member, Sheet } from "@/lib/types";
 
 export default async function Visao({ params }: { params: Promise<{ id: string }> }) {
@@ -51,7 +52,10 @@ export default async function Visao({ params }: { params: Promise<{ id: string }
       <div className="space-y-4">
         {gm && <Card title="Convite"><p className="text-sm text-parch-300">Envie este código aos jogadores:</p><p className="mt-2 select-all rounded bg-ink-900 p-2 text-center font-mono text-lg tracking-widest text-gold-300">{campaign.invite_code}</p></Card>}
         <Card title={`Membros (${members.length})`}>
-          <ul className="space-y-1 text-sm">{members.map((m) => <li key={m.user_id} className="flex justify-between"><span>{names.get(m.user_id) ?? "—"}{m.user_id === user.id ? " (você)" : ""}</span><span className="badge border-ink-600">{m.role === "mestre" ? "Mestre" : "Jogador"}</span></li>)}</ul>
+          <ul className="space-y-1 text-sm">{members.map((m) => <li key={m.user_id} className="flex items-center justify-between gap-2"><span>{names.get(m.user_id) ?? "—"}{m.user_id === user.id ? " (você)" : ""}</span>
+            <span className="flex items-center gap-2"><span className="badge border-ink-600">{m.role === "mestre" ? "Mestre" : "Jogador"}</span>
+              {gm && m.role !== "mestre" && <RpcButton fn="remove_member" args={{ p_campaign: id, p_user: m.user_id }} label="Remover" className="btn btn-sm btn-danger" ok="Jogador removido."
+                confirm={`Remover ${names.get(m.user_id) ?? "este jogador"} da campanha? As fichas dele voltam para você como fichas reservadas. Ele pode entrar de novo com o código de convite.`} />}</span></li>)}</ul>
         </Card>
         {gm && <Card title="Configurações"><SettingsForm campaign={campaign} /></Card>}
       </div>

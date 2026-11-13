@@ -295,6 +295,17 @@ function ItemMechanics({ o, sheet, gm, targets, turnSeconds }: { o: OwnedItem; s
         </div><Msg m={msg} />
       </div>);
   }
+  if ((o.item.kind === "armadura" || o.item.kind === "escudo") && o.item.mitigation_dice_count) {
+    const mx = o.item.mitigation_dice_count * (o.item.mitigation_dice_sides ?? 0); const cur = o.state?.mit ?? mx;
+    return (
+      <div className={box}>
+        <p>Mitigação máxima atual: <b className="text-gold-300">{cur}</b> de {mx} <span className="text-xs text-parch-500">(perde 1d4 a cada mitigação; não acumula)</span></p>
+        {gm && <div className="mt-1 flex flex-wrap items-end gap-2">
+          <input aria-label="1d4 perdido" className="input !w-24 !py-1" inputMode="numeric" placeholder="1d4" value={dmg} onChange={(e) => setDmg(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || dmg === ""} onClick={async () => { const r = await run("defense_wear", { p_char_item: o.id, p_loss: Number(dmg) }); if (r.ok) { setDmg(""); setMsg({ kind: "ok", text: `${r.data.item}: mitigação agora ${r.data.mit} de ${r.data.max}.` }); } }}>Mitigou</button>
+          <button className="btn btn-sm" disabled={busy || cur === mx} onClick={() => run("defense_wear", { p_char_item: o.id, p_loss: null }, "Defesa reparada.")}>Reparar</button></div>}
+        <Msg m={msg} /></div>);
+  }
   if (m === "semente" && o.state?.consumed) {
     return <div className={box}><p><span className="badge border-emerald-500 text-emerald-300">✓ Consumida</span> <span className="text-xs text-parch-300">O portador foi convertido permanentemente em Druída Puro.</span></p></div>;
   }
