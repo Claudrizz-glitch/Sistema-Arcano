@@ -50,14 +50,16 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
   const ownedBless = ((bl ?? []) as Blessing[]).map((b) => ({ ...b, exception_override: ((cb ?? []) as CharBlessing[]).find((x) => x.blessing_id === b.id)?.exception_override ?? false, complete: ((cb ?? []) as CharBlessing[]).find((x) => x.blessing_id === b.id)?.complete ?? false })) as OwnedBlessing[];
   const ownedItems = ((ci ?? []) as CharItem[]).map((c) => ({ ...c, item: ((it ?? []) as Item[]).find((i) => i.id === c.item_id)! })).filter((x) => x.item) as OwnedItem[];
 
-  let spellCat: Spell[] = [], blessCat: Blessing[] = [], itemCat: Item[] = [], others: { id: string; name: string; mana: number | null }[] = [];
+  let spellCat: Spell[] = [], blessCat: Blessing[] = [], itemCat: Item[] = [], others: { id: string; name: string; mana: number | null }[] = [], targets: { id: string; name: string; level: number }[] = [];
   if (gm) {
     const [a, b, c, o] = await Promise.all([
       sb.from("spells").select("*").eq("status", "published").order("name"), sb.from("blessings").select("*").eq("status", "published").order("grp").order("name"),
-      sb.from("items").select("*").eq("status", "published").order("name"), sb.from("v_characters").select("id,name,mana_current,status").eq("campaign_id", id).neq("id", cid).neq("status", "morta"),
+      sb.from("items").select("*").eq("status", "published").order("name"), sb.from("v_characters").select("id,name,mana_current,status,level").eq("campaign_id", id).neq("id", cid),
     ]);
     spellCat = (a.data ?? []) as Spell[]; blessCat = (b.data ?? []) as Blessing[]; itemCat = (c.data ?? []) as Item[];
-    others = ((o.data ?? []) as { id: string; name: string; mana_current: number | null }[]).filter((x) => x.mana_current !== null).map((x) => ({ id: x.id, name: x.name, mana: x.mana_current }));
+    const all = (o.data ?? []) as { id: string; name: string; mana_current: number | null; status: string; level: number }[];
+    others = all.filter((x) => x.status !== "morta" && x.mana_current !== null).map((x) => ({ id: x.id, name: x.name, mana: x.mana_current }));
+    targets = all.map((x) => ({ id: x.id, name: x.name, level: x.level }));
   }
   const rights = Math.min(campaign.blessing_levels.filter((l) => l <= sheet.level).length, campaign.max_common_blessings);
   const xpNeeded = sheet.level === 0 ? null : 50 * sheet.level;
@@ -136,9 +138,9 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
       )}
       {!gm && hasBar && bleedings.some((b) => b.active) && <Card title="Sangramentos ativos"><ul className="text-sm">{bleedings.filter((b) => b.active).map((b) => <li key={b.id}>{b.kind === "privacao" ? "Privação de mana (5%/turno)" : `Grau ${b.grade}${b.rate_percent ? ` — ${b.rate_percent}%/turno` : " — morte iminente"}`}</li>)}</ul></Card>}
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Feitiços"><SpellsSection sheet={sheet} owned={ownedSpells} catalog={spellCat} gm={gm} race={ctx} /></Card>
+        <Card title="Feitiços"><SpellsSection sheet={sheet} owned={ownedSpells} catalog={spellCat} gm={gm} race={ctx} deck={ownedItems.some((x) => x.item.properties?.mechanic === "baralho_arcano")} /></Card>
         <Card title="Bênçãos"><BlessingsSection sheet={sheet} owned={ownedBless} catalog={blessCat} gm={gm} rights={rights} /></Card>
-        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} /></Card>
+        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} /></Card>
         <Card title="Contratos"><ContractsSection sheet={sheet} owned={(cc ?? []) as CharContract[]} gm={gm} /></Card>
       </div>
       <Card title="Descrição, inventário e anotações">

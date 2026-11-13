@@ -156,23 +156,25 @@ function Picker({ items, label, onPick, busy, extra }: { items: { id: string; na
 
 /* ---------- feitiços ---------- */
 export type OwnedSpell = Spell & { granted_at: string };
-export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Sheet; owned: OwnedSpell[]; catalog: Spell[]; gm: boolean; race: RaceCtx }) {
+export function SpellsSection({ sheet, owned, catalog, gm, race, deck = false }: { sheet: Sheet; owned: OwnedSpell[]; catalog: Spell[]; gm: boolean; race: RaceCtx; deck?: boolean }) {
   const { run, busy, msg, setMsg } = useRpc();
   const [casting, setCasting] = useState<string | null>(null); const [roll, setRoll] = useState(""); const [inv, setInv] = useState("");
   const ctx = { raceSlug: sheet.race_slug, progression: sheet.progression_slug, effectiveRaceCanCast: race.canCast, effectiveRaceName: race.name };
   const block = (s: Spell) => spellBlock(ctx, { druidic: s.druidic, harmonic: s.harmonic, passive: s.passive, name: s.name, contract: s.kind === "contrato", category: s.category });
   const available = catalog.filter((c) => !owned.some((o) => o.id === c.id));
   const ok = available.filter((s) => !block(s)); const no = available.filter((s) => block(s) && s.kind !== "contrato");
-  const n = Number(roll); const rollOk = Number.isInteger(n) && n >= 1 && n <= 20; const invN = Number(inv);
+  const n = Number(roll); const rollOk = Number.isInteger(n) && n >= 1 && n <= (deck ? 6 : 20);
+  // Baralho Arcano: o resultado do teste é sempre 15 + 1d6 (acima de 20 conta como 20 para o custo).
+  const featRoll = deck ? Math.min(20, 15 + n) : n; const invN = Number(inv);
   async function confirm(s: Spell) {
     const r = await run("cast_spell", { p_character: sheet.id, p_spell: s.id, p_roll: n, p_key: newKey(), ...(s.cost_step ? { p_invested: invN } : {}) });
-    if (r.ok) { setCasting(null); setRoll(""); setInv(""); setMsg({ kind: "ok", text: `${s.name}: d20 = ${r.data.roll}${r.data.roll_bonus ? ` (+${r.data.roll_bonus} racial = ${r.data.effective_roll})` : ""} → custo ${r.data.cost} (base ${r.data.base_cost} × ${r.data.multiplier}). Mana ${r.data.mana_before} → ${r.data.mana_after}. Os efeitos não são resolvidos automaticamente; a CD ${r.data.cd ?? "—"} é interpretada por você.` }); }
+    if (r.ok) { setCasting(null); setRoll(""); setInv(""); setMsg({ kind: "ok", text: `${s.name}: ${r.data.deck ? `15 + 1d6 (${r.data.roll})` : `d20 = ${r.data.roll}`}${r.data.roll_bonus ? ` (+${r.data.roll_bonus} racial = ${r.data.effective_roll})` : ""} → custo ${r.data.cost} (base ${r.data.base_cost} × ${r.data.multiplier}). Mana ${r.data.mana_before} → ${r.data.mana_after}. Os efeitos não são resolvidos automaticamente; a CD ${r.data.cd ?? "—"} é interpretada por você.` }); }
   }
   return (
     <div className="space-y-3">
       {owned.length === 0 ? <p className="text-sm text-parch-500">Nenhum feitiço concedido.</p> : (
         <ul className="space-y-2">{owned.map((s) => {
-          const why = block(s); const stepOk = !s.cost_step || (Number.isInteger(invN) && invN >= s.cost_step && invN % s.cost_step === 0); const cost = s.cost_step ? (stepOk ? invN : null) : s.mana_cost; const fc = casting === s.id && rollOk && cost !== null ? featCost(cost, n, race.featBonus, s.cd) : null;
+          const why = block(s); const stepOk = !s.cost_step || (Number.isInteger(invN) && invN >= s.cost_step && invN % s.cost_step === 0); const cost = s.cost_step ? (stepOk ? invN : null) : s.mana_cost; const fc = casting === s.id && rollOk && cost !== null ? featCost(cost, featRoll, race.featBonus, s.cd) : null;
           return (
           <li key={s.id} className="rounded-md border border-ink-600 p-3">
             <div className="flex flex-wrap items-start justify-between gap-2">
@@ -189,7 +191,7 @@ export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Shee
             {casting === s.id && !why && (
               <div className="mt-2 rounded-md border border-arcane-500/60 bg-ink-900 p-3 text-sm">
                 {s.cost_step ? (<div className="mb-2"><label className="label" htmlFor={`inv-${s.id}`}>Mana investida (múltiplos de {s.cost_step})</label><input id={`inv-${s.id}`} className="input w-28" inputMode="numeric" value={inv} onChange={(e) => setInv(e.target.value)} /></div>) : null}
-                <label className="label" htmlFor={`roll-${s.id}`}>Teste de Feitos Mágicos — resultado do d20 (1 a 20){s.cd !== null ? ` · CD ${s.cd}` : ""}</label>
+                <label className="label" htmlFor={`roll-${s.id}`}>{deck ? "Teste de Feitos Mágicos — Baralho Arcano: informe o 1d6 (resultado = 15 + 1d6)" : "Teste de Feitos Mágicos — resultado do d20 (1 a 20)"}{s.cd !== null ? ` · CD ${s.cd}` : ""}</label>
                 <p className="mb-1 text-xs text-parch-500">Abaixo da CD, o custo de Mana sobe proporcionalmente; tirar 1 no dado custa 2×.</p>
                 <input id={`roll-${s.id}`} className="input w-28" inputMode="numeric" autoFocus value={roll} onChange={(e) => setRoll(e.target.value)} />
                 {race.featBonus > 0 && <p className="mt-1 text-xs text-arcane-400">Vantagem racial: +{race.featBonus} em Feitos Mágicos (somada ao dado).</p>}
@@ -242,7 +244,7 @@ export function BlessingsSection({ sheet, owned, catalog, gm, rights }: { sheet:
 
 /* ---------- itens e equipamentos ---------- */
 export type OwnedItem = CharItem & { item: Item };
-export function ItemsSection({ sheet, owned, catalog, gm }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean }) {
+export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeconds = 6 }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean; targets?: { id: string; name: string; level: number }[]; turnSeconds?: number }) {
   const { run, busy, msg } = useRpc(); const [qty, setQty] = useState("1");
   return (
     <div className="space-y-3">
@@ -261,6 +263,7 @@ export function ItemsSection({ sheet, owned, catalog, gm }: { sheet: Sheet; owne
                   <button className="btn btn-sm" disabled={busy || !o.state?.wielded} onClick={async () => { if (window.confirm("Largar o Filho do Sol? A maldição se inverte e persiste até empunhá-lo de novo.")) await run("wield_item", { p_char_item: o.id, p_wield: false }, "Machado largado — maldição aplicada."); }}>Largar</button>
                   {o.state?.wielded && <SacrificeForm charItem={o.id} />}</div>}
               </div>)}
+            <ItemMechanics o={o} sheet={sheet} gm={gm} targets={targets} turnSeconds={turnSeconds} />
             {gm && <div className="flex gap-1">
               {!o.item.properties?.mechanic && <button className="btn btn-sm" disabled={busy} onClick={() => run("set_equipped", { p_char_item: o.id, p_equipped: !o.equipped })}>{o.equipped ? "Desequipar" : "Equipar"}</button>}
               <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(`Remover “${o.item.name}” da ficha?`)) await run("revoke_item", { p_char_item: o.id }, "Item removido."); }}>Remover</button></div>}
@@ -271,6 +274,72 @@ export function ItemsSection({ sheet, owned, catalog, gm }: { sheet: Sheet; owne
       <Msg m={msg} />
     </div>
   );
+}
+
+/* ---------- mecânicas dos itens (Fase 1) ---------- */
+function ItemMechanics({ o, sheet, gm, targets, turnSeconds }: { o: OwnedItem; sheet: Sheet; gm: boolean; targets: { id: string; name: string; level: number }[]; turnSeconds: number }) {
+  const { run, busy, msg, setMsg } = useRpc();
+  const [dmg, setDmg] = useState(""); const [tgt, setTgt] = useState(""); const [tlv, setTlv] = useState(""); const [card, setCard] = useState("");
+  const p = o.item.properties ?? {}; const m = p.mechanic as string | undefined; const dead = sheet.status === "morta";
+  const box = "w-full rounded-md border border-arcane-500/50 bg-ink-900 p-2 text-sm";
+  if (o.item.kind === "arma" && o.item.damage_dice_count) {
+    const limit = 5 * o.item.damage_dice_count * (o.item.damage_dice_sides ?? 0);
+    if (!gm) return null;
+    return (
+      <div className={box}>
+        <p className="text-xs text-parch-500">Desgaste: um único golpe acima de <b>{limit}</b> de dano (5× o dano máximo da arma) quebra a arma.</p>
+        <div className="mt-1 flex flex-wrap items-end gap-2">
+          <input aria-label="Dano do golpe" className="input !w-24 !py-1" inputMode="numeric" placeholder="Dano" value={dmg} onChange={(e) => setDmg(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || dmg === ""} onClick={async () => { const r = await run("weapon_hit", { p_char_item: o.id, p_damage: Number(dmg) }); if (r.ok) { setDmg(""); setMsg(r.data.broke ? { kind: "erro", text: `${r.data.item} QUEBROU: golpe de ${r.data.damage} passou do limite de ${r.data.limit}. Item descartado.` } : { kind: "ok", text: `${r.data.item} aguentou o golpe de ${r.data.damage} (limite ${r.data.limit}).` }); } }}>Registrar golpe</button>
+        </div><Msg m={msg} />
+      </div>);
+  }
+  if (m === "pocao" || m === "semente") {
+    const what = m === "semente" ? "Consumir: converte permanentemente em Druída Puro e libera todos os feitiços druídicos." : p.heal ? `Cura ${p.heal} de Vida.` : `Restaura ${p.mana} de Mana.`;
+    return (
+      <div className={box}><p className="text-xs text-parch-300">{what}</p>
+        {gm && <button className="btn btn-sm btn-primary mt-1" disabled={busy || dead} onClick={async () => { if (m === "semente" && !window.confirm("Consumir a Semente da Natureza? A conversão em Druída Puro é permanente.")) return; const r = await run("use_item", { p_char_item: o.id }); if (r.ok) setMsg({ kind: "ok", text: r.data.hp ? `Vida ${r.data.hp[0]} → ${r.data.hp[1]}.` : r.data.mana ? `Mana ${r.data.mana[0]} → ${r.data.mana[1]}.` : "Convertido em Druída Puro." }); }}>{m === "semente" ? "Consumir" : "Usar"}</button>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "manto") {
+    const mode = o.state?.mode as string | undefined;
+    const cost = (k: string) => Number(p[k] ?? 0) * turnSeconds;
+    return (
+      <div className={box}>
+        <p>{mode ? <b className="text-arcane-400">● {mode === "invisivel" ? "Invisível" : "Intangível"} — {cost(mode)} de Mana por turno</b> : <span className="text-parch-300">Desligado</span>}</p>
+        <p className="text-xs text-parch-500">Invisibilidade: {cost("invisivel")}/turno · Intangibilidade: {cost("intangivel")}/turno. Descontado a cada turno; sem Mana, desliga sozinho.</p>
+        {gm && <div className="mt-1 flex flex-wrap gap-1">
+          <button className="btn btn-sm" disabled={busy || dead || mode === "invisivel"} onClick={() => run("set_cloak", { p_char_item: o.id, p_mode: "invisivel" }, "Invisibilidade ligada.")}>Invisível</button>
+          <button className="btn btn-sm" disabled={busy || dead || mode === "intangivel"} onClick={() => run("set_cloak", { p_char_item: o.id, p_mode: "intangivel" }, "Intangibilidade ligada.")}>Intangível</button>
+          <button className="btn btn-sm" disabled={busy || !mode} onClick={() => run("set_cloak", { p_char_item: o.id, p_mode: null }, "Manto desligado.")}>Desligar</button></div>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "olho_de_cobra") {
+    return (
+      <div className={box}>
+        <div className="rounded border border-gold-600/40 p-2"><p className="text-xs uppercase tracking-wider text-parch-500">Carisma</p><p className="font-display text-xl text-gold-300">+5 em todos os dados</p><p className="text-xs text-parch-500">Vê intenções, desejos e culpas como sombras ao redor das pessoas.</p></div>
+        {gm && <div className="mt-2 space-y-1">
+          <p className="text-xs text-parch-300">Extração de Informação: custa de 8% a 30% da Vida máxima, conforme a diferença de nível.</p>
+          <div className="flex flex-wrap items-end gap-2">
+            <select aria-label="Alvo" className="input !w-48 !py-1" value={tgt} onChange={(e) => { setTgt(e.target.value); setTlv(""); }}><option value="">Escolha uma ficha…</option>{targets.map((t) => <option key={t.id} value={t.id}>{t.name} (nv {t.level})</option>)}</select>
+            <span className="text-xs text-parch-500">ou nível</span>
+            <input aria-label="Nível do alvo" className="input !w-20 !py-1" inputMode="numeric" placeholder="0–21" value={tlv} onChange={(e) => { setTlv(e.target.value); setTgt(""); }} />
+            <button className="btn btn-sm btn-danger" disabled={busy || dead || (!tgt && tlv === "")} onClick={async () => { const r = await run("eye_extract", { p_char_item: o.id, p_target: tgt || null, p_target_level: tgt ? null : Number(tlv) }); if (r.ok) setMsg({ kind: "ok", text: `${r.data.alvo}: ${r.data.qualidade}. Custou ${r.data.custo} de Vida (${r.data.percentual}% da máxima) — Vida ${r.data.hp[0]} → ${r.data.hp[1]}.` }); }}>Extrair informação</button>
+          </div></div>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "baralho_arcano") {
+    const omens = (p.omens ?? []) as { card: string; text: string }[];
+    return (
+      <div className={box}>
+        <p className="text-xs text-parch-300">Teste de Feitos Mágicos sempre <b>15 + 1d6</b>. Concede Granada, Construtos de Mana e Reforço.</p>
+        {gm && <div className="mt-1 flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm btn-primary" disabled={busy} onClick={async () => { const r = await run("draw_omen", { p_char_item: o.id, p_card: null }); if (r.ok) setMsg({ kind: "ok", text: `${r.data.card}: ${r.data.text}` }); }}>Tirar carta</button>
+          <select aria-label="Carta tirada na mesa" className="input !w-48 !py-1" value={card} onChange={(e) => setCard(e.target.value)}><option value="">…ou a carta tirada na mesa</option>{omens.map((c) => <option key={c.card} value={c.card}>{c.card}</option>)}</select>
+          <button className="btn btn-sm" disabled={busy || !card} onClick={async () => { const r = await run("draw_omen", { p_char_item: o.id, p_card: card }); if (r.ok) { setCard(""); setMsg({ kind: "ok", text: `${r.data.card}: ${r.data.text}` }); } }}>Registrar</button></div>}
+        <Msg m={msg} /></div>);
+  }
+  return null;
 }
 
 function SacrificeForm({ charItem }: { charItem: string }) {

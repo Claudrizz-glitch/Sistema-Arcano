@@ -67,3 +67,9 @@ Fichas de jogador ficam com o Mestre (`kind='mestre'`, `player_template=true`) a
 - **Turnos** (`/campanha/[id]/turnos`): tempo (turnos, horas, dias) + combate. `/tempo` e `/combate` redirecionam.
 - Fichas: 3 estados (pendente, ativa, morta); Excluir apaga; mortas podem ser revividas.
 - Ruptura é concedida automaticamente a toda ficha que não seja anão (trigger `grant_ruptura`).
+
+## Itens arcanos — Fase 1 (2026-11-14)
+Mecânica em items.properties.mechanic: pocao, semente, baralho_arcano, manto, olho_de_cobra (+ filho_do_sol).
+RPCs: use_item, weapon_hit (golpe > 5x o dano máximo quebra arma comum), set_cloak (custo por turno no advance_turn),
+eye_extract (% da Vida máxima pela diferença de nível), draw_omen; Baralho: trigger item_grants e teste 15 + 1d6 no cast_spell.
+Orbe, Máscara, Sapato e Moeda: o Mestre pediu para NÃO implementar. Fases 2 e 3 pendentes (ver docs/RELATORIO_NPCS_E_ITENS.md).
