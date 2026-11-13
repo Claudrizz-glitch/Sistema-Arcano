@@ -8,10 +8,10 @@ import { Markdown } from "./Markdown";
 import { KIND_DEFS, NUMERIC, slugify } from "@/lib/content-config";
 
 type Row = Record<string, any>;
-export function ContentEditor({ kind, campaignId, userId, canOfficial, row, lookups = {} }: { kind: string; campaignId: string; userId: string; canOfficial: boolean; row: Row | null; lookups?: Record<string, [string, string][]> }) {
+/** Edita conteúdo OFICIAL (campaign_id nulo) do sistema — usado em Meu painel → Gerenciar sistema. */
+export function ContentEditor({ kind, base, userId, row, lookups = {} }: { kind: string; base: string; userId: string; row: Row | null; lookups?: Record<string, [string, string][]> }) {
   const def = KIND_DEFS[kind]; const sb = useMemo(() => createClient(), []); const router = useRouter();
   const [vals, setVals] = useState<Row>(() => row ?? { [def.nameKey]: "", status: "draft", ...Object.fromEntries(def.fields.filter((f) => f.type === "select" && f.options).map((f) => [f.key, f.options![0][0]])) });
-  const [scope, setScope] = useState<"oficial" | "campanha">(row ? (row.campaign_id ? "campanha" : "oficial") : canOfficial ? "oficial" : "campanha");
   const [dirty, setDirty] = useState(false); const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<{ kind: "ok" | "erro"; text: string } | null>(null); const [preview, setPreview] = useState(false);
   useEffect(() => { if (!dirty) return; const h = (e: BeforeUnloadEvent) => { e.preventDefault(); }; window.addEventListener("beforeunload", h); return () => window.removeEventListener("beforeunload", h); }, [dirty]);
   const set = (k: string, v: unknown) => { setVals((s) => ({ ...s, [k]: v })); setDirty(true); };
@@ -34,20 +34,19 @@ export function ContentEditor({ kind, campaignId, userId, canOfficial, row, look
     let res;
     if (row) res = await sb.from(def.table).update(payload).eq("id", row.id).select("id").single();
     else {
-      const cid = scope === "campanha" ? campaignId : null;
-      res = await sb.from(def.table).insert({ ...payload, campaign_id: cid, created_by: userId, ...(def.hasSource ? { source: cid ? "campaign" : "official" } : {}) }).select("id").single();
+      res = await sb.from(def.table).insert({ ...payload, campaign_id: null, created_by: userId, ...(def.hasSource ? { source: "official" } : {}) }).select("id").single();
     }
     setBusy(false);
     if (res.error) return setMsg({ kind: "erro", text: friendly(res.error.message) });
     // só confirmamos depois que o banco respondeu
     setDirty(false); setMsg({ kind: "ok", text: status === "published" ? "Publicado." : status === "archived" ? "Arquivado." : "Rascunho salvo." });
-    router.push(`/campanha/${campaignId}/sistema/${kind}`); router.refresh();
+    router.push(base); router.refresh();
   }
   async function remove() {
     if (!row || !window.confirm(`Excluir este ${def.singular} definitivamente? Se ele já estiver em fichas ou no histórico, o banco recusará — arquive em vez de excluir.`)) return;
     setBusy(true); const { error } = await sb.from(def.table).delete().eq("id", row.id); setBusy(false);
     if (error) return setMsg({ kind: "erro", text: friendly(error.message) });
-    setDirty(false); router.push(`/campanha/${campaignId}/sistema/${kind}`); router.refresh();
+    setDirty(false); router.push(base); router.refresh();
   }
   return (
     <form className="card space-y-4" onSubmit={(e) => { e.preventDefault(); save((vals.status as any) ?? "draft"); }}>
@@ -55,12 +54,7 @@ export function ContentEditor({ kind, campaignId, userId, canOfficial, row, look
         <h2 className="card-title !mb-0 !border-0 !pb-0">{row ? `Editar ${def.singular}` : `Novo ${def.singular}`}</h2>
         {dirty && <span className="badge border-amber-500 text-amber-300">● alterações não salvas</span>}
       </div>
-      {!row && (
-        <div><label className="label" htmlFor="scope">Onde publicar</label>
-          <select id="scope" className="input max-w-xs" value={scope} onChange={(e) => setScope(e.target.value as any)}>
-            {canOfficial && <option value="oficial">Conteúdo oficial do sistema (público)</option>}<option value="campanha">Conteúdo desta campanha</option></select>
-          <p className="mt-1 text-xs text-parch-500">Variantes de campanha ficam separadas do oficial — o oficial nunca é alterado em silêncio.</p></div>)}
-      {row && <p className="text-xs text-parch-500">Escopo: {row.campaign_id ? "campanha" : "oficial"} · Estado atual: {row.status}. Edições em conteúdo publicado ficam no histórico de revisões.</p>}
+      <p className="text-xs text-parch-500">{row ? `Estado atual: ${row.status === "published" ? "publicado (visível para todos)" : row.status === "draft" ? "rascunho (só você vê)" : "arquivado"}. ` : "Novo conteúdo oficial. "}“Publicar” deixa visível para todos no site; edições ficam no histórico de revisões.</p>
       <div><label className="label" htmlFor="nm">{def.nameKey === "title" ? "Título" : "Nome"}</label><input id="nm" className="input" value={vals[def.nameKey] ?? ""} onChange={(e) => set(def.nameKey, e.target.value)} required /></div>
       <div className="grid gap-3 sm:grid-cols-2">
         {def.fields.map((f) => (

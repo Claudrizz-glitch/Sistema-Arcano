@@ -12,7 +12,7 @@ export default async function CampaignLayout({ children, params }: { children: R
   const gm = role === "mestre";
   const fd = fictionalDate(campaign.current_turn, campaign.turn_seconds, campaign.calendar_config);
   const links = gm
-    ? [["", "Visão geral"], ["/fichas", "Fichas"], ["/combate", "Combate"], ["/tempo", "Tempo"], ["/diario", "Diário"], ["/sistema", "Gerenciar sistema"], ["/notas", "Anotações"]]
+    ? [["", "Visão geral"], ["/fichas", "Fichas"], ["/turnos", "Turnos"], ["/diario", "Diário"], ["/notas", "Anotações"]]
     : [["", "Visão geral"], ["/fichas", "Minhas fichas"], ["/diario", "Diário"]];
   return (
     <>

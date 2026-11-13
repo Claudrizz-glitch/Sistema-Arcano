@@ -26,7 +26,7 @@ export function Markdown({ source }: { source: string }) {
     else if (l.startsWith("# ")) { flush(k); out.push(<h2 key={k}>{l.slice(2)}</h2>); }
     else if (/^!\[[^\]]*\]\((\/[^\s)]+|https:\/\/[^\s)]+)\)$/.test(l)) {
       flush(k); const m = /^!\[([^\]]*)\]\(([^)]+)\)$/.exec(l)!;
-      out.push(<figure key={k} className="my-3"><a href={m[2]} target="_blank" rel="noopener"><img src={m[2]} alt={m[1]} loading="lazy" className="max-h-[32rem] w-auto max-w-full rounded-md border border-gold-600/30" /></a>{m[1] && <figcaption className="mt-1 text-xs text-parch-500">{m[1]}</figcaption>}</figure>);
+      out.push(<figure key={k} className="my-3"><a href={m[2]} target="_blank" rel="noopener"><img src={m[2]} alt={m[1]} loading="lazy" className="mx-auto block max-h-[48rem] w-auto max-w-full rounded-md border border-gold-600/30" /></a>{m[1] && <figcaption className="mt-1 text-xs text-parch-500">{m[1]}</figcaption>}</figure>);
     }
     else if (/^[-*] /.test(l)) { if (para.length || table.length) flush(k); list.push(l.slice(2)); }
     else if (l.startsWith("|")) { if (para.length || list.length) flush(k); if (!/^\|[\s:|-]+\|?$/.test(l)) table.push(l.replace(/^\||\|$/g, "").split("|").map((c) => c.trim())); }

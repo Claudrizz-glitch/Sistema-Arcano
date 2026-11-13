@@ -30,6 +30,7 @@ export default async function Painel() {
           </div>
           <div className="space-y-4">
             <Card title="Entrar em uma campanha"><JoinCampaignForm /></Card>
+            {profile.is_master && <Link href="/painel/sistema" className="card block no-underline hover:border-gold-400"><h2 className="card-title">Gerenciar sistema</h2><p className="text-sm text-parch-300">Regras, raças, feitiços, bênçãos, itens e bestiário oficiais — editar, criar, excluir e publicar para todos.</p></Link>}
             {profile.is_master ? <Card title="Nova campanha"><CreateCampaignForm /></Card>
               : <Card title="Quer ser Mestre?"><p className="text-sm text-parch-300">O papel de Mestre é concedido pelo administrador do projeto — não é possível escolhê-lo no cadastro.</p></Card>}
           </div>

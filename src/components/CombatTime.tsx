@@ -7,20 +7,26 @@ import type { Encounter, Participant, Sheet } from "@/lib/types";
 /* ---------- avançar turno ---------- */
 export function TimePanel({ campaignId, turn, turnSeconds }: { campaignId: string; turn: number; turnSeconds: number }) {
   const { run, busy, msg, setMsg } = useRpc();
-  const [n, setN] = useState("1"); const [last, setLast] = useState<any>(null);
+  const [n, setN] = useState("1"); const [unit, setUnit] = useState<"turnos" | "horas" | "dias">("turnos"); const [last, setLast] = useState<any>(null);
+  const perUnit = unit === "turnos" ? 1 : unit === "horas" ? Math.round(3600 / turnSeconds) : Math.round(86400 / turnSeconds);
+  const label = (by: number) => { const s = by * turnSeconds; return s >= 86400 ? `${+(s / 86400).toFixed(2)} dia(s)` : s >= 3600 ? `${+(s / 3600).toFixed(2)} hora(s)` : `${s} s`; };
   async function advance(by: number) {
-    const r = await run("advance_turn", { p_campaign: campaignId, p_expected_turn: turn, p_by: by, p_key: newKey() });
-    if (r.ok) { setLast(r.data); setMsg({ kind: "ok", text: `Turno ${r.data.from_turn} → ${r.data.to_turn} (${by * turnSeconds} s de tempo ficcional).` }); }
+    const r = await run(by > 1000 ? "advance_time" : "advance_turn", by > 1000
+      ? { p_campaign: campaignId, p_expected_turn: turn, p_turns: by, p_key: newKey() }
+      : { p_campaign: campaignId, p_expected_turn: turn, p_by: by, p_key: newKey() });
+    if (r.ok) { setLast(r.data); setMsg({ kind: "ok", text: `Turno ${r.data.from_turn} → ${r.data.to_turn} (${label(by)} de tempo).` }); }
   }
   return (
     <div className="space-y-3">
       <p className="text-sm text-parch-300">Turno atual: <b className="text-2xl text-gold-300">{turn}</b></p>
       <div className="flex flex-wrap items-end gap-2">
         <button className="btn btn-primary text-base" disabled={busy} onClick={() => advance(1)}>Passar para o próximo turno</button>
-        <div><label className="label" htmlFor="ntr">Avançar vários turnos</label><div className="flex gap-1"><input id="ntr" className="input w-20" type="number" min={1} max={1000} value={n} onChange={(e) => setN(e.target.value)} />
-          <button className="btn" disabled={busy || Number(n) < 1} onClick={() => { const by = Number(n); if (by > 1 && !window.confirm(`Avançar ${by} turnos (${by * turnSeconds} s)? A regeneração será aplicada a todas as fichas ativas.`)) return; advance(by); }}>Avançar</button></div></div>
+        <div><label className="label" htmlFor="ntr">Passar tempo</label><div className="flex gap-1">
+          <input id="ntr" className="input w-20" type="number" min={1} max={unit === "turnos" ? 1000 : unit === "horas" ? 720 : 30} value={n} onChange={(e) => setN(e.target.value)} />
+          <select aria-label="Unidade de tempo" className="input w-28" value={unit} onChange={(e) => setUnit(e.target.value as any)}><option value="turnos">turnos</option><option value="horas">horas</option><option value="dias">dias</option></select>
+          <button className="btn" disabled={busy || Number(n) < 1} onClick={() => { const by = Math.round(Number(n) * perUnit); if (by > 1 && !window.confirm(`Passar ${n} ${unit} (${by} turnos, ${label(by)})? A regeneração será aplicada a todas as fichas ativas.`)) return; advance(by); }}>Passar</button></div></div>
       </div>
-      <p className="text-xs text-parch-500">O avanço exige o turno que você está vendo: se alguém já avançou, a operação é recusada em vez de duplicar a regeneração. Fichas pendentes e mortas não regeneram.</p>
+      <p className="text-xs text-parch-500">O avanço exige o turno que você está vendo: se alguém já avançou, a operação é recusada em vez de duplicar a regeneração. Fichas pendentes e mortas não regeneram. Acima de 1000 turnos (cerca de 1h40), a regeneração é aplicada de uma vez — nesse caso, sangramentos, absorções de mana e Forjados abaixo de 100% precisam ser resolvidos antes.</p>
       <Msg m={msg} />
       {last && (
         <div className="space-y-2 rounded-md border border-arcane-500/60 bg-ink-900 p-3 text-sm">
@@ -85,7 +91,7 @@ export function EncounterBoard({ encounter, parts, gm }: { encounter: Encounter;
             <button className="btn btn-danger" disabled={busy} onClick={async () => { if (window.confirm("Encerrar o encontro? Vida e Mana NÃO são restauradas.")) await run("end_encounter", { p_encounter: encounter.id }, "Encontro encerrado."); }}>Encerrar</button>
           </div>)}
       </div>
-      {gm && <p className="text-xs text-parch-500">“Próximo da ordem” só move o ponteiro de iniciativa. O tempo da campanha avança apenas em <b>Tempo → Passar para o próximo turno</b>, para nunca avançar duas vezes.</p>}
+      {gm && <p className="text-xs text-parch-500">“Próximo da ordem” só move o ponteiro de iniciativa. O tempo da campanha avança apenas em <b>Passar o tempo</b>, para nunca avançar duas vezes.</p>}
       {sorted.length === 0 ? <p className="text-sm text-parch-500">Nenhum participante visível.</p> : (
         <ol className="space-y-2">{sorted.map((p, i) => {
           const cur = active && i === encounter.current_position;

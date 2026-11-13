@@ -23,3 +23,9 @@ export async function requireGm(id: string) {
   if (ctx.role !== "mestre") redirect(`/campanha/${id}`);
   return ctx;
 }
+/** Gerenciar sistema: conteúdo oficial, só para Mestres autorizados da plataforma. */
+export async function requireMaster() {
+  const ctx = await requireUser();
+  if (!ctx.profile.is_master) redirect("/painel");
+  return ctx;
+}

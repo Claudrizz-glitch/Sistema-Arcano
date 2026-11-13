@@ -38,12 +38,13 @@ const MAP: Record<string, string> = {
   "permission denied": "Operação bloqueada pelas regras de acesso.",
   "violates foreign key": "Este registro está em uso (ficha ou histórico). Arquive em vez de excluir.",
   "duplicate key": "Já existe um registro com esse nome.",
+  tempo_bloqueado: "Não dá para passar horas ou dias agora",
 };
 export function friendly(message: string | undefined | null): string {
   if (!message) return "Erro desconhecido.";
   for (const k of Object.keys(MAP)) if (message.includes(k)) {
     const extra = message.includes(":") ? " (" + message.split(":").slice(1).join(":").trim() + ")" : "";
-    return MAP[k] + (["mana_insuficiente", "conflito_turno", "sem_direito_de_bencao", "extra_exige_todas_as_comuns", "ja_existe_ficha_ativa"].includes(k) ? extra : "");
+    return MAP[k] + (["mana_insuficiente", "conflito_turno", "sem_direito_de_bencao", "extra_exige_todas_as_comuns", "ja_existe_ficha_ativa", "tempo_bloqueado"].includes(k) ? extra : "");
   }
   return message;
 }

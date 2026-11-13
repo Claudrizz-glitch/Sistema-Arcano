@@ -52,3 +52,10 @@ A campanha começa no **dia 69 do Inverno**; o Inverno termina no dia 90, faltan
 Migrações versionadas em `supabase/migrations/` (a partir da 0014); scripts de dados em `supabase/data/`.
 Fichas de jogador ficam com o Mestre (`kind='mestre'`, `player_template=true`) até serem importadas para um jogador
 (`assign_sheet_to_player`). Retratos: bucket `portraits` (pasta `<campaign_id>/`) ou caminhos `/img/...`.
+
+## Onde fica cada coisa no site (2026-11-13)
+- **Gerenciar sistema** (conteúdo oficial, só Mestre autorizado): `/painel/sistema` — regras (cards da página /regras),
+  raças (texto + variantes + tabela na mesma página), feitiços, bênçãos, itens, bestiário e regiões.
+- **Turnos** (`/campanha/[id]/turnos`): tempo (turnos, horas, dias) + combate. `/tempo` e `/combate` redirecionam.
+- Fichas: 3 estados (pendente, ativa, morta); Excluir apaga; mortas podem ser revividas.
+- Ruptura é concedida automaticamente a toda ficha que não seja anão (trigger `grant_ruptura`).
