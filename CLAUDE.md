@@ -54,7 +54,7 @@ Anos contados desde o Clube de Tarot e a criação da Capital (ano 0). O ano com
 - Druída comum: feitiços druídicos harmônicos + manipulação de mana (categoria "Técnica fundamental"). Druída Puro: tudo.
 - Profano: +5 no dado de feitos ao pé da letra (pior resultado = 6, nunca paga 2×).
 - Bênção Completa (Arcanos e Bispos): character_blessings.complete; não ocupa slot nem tem limite; grant_blessing(p_complete).
-- NPCs do doc criados: Arcanos e Kael nível 0, todos mortos exceto o Mago (decisão do Mestre).
+- NPCs do doc: os antigos Arcanos do Clube de Tarot são nível 0; só o Mago e o Louco estão vivos. Kael (Forjado) está vivo, nível 19.
 
 ## Banco
 Migrações versionadas em `supabase/migrations/` (a partir da 0014); scripts de dados em `supabase/data/`.
