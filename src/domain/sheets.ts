@@ -1,16 +1,15 @@
 export const MAX_SHEETS_PER_PLAYER = 10;
-export type SheetStatus = "pendente" | "ativa" | "inativa" | "morta";
+export type SheetStatus = "pendente" | "ativa" | "morta";
 
-/** Limite total (inclui pendentes, inativas e mortas). Também deve ser imposto no banco. */
+/** Limite total (inclui pendentes e mortas). Também deve ser imposto no banco. */
 export function canCreateSheet(totalSheets: number, limit = MAX_SHEETS_PER_PLAYER): boolean {
   return totalSheets < limit;
 }
 
 const TRANSITIONS: Record<SheetStatus, SheetStatus[]> = {
-  pendente: ["ativa", "inativa", "morta"],
-  ativa: ["inativa", "morta"],
-  inativa: ["ativa", "morta"],
-  morta: [], // não reativa normalmente
+  pendente: ["ativa", "morta"],
+  ativa: ["morta"],
+  morta: ["ativa"], // reviver; para tirar uma ficha de jogo, o Mestre a exclui
 };
 export type TransitionResult = { ok: true } | { ok: false; reason: "transicao_invalida" | "ja_existe_ficha_ativa" };
 

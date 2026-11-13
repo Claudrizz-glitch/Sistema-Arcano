@@ -49,7 +49,7 @@ export function CreateSheetForm({ campaignId, races, variants, limit, used }: { 
       const r = await run("create_player_sheet", { p_campaign: campaignId, p_name: String(f.get("name")), p_race: race, p_variant: String(f.get("variant") ?? "") || null, p_description: String(f.get("description") ?? ""), p_inventory_text: String(f.get("inventory") ?? "") }, "Ficha criada. Ela aguarda a aprovação do Mestre.");
       if (r.ok) form.reset();
     }}>
-      <p className="text-xs text-parch-500">Fichas criadas: {used} de {limit} (inclui pendentes, inativas e mortas).</p>
+      <p className="text-xs text-parch-500">Fichas criadas: {used} de {limit} (inclui pendentes e mortas).</p>
       <div><label className="label" htmlFor="nm">Nome do personagem</label><input id="nm" name="name" className="input" required maxLength={120} disabled={full} /></div>
       <RaceFields races={races} variants={variants} race={race} onRace={setRace} />
       <div><label className="label" htmlFor="ds">Descrição</label><textarea id="ds" name="description" className="input" rows={3} disabled={full} /></div>

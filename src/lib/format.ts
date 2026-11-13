@@ -15,7 +15,7 @@ export const ACTION_LABEL: Record<string, string> = {
   remover_bencao: "Removeu bênção", conceder_item: "Concedeu item", remover_item: "Removeu item", equipar: "Equipou", desequipar: "Desequipou",
   conceder_contrato: "Concedeu contrato", adicionar_modificador: "Adicionou modificador", remover_modificador: "Removeu modificador",
   converter_progressao: "Converteu progressão", reverter: "Reverteu ação", criar_encontro: "Criou encontro", encerrar_encontro: "Encerrou encontro",
-  ficha_ativa: "Ativou ficha", ficha_inativa: "Desativou ficha", ficha_morta: "Registrou morte", ficha_pendente: "Voltou a pendente",
+  ficha_ativa: "Ativou ficha", ficha_revivida: "Reviveu o personagem", excluir_ficha: "Excluiu ficha", ficha_inativa: "Desativou ficha", ficha_morta: "Registrou morte", ficha_pendente: "Voltou a pendente",
   reservar_ficha: "Reservou como ficha de jogador", importar_para_jogador: "Importou para um jogador", devolver_ao_mestre: "Devolveu ao Mestre",
 };
 /** Tempo ficcional a partir do turno (turno = turn_seconds). A estrutura de meses/estações é configurável e ainda não definida pelo Mestre. */

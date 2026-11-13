@@ -20,7 +20,7 @@ export function TimePanel({ campaignId, turn, turnSeconds }: { campaignId: strin
         <div><label className="label" htmlFor="ntr">Avançar vários turnos</label><div className="flex gap-1"><input id="ntr" className="input w-20" type="number" min={1} max={1000} value={n} onChange={(e) => setN(e.target.value)} />
           <button className="btn" disabled={busy || Number(n) < 1} onClick={() => { const by = Number(n); if (by > 1 && !window.confirm(`Avançar ${by} turnos (${by * turnSeconds} s)? A regeneração será aplicada a todas as fichas ativas.`)) return; advance(by); }}>Avançar</button></div></div>
       </div>
-      <p className="text-xs text-parch-500">O avanço exige o turno que você está vendo: se alguém já avançou, a operação é recusada em vez de duplicar a regeneração. Fichas inativas, pendentes e mortas não regeneram.</p>
+      <p className="text-xs text-parch-500">O avanço exige o turno que você está vendo: se alguém já avançou, a operação é recusada em vez de duplicar a regeneração. Fichas pendentes e mortas não regeneram.</p>
       <Msg m={msg} />
       {last && (
         <div className="space-y-2 rounded-md border border-arcane-500/60 bg-ink-900 p-3 text-sm">

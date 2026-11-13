@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Msg, newKey, useRpc } from "./client";
 import { ACTION_LABEL } from "@/lib/format";
 import { featCost } from "@/domain/feats";
@@ -12,18 +13,26 @@ export type RaceCtx = { name: string; canCast: boolean; featBonus: number; immun
 /* ---------- estado da ficha ---------- */
 export function StatusPanel({ sheet }: { sheet: Sheet }) {
   const { run, busy, msg } = useRpc();
+  const router = useRouter();
+  const death = "Registrar a MORTE deste personagem? A ficha continua existindo e pode ser revivida depois.";
   const opts: Record<SheetStatus, { to: SheetStatus; label: string; confirm?: string; cls: string }[]> = {
-    pendente: [{ to: "ativa", label: "Aprovar e ativar ficha", cls: "btn-primary" }, { to: "morta", label: "Marcar como morto", cls: "btn-danger", confirm: "Registrar a MORTE deste personagem? A ficha será preservada, mas não poderá ser reativada." }],
-    ativa: [{ to: "inativa", label: "Desativar ficha", cls: "" }, { to: "morta", label: "Marcar como morto", cls: "btn-danger", confirm: "Registrar a MORTE deste personagem? A ficha será preservada, mas não poderá ser reativada." }],
-    inativa: [{ to: "ativa", label: "Ativar ficha", cls: "btn-primary" }, { to: "morta", label: "Marcar como morto", cls: "btn-danger", confirm: "Registrar a MORTE deste personagem? A ficha será preservada, mas não poderá ser reativada." }],
-    morta: [],
+    pendente: [{ to: "ativa", label: "Aprovar e ativar ficha", cls: "btn-primary" }, { to: "morta", label: "Marcar como morto", cls: "btn-danger", confirm: death }],
+    ativa: [{ to: "morta", label: "Marcar como morto", cls: "btn-danger", confirm: death }],
+    morta: [{ to: "ativa", label: "Reviver personagem", cls: "btn-primary", confirm: "Reviver este personagem? A ficha volta a ficar ativa; ajuste Vida e Mana no painel ao lado se precisar." }],
   };
-  const list = opts[sheet.status];
+  const list = opts[sheet.status] ?? [];
+  async function remove() {
+    if (!window.confirm(`EXCLUIR a ficha “${sheet.name}”? Ela some de vez, com feitiços, itens, bênçãos e efeitos. Não dá para desfazer.`)) return;
+    const res = await run("delete_sheet", { p_char: sheet.id });
+    if (res.ok) router.push(`/campanha/${sheet.campaign_id}/fichas`);
+  }
   return (
     <div className="space-y-2">
-      {list.length === 0 ? <p className="text-sm text-parch-500">Personagem morto: a ficha é preservada para consulta e não pode ser reativada.</p> : (
-        <div className="flex flex-wrap gap-2">{list.map((o) => (
-          <button key={o.to} className={`btn ${o.cls}`} disabled={busy} onClick={async () => { if (o.confirm && !window.confirm(o.confirm)) return; await run("transition_sheet", { p_char: sheet.id, p_to: o.to }, "Estado atualizado."); }}>{o.label}</button>))}</div>)}
+      {sheet.status === "morta" && <p className="text-sm text-parch-500">Personagem morto. Você pode revivê-lo ou excluir a ficha.</p>}
+      <div className="flex flex-wrap gap-2">{list.map((o) => (
+        <button key={o.to} className={`btn ${o.cls}`} disabled={busy} onClick={async () => { if (o.confirm && !window.confirm(o.confirm)) return; await run("transition_sheet", { p_char: sheet.id, p_to: o.to }, "Estado atualizado."); }}>{o.label}</button>))}
+        <button className="btn btn-danger" disabled={busy} onClick={remove}>Excluir ficha</button>
+      </div>
       <Msg m={msg} />
     </div>
   );

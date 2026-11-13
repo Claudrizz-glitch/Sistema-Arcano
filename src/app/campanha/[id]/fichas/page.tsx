@@ -19,14 +19,14 @@ export default async function Fichas({ params, searchParams }: { params: Promise
   if (k === "reservada") list = list.filter((x) => x.kind === "mestre" && x.player_template);
   else if (k) list = list.filter((x) => x.kind === k && !(k === "mestre" && x.player_template));
   const mine = all.filter((x) => x.owner_id === user.id);
-  const order = { pendente: 0, ativa: 1, inativa: 2, morta: 3 } as const;
+  const order = { pendente: 0, ativa: 1, morta: 2 } as const;
   list = [...list].sort((a, b) => order[a.status] - order[b.status] || a.name.localeCompare(b.name));
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         {gm && (
           <p className="flex flex-wrap gap-2 text-sm">
-            {[["", "Todas"], ["pendente", "Pendentes"], ["ativa", "Ativas"], ["inativa", "Inativas"], ["morta", "Mortas"]].map(([v, l]) => (
+            {[["", "Todas"], ["pendente", "Pendentes"], ["ativa", "Ativas"], ["morta", "Mortas"]].map(([v, l]) => (
               <Link key={v} href={`/campanha/${id}/fichas${v ? `?s=${v}` : ""}`} className={`badge no-underline ${(s ?? "") === v ? "border-gold-400" : "border-ink-600"}`}>{l}</Link>))}
             <Link href={`/campanha/${id}/fichas?k=mestre`} className={`badge no-underline ${k === "mestre" ? "border-gold-400" : "border-ink-600"}`}>Só NPCs</Link>
             <Link href={`/campanha/${id}/fichas?k=reservada`} className={`badge no-underline ${k === "reservada" ? "border-gold-400" : "border-ink-600"}`}>Fichas de jogador reservadas</Link>

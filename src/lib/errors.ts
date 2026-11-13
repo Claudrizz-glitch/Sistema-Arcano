@@ -10,7 +10,7 @@ const MAP: Record<string, string> = {
   tabela_sem_nivel: "A tabela de progressão não possui esse nível (lacuna nas regras).",
   ficha_nao_encontrada: "Ficha não encontrada.",
   ficha_morta: "Esta ficha está marcada como morta.",
-  ja_existe_ficha_ativa: "O jogador já possui uma ficha ativa. Desative-a ou registre sua morte antes.",
+  ja_existe_ficha_ativa: "O jogador já possui uma ficha ativa. Exclua-a ou registre sua morte antes.",
   transicao_invalida: "Transição de estado não permitida.",
   feitico_nao_pertence_a_ficha: "O feitiço não foi concedido a esta ficha.",
   feitico_ja_concedido: "Este feitiço já foi concedido.",

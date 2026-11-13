@@ -38,7 +38,7 @@ export function SheetOwnership({ sheet, players, limit, ownerName }: { sheet: Sh
             </select></div>
           <button className="btn btn-primary" disabled={busy}>Importar</button>
         </form>)}
-      <p className="text-xs text-parch-500">Se o jogador já tiver uma ficha ativa, a importada entra como inativa.</p>
+      <p className="text-xs text-parch-500">Se o jogador já tiver uma ficha ativa, a importada entra como pendente.</p>
       <Msg m={msg} />
     </div>
   );

@@ -135,8 +135,9 @@ test("limite de 10 fichas e ficha ativa única", () => {
   assert.equal(canCreateSheet(10), false);
   assert.deepEqual(checkTransition("pendente", "ativa", 0), { ok: true });
   assert.deepEqual(checkTransition("pendente", "ativa", 1), { ok: false, reason: "ja_existe_ficha_ativa" });
-  assert.deepEqual(checkTransition("morta", "ativa", 0), { ok: false, reason: "transicao_invalida" });
-  assert.deepEqual(checkTransition("ativa", "inativa", 0), { ok: true });
+  assert.deepEqual(checkTransition("morta", "ativa", 0), { ok: true }); // reviver
+  assert.deepEqual(checkTransition("morta", "ativa", 1), { ok: false, reason: "ja_existe_ficha_ativa" });
+  assert.deepEqual(checkTransition("ativa", "pendente", 0), { ok: false, reason: "transicao_invalida" });
 });
 
 test("bênçãos: 22 no total, 6 extras, direitos por nível, extra fora do limite", () => {

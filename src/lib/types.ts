@@ -1,5 +1,5 @@
 export type Role = "mestre" | "jogador";
-export type SheetStatus = "pendente" | "ativa" | "inativa" | "morta";
+export type SheetStatus = "pendente" | "ativa" | "morta";
 export type PubStatus = "draft" | "published" | "archived";
 
 export type Profile = { id: string; display_name: string; is_master: boolean };
