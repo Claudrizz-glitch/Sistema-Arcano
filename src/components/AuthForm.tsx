@@ -14,7 +14,11 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const next = params.get("next") && params.get("next")!.startsWith("/") ? params.get("next")! : "/painel";
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ kind: "ok" | "erro"; text: string } | null>(null);
-  const site = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
+  // Links de e-mail voltam para o MESMO site em que a pessoa está (produção, preview ou localhost).
+  // NEXT_PUBLIC_SITE_URL só é usado fora do navegador: em produção ele estava como localhost e quebrava a confirmação.
+  const site = typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_SITE_URL ?? "");
+  const notice = params.get("confirmado") ? { kind: "ok" as const, text: "E-mail confirmado! Agora entre com seu e-mail e senha." }
+    : params.get("erro") === "link_invalido" ? { kind: "erro" as const, text: "Link inválido ou expirado. Se você já confirmou o e-mail, entre com seu e-mail e senha; senão, use “Esqueci a senha”." } : null;
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -52,6 +56,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
     <div className="mx-auto mt-10 max-w-md">
       <section className="card">
         <h1 className="mb-4 text-2xl">{TITLE[mode]}</h1>
+        {mode === "entrar" && notice && !msg && <div className="mb-3"><Msg m={notice} /></div>}
         <form onSubmit={submit} className="space-y-3">
           {mode === "cadastrar" && (<div><label className="label" htmlFor="nome">Nome de exibição</label><input id="nome" name="nome" className="input" maxLength={60} /></div>)}
           {mode !== "nova-senha" && (<div><label className="label" htmlFor="email">E-mail</label><input id="email" name="email" type="email" required autoComplete="email" className="input" /></div>)}
