@@ -483,6 +483,52 @@ function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedIt
             <button className="btn btn-sm btn-danger" disabled={busy} onClick={async () => { if (window.confirm("DESTRUIR o baú? A alma é aniquilada e a ficha é marcada como morta.")) await run("chest_action", { p_char_item: o.id, p_action: "destruir" }, "Baú destruído."); }}>Baú destruído</button></>}</div>}
         <Msg m={msg} /></div>);
   }
+  // ----- itens de registro -----
+  const tk = (action: string, text?: string, ok?: string) => run("trinket_action", { p_char_item: o.id, p_action: action, p_text: text ?? null }, ok);
+  if (m === "orbe") {
+    const sealed = (st.sealed ?? []) as string[];
+    return (
+      <div className={box}>
+        <p>Seres selados no orbe: <b className="text-gold-300">{sealed.length}</b></p>
+        {sealed.length > 0 && <ul className="space-y-1">{sealed.map((x, i) => <li key={i} className="flex items-center justify-between gap-2 rounded border border-ink-600 px-2 py-1 text-xs"><span>🔮 {x} <span className="text-parch-500">— em transe</span></span>
+          {gm && <button className="btn btn-sm" disabled={busy} onClick={() => tk("libertar", String(i), `${x} foi libertado: surge em um ponto aleatório a até 5 m.`)}>Libertar</button>}</li>)}</ul>}
+        <p className="text-xs text-parch-500">Só seres domesticados podem ser selados. Ao libertar, o ser surge a partir do orbe em um ponto aleatório a até 5 m.</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <select aria-label="Ficha a selar" className="input !w-44 !py-1" value={a} onChange={(e) => setA(e.target.value)}><option value="">Ser sem ficha…</option>{targets.map((t) => <option key={t.id} value={t.name}>{t.name}</option>)}</select>
+          {!a && <input aria-label="Nome do ser" className="input !w-40 !py-1" placeholder="Nome do ser" value={b} onChange={(e) => setB(e.target.value)} />}
+          <button className="btn btn-sm btn-primary" disabled={busy || (!a && b.trim() === "")} onClick={async () => { const r = await tk("selar", a || b, "Ser selado no orbe."); if (r.ok) { setA(""); setB(""); } }}>Selar</button></div>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "mascara") {
+    return (
+      <div className={box}>
+        <p>{st.worn ? <b className="text-arcane-400">● Vestindo a máscara</b> : <span className="text-parch-300">Máscara guardada</span>} · Aparência {st.worn ? "atual" : "ao vestir"}: <b className="text-gold-300">{st.face ?? "nenhum ser abatido ainda"}</b></p>
+        <p className="text-xs text-parch-500">Enquanto veste a máscara, o portador tem a aparência do último ser que matou.</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm" disabled={busy} onClick={() => tk("vestir", undefined, st.worn ? "Máscara retirada." : "Máscara vestida.")}>{st.worn ? "Tirar a máscara" : "Vestir a máscara"}</button>
+          <input aria-label="Último ser abatido" className="input !w-44 !py-1" placeholder="Último ser abatido" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm btn-primary" disabled={busy || a.trim() === ""} onClick={async () => { const r = await tk("abate", a, "Abate registrado: a aparência da máscara mudou."); if (r.ok) setA(""); }}>Registrar abate</button></div>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "moeda") {
+    const away = st.away_until != null && turn < st.away_until;
+    return (
+      <div className={box}>
+        <p>{away ? <><b className="text-amber-300">○ Fora do bolso</b> — volta ao amanhecer (turno {st.away_until}; faltam {st.away_until - turn} turnos)</> : <b className="text-gold-300">● No bolso do dono</b>}</p>
+        <p className="text-xs text-parch-500">Moeda de ouro mágica: se for gasta ou perdida, reaparece no bolso do dono no amanhecer (06:00).</p>
+        {gm && <div className="flex flex-wrap gap-1">
+          <button className="btn btn-sm" disabled={busy || away} onClick={() => tk("gastar", undefined, "Moeda gasta: volta ao amanhecer.")}>Gastou / perdeu a moeda</button>
+          {away && <button className="btn btn-sm" disabled={busy} onClick={() => tk("recuperar", undefined, "Moeda de volta ao bolso.")}>Voltou antes</button>}</div>}
+        <Msg m={msg} /></div>);
+  }
+  if (m === "sapato") {
+    return (
+      <div className={box}>
+        <p>{st.on ? <b className="text-arcane-400">● Subindo degraus de vidro</b> : <span className="text-parch-300">Fora de uso</span>}</p>
+        <p className="text-xs text-parch-500">Cria degraus de vidro no ar, logo abaixo do pé, quando o usuário finge subir uma escada.</p>
+        {gm && <button className="btn btn-sm" disabled={busy} onClick={() => tk("usar", undefined, st.on ? "Parou de usar." : "Em uso.")}>{st.on ? "Parar" : "Usar"}</button>}
+        <Msg m={msg} /></div>);
+  }
   return null;
 }
 

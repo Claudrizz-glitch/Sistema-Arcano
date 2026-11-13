@@ -72,7 +72,7 @@ Fichas de jogador ficam com o Mestre (`kind='mestre'`, `player_template=true`) a
 Mecânica em items.properties.mechanic: pocao, semente, baralho_arcano, manto, olho_de_cobra (+ filho_do_sol).
 RPCs: use_item, weapon_hit (golpe > 5x o dano máximo quebra arma comum), set_cloak (custo por turno no advance_turn),
 eye_extract (% da Vida máxima pela diferença de nível), draw_omen; Baralho: trigger item_grants e teste 15 + 1d6 no cast_spell.
-Orbe, Máscara, Sapato e Moeda: o Mestre pediu para NÃO implementar.
+Orbe, Máscara, Sapato e Moeda: painéis de registro (trinket_action; mechanics orbe, mascara, moeda, sapato). O Orbe só registra nomes: não tira fichas de jogo.
 
 ## Itens arcanos — Fases 2 e 3 (2026-11-15)
 Só o Mestre aciona; o jogador apenas vê o painel. Estado de cada item em character_items.state.
