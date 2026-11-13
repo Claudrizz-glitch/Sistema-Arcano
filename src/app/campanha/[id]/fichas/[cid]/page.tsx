@@ -136,11 +136,11 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
           {ctx.manaIsLife && <Card title="Forjado — absorção de mana e núcleo"><ForgedPanel sheet={sheet} absorptions={(ab0 ?? []) as Absorption[]} others={others} turnSeconds={campaign.turn_seconds} /></Card>}
         </div>
       )}
-      {!gm && hasBar && bleedings.some((b) => b.active) && <Card title="Sangramentos ativos"><ul className="text-sm">{bleedings.filter((b) => b.active).map((b) => <li key={b.id}>{b.kind === "privacao" ? "Privação de mana (5%/turno)" : `Grau ${b.grade}${b.rate_percent ? ` — ${b.rate_percent}%/turno` : " — morte iminente"}`}</li>)}</ul></Card>}
+      {!gm && hasBar && bleedings.some((b) => b.active) && <Card title="Sangramentos ativos"><ul className="text-sm">{bleedings.filter((b) => b.active).map((b) => <li key={b.id}>{b.kind === "queimadura" ? `Queimadura — ${b.flat_damage} por turno${b.turns_left ? ` (${b.turns_left} turno(s) restantes)` : " (até ser tratada)"}` : b.kind === "privacao" ? "Privação de mana (5%/turno)" : `Grau ${b.grade}${b.rate_percent ? ` — ${b.rate_percent}%/turno` : " — morte iminente"}`}</li>)}</ul></Card>}
       <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Feitiços"><SpellsSection sheet={sheet} owned={ownedSpells} catalog={spellCat} gm={gm} race={ctx} deck={ownedItems.some((x) => x.item.properties?.mechanic === "baralho_arcano")} /></Card>
         <Card title="Bênçãos"><BlessingsSection sheet={sheet} owned={ownedBless} catalog={blessCat} gm={gm} rights={rights} /></Card>
-        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} /></Card>
+        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} turn={campaign.current_turn} blessings={blessCat.map((b) => b.name)} /></Card>
         <Card title="Contratos"><ContractsSection sheet={sheet} owned={(cc ?? []) as CharContract[]} gm={gm} /></Card>
       </div>
       <Card title="Descrição, inventário e anotações">

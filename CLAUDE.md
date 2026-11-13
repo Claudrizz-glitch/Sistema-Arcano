@@ -72,4 +72,13 @@ Fichas de jogador ficam com o Mestre (`kind='mestre'`, `player_template=true`) a
 Mecânica em items.properties.mechanic: pocao, semente, baralho_arcano, manto, olho_de_cobra (+ filho_do_sol).
 RPCs: use_item, weapon_hit (golpe > 5x o dano máximo quebra arma comum), set_cloak (custo por turno no advance_turn),
 eye_extract (% da Vida máxima pela diferença de nível), draw_omen; Baralho: trigger item_grants e teste 15 + 1d6 no cast_spell.
-Orbe, Máscara, Sapato e Moeda: o Mestre pediu para NÃO implementar. Fases 2 e 3 pendentes (ver docs/RELATORIO_NPCS_E_ITENS.md).
+Orbe, Máscara, Sapato e Moeda: o Mestre pediu para NÃO implementar.
+
+## Itens arcanos — Fases 2 e 3 (2026-11-15)
+Só o Mestre aciona; o jogador apenas vê o painel. Estado de cada item em character_items.state.
+- espada_carmesim (crimson_attack / crimson_rupture; brilho de 2 turnos = 12 s, sem piso de CD), fio_bifurcado (dagger_action),
+  estigma (stigma_action; manutenção por turno), coracao_rubro (heart_action; regeneração x multiplicador no advance_turn).
+- Queimadura: character_bleedings.kind = 'queimadura' (flat_damage, turns_left), RPC add_burn; aplicada a cada turno.
+- elmo_imortal (helm_action: ponto / mitigar / retornar / revanche / encerrar; 'retornar' restaura TODAS as fichas e volta o turno),
+  ovelha_lobo (wolf_action; média via character_modifiers.hp_bonus), bau_mirral (chest_action; selada não pode morrer).
+- Fotos de fichas em sheet_snapshots (sem acesso direto; só funções do banco).

@@ -39,6 +39,11 @@ const MAP: Record<string, string> = {
   "violates foreign key": "Este registro está em uso (ficha ou histórico). Arquive em vez de excluir.",
   "duplicate key": "Já existe um registro com esse nome.",
   tempo_bloqueado: "Não dá para passar horas ou dias agora",
+  troca_bloqueada: "Trocar o atributo exige cura ou um novo ferimento.",
+  alma_repetida: "Essa alma já concedeu um acúmulo ao punhal.",
+  retornos_esgotados: "O Elmo já usou os dois retornos deste combate.",
+  sem_ponto_de_retorno: "Registre o Ponto de Retorno antes.",
+  imortal: "A alma está selada no Baú de Mirral: use o painel do baú.",
 };
 export function friendly(message: string | undefined | null): string {
   if (!message) return "Erro desconhecido.";

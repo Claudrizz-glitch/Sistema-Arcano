@@ -8,9 +8,10 @@ import type { Absorption, Bleeding, BleedGradeRow, Sheet } from "@/lib/types";
 export function BleedingPanel({ sheet, grades, bleedings, bar }: { sheet: Sheet; grades: BleedGradeRow[]; bleedings: Bleeding[]; bar: number | null }) {
   const { run, busy, msg, setMsg } = useRpc();
   const [grade, setGrade] = useState("1"); const [note, setNote] = useState("");
+  const [bDmg, setBDmg] = useState(""); const [bTurns, setBTurns] = useState("");
   const g = grades.find((x) => String(x.grade) === grade);
   const active = bleedings.filter((b) => b.active);
-  const lossPerTurn = active.reduce((a, b) => a + (b.rate_percent && bar ? bleedLoss(bar, b.rate_percent) : 0), 0);
+  const lossPerTurn = active.reduce((a, b) => a + (b.kind === "queimadura" ? (b.flat_damage ?? 0) : b.rate_percent && bar ? bleedLoss(bar, b.rate_percent) : 0), 0);
   const lethal = active.some((b) => b.grade === 8);
   return (
     <div className="space-y-3">
@@ -23,9 +24,9 @@ export function BleedingPanel({ sheet, grades, bleedings, bar }: { sheet: Sheet;
             const info = grades.find((x) => x.grade === b.grade);
             return (
               <li key={b.id} className="flex flex-wrap items-start justify-between gap-2 rounded-md border border-ink-600 p-2 text-sm">
-                <span>{b.kind === "privacao" ? <b className="text-gold-300">Privação de mana (5%/turno)</b> : <b className="text-gold-300">Grau {b.grade}{b.rate_percent ? ` — ${b.rate_percent}%` : " — morte iminente"}</b>}
+                <span>{b.kind === "queimadura" ? <b className="text-gold-300">🔥 Queimadura — {b.flat_damage} por turno{b.turns_left ? ` · ${b.turns_left} turno(s) restantes` : " · até ser tratada"}</b> : b.kind === "privacao" ? <b className="text-gold-300">Privação de mana (5%/turno)</b> : <b className="text-gold-300">Grau {b.grade}{b.rate_percent ? ` — ${b.rate_percent}%` : " — morte iminente"}</b>}
                   {b.rate_percent && bar ? <span className="ml-2 text-xs text-red-300">−{bleedLoss(bar, b.rate_percent)}/turno</span> : null}
-                  <span className="block text-xs text-parch-500">{info?.description ?? "Mais de 1 minuto sem a barra cheia."}{b.note ? ` · ${b.note}` : ""} · desde o turno {b.started_turn}</span></span>
+                  <span className="block text-xs text-parch-500">{b.kind === "queimadura" ? "Dano fixo por turno." : info?.description ?? "Mais de 1 minuto sem a barra cheia."}{b.note ? ` · ${b.note}` : ""} · desde o turno {b.started_turn}</span></span>
                 <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm("Encerrar este sangramento?")) await run("remove_bleeding", { p_bleeding: b.id }, "Sangramento encerrado."); }}>Encerrar</button>
               </li>); })}</ul>
         </>)}
@@ -39,6 +40,17 @@ export function BleedingPanel({ sheet, grades, bleedings, bar }: { sheet: Sheet;
           const r = await run("add_bleeding", { p_char: sheet.id, p_grade: Number(grade), p_note: note, p_key: crypto.randomUUID() });
           if (r.ok) { setNote(""); setMsg({ kind: "ok", text: r.data.imminent_death ? "Condição de morte iminente registrada." : `Sangramento de grau ${r.data.grade} iniciado (−${r.data.loss_per_turn}/turno).` }); } }}>Iniciar sangramento</button>
         <p className="mt-1 text-xs text-parch-500">O dano é aplicado automaticamente a cada avanço de turno (uma vez por turno) e é independente do dano direto. Estabilização e tratamento continuam sob controle do Mestre.</p>
+      </div>
+      <div className="rounded-md border border-ink-600 p-2">
+        <label className="label" htmlFor="burn-d">Aplicar queimadura (dano fixo por turno)</label>
+        <div className="flex flex-wrap items-end gap-2">
+          <input id="burn-d" className="input !w-24" inputMode="numeric" placeholder="Dano" value={bDmg} onChange={(e) => setBDmg(e.target.value)} />
+          <input className="input !w-32" inputMode="numeric" placeholder="Turnos (vazio = sem fim)" aria-label="Duração em turnos" value={bTurns} onChange={(e) => setBTurns(e.target.value)} />
+          <button className="btn btn-danger" disabled={busy || sheet.status !== "ativa" || !(Number(bDmg) > 0)} onClick={async () => {
+            const r = await run("add_burn", { p_char: sheet.id, p_damage: Number(bDmg), p_turns: bTurns === "" ? null : Number(bTurns), p_note: note });
+            if (r.ok) { setBDmg(""); setBTurns(""); setMsg({ kind: "ok", text: `Queimadura iniciada: −${r.data.damage} por turno${r.data.turns ? ` por ${r.data.turns} turno(s)` : " até ser tratada"}.` }); } }}>Iniciar queimadura</button>
+        </div>
+        <p className="mt-1 text-xs text-parch-500">Ex.: Fio Bifurcado — 2 por 2 turnos, 4 por 3 turnos, ou fogo eterno de 4 por turno (deixe os turnos vazios).</p>
       </div>
       <Msg m={msg} />
     </div>

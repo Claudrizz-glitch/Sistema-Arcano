@@ -244,7 +244,7 @@ export function BlessingsSection({ sheet, owned, catalog, gm, rights }: { sheet:
 
 /* ---------- itens e equipamentos ---------- */
 export type OwnedItem = CharItem & { item: Item };
-export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeconds = 6 }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean; targets?: { id: string; name: string; level: number }[]; turnSeconds?: number }) {
+export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeconds = 6, turn = 0, blessings = [] }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean; targets?: { id: string; name: string; level: number }[]; turnSeconds?: number; turn?: number; blessings?: string[] }) {
   const { run, busy, msg } = useRpc(); const [qty, setQty] = useState("1");
   return (
     <div className="space-y-3">
@@ -264,9 +264,10 @@ export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeco
                   {o.state?.wielded && <SacrificeForm charItem={o.id} />}</div>}
               </div>)}
             <ItemMechanics o={o} sheet={sheet} gm={gm} targets={targets} turnSeconds={turnSeconds} />
+            <ItemMechanics2 o={o} sheet={sheet} gm={gm} targets={targets} turn={turn} blessings={blessings} />
             {gm && <div className="flex gap-1">
               {!o.item.properties?.mechanic && <button className="btn btn-sm" disabled={busy} onClick={() => run("set_equipped", { p_char_item: o.id, p_equipped: !o.equipped })}>{o.equipped ? "Desequipar" : "Equipar"}</button>}
-              <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(`Remover “${o.item.name}” da ficha?`)) await run("revoke_item", { p_char_item: o.id }, "Item removido."); }}>Remover</button></div>}
+              <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(["estigma", "coracao_rubro", "ovelha_lobo", "olho_de_cobra", "bau_mirral"].includes(String(o.item.properties?.mechanic)) ? `“${o.item.name}” é permanente pelas regras. Remover mesmo assim (apaga contadores e estado)?` : `Remover “${o.item.name}” da ficha?`)) await run("revoke_item", { p_char_item: o.id }, "Item removido."); }}>Remover</button></div>}
           </li>))}</ul>)}
       {gm && <Picker label="Conceder item" busy={busy} items={catalog.map((i) => ({ id: i.id, name: i.name, sub: i.kind }))}
         extra={<div><label className="label" htmlFor="qty">Quantidade</label><input id="qty" className="input w-24" type="number" min={1} value={qty} onChange={(e) => setQty(e.target.value)} /></div>}
@@ -337,6 +338,149 @@ function ItemMechanics({ o, sheet, gm, targets, turnSeconds }: { o: OwnedItem; s
           <button className="btn btn-sm btn-primary" disabled={busy} onClick={async () => { const r = await run("draw_omen", { p_char_item: o.id, p_card: null }); if (r.ok) setMsg({ kind: "ok", text: `${r.data.card}: ${r.data.text}` }); }}>Tirar carta</button>
           <select aria-label="Carta tirada na mesa" className="input !w-48 !py-1" value={card} onChange={(e) => setCard(e.target.value)}><option value="">…ou a carta tirada na mesa</option>{omens.map((c) => <option key={c.card} value={c.card}>{c.card}</option>)}</select>
           <button className="btn btn-sm" disabled={busy || !card} onClick={async () => { const r = await run("draw_omen", { p_char_item: o.id, p_card: card }); if (r.ok) { setCard(""); setMsg({ kind: "ok", text: `${r.data.card}: ${r.data.text}` }); } }}>Registrar</button></div>}
+        <Msg m={msg} /></div>);
+  }
+  return null;
+}
+
+/* ---------- mecânicas dos itens (Fases 2 e 3) — só o Mestre aciona; o jogador vê o painel ---------- */
+const HEART_TIERS: [number, number, string][] = [[99, 5, "Morte iminente no mesmo turno"], [84, 4, "Apagões, colapso muscular, estado de choque"], [67, 3, "Visão escurecendo, tremores fortes, perda de equilíbrio"], [50, 2.5, "Confusão, dor no peito, perda de coordenação"], [34, 2, "Visão turva, respiração acelerada, fraqueza"], [17, 1.5, "Tontura leve e suor frio"], [9, 1.2, "Aumento de frequência cardíaca"]];
+function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedItem; sheet: Sheet; gm: boolean; targets: { id: string; name: string; level: number }[]; turn: number; blessings: string[] }) {
+  const { run, busy, msg, setMsg } = useRpc();
+  const [a, setA] = useState(""); const [b, setB] = useState(""); const [c, setC] = useState(""); const [d, setD] = useState("");
+  const p = o.item.properties ?? {}; const m = p.mechanic as string | undefined; const st = (o.state ?? {}) as Record<string, any>; const dead = sheet.status === "morta";
+  const box = "w-full rounded-md border border-arcane-500/50 bg-ink-900 p-2 text-sm space-y-1";
+  const num = "input !w-24 !py-1";
+
+  if (m === "espada_carmesim") {
+    const glow = st.glow_until != null && turn <= st.glow_until; const hits = glow ? (st.hits ?? 0) : 0; const perm = glow ? (st.perm ?? 0) : 0; const cd = 18 - perm - hits;
+    return (
+      <div className={box}>
+        <p>CD de Ruptura atual: <b className="text-xl text-gold-300">{cd}</b> {glow ? <span className="badge ml-1 border-wine-400 text-red-300">● brilhando até o turno {st.glow_until}</span> : <span className="text-xs text-parch-500">lâmina apagada (CD base 18)</span>}</p>
+        <p className="text-xs text-parch-500">Cada ataque básico reduz a CD em 1 e renova o brilho por 12 s (2 turnos). Ruptura ativada: a CD volta ao valor base, que fica 1 ponto menor enquanto o brilho durar. Anões podem usar.</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm" disabled={busy || dead} onClick={async () => { const r = await run("crimson_attack", { p_char_item: o.id }); if (r.ok) setMsg({ kind: "ok", text: `Ataque básico: CD de Ruptura agora ${r.data.cd}.` }); }}>Ataque básico</button>
+          <input aria-label="d20 da Ruptura" className={num} inputMode="numeric" placeholder="d20" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm btn-primary" disabled={busy || dead || a === ""} onClick={async () => { const r = await run("crimson_rupture", { p_char_item: o.id, p_roll: Number(a) }); if (r.ok) { setA(""); setMsg(r.data.success ? { kind: "ok", text: `Ruptura ATIVADA (d20 ${r.data.roll} ≥ CD ${r.data.cd}): dano dobrado como mágico +2d6, ignorando armadura. Próxima CD: ${r.data.next_cd}.` } : { kind: "erro", text: `Ruptura falhou (d20 ${r.data.roll} < CD ${r.data.cd}).` }); } }}>Ativar Ruptura</button></div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "fio_bifurcado") {
+    const path = st.path as "ignea" | "boreal" | undefined; const stacks = st.stacks ?? 0; const souls = (st.souls ?? []) as string[];
+    const steps = ((p.paths ?? {})[path ?? "ignea"] ?? []) as { at: number; text: string }[];
+    return (
+      <div className={box}>
+        <p>{path ? <>Caminho: <b className="text-gold-300">{path === "ignea" ? "Lâmina Ígnea (apunhalar)" : "Lâmina Boreal (lançar)"}</b> · Acúmulos: <b className="text-xl text-gold-300">{stacks}</b> · {souls.length} alma(s)</> : <span className="text-parch-300">Nenhum caminho escolhido.</span>}</p>
+        {path && <ul className="space-y-0.5 text-xs">{steps.map((x) => <li key={x.at} className={stacks >= x.at ? "text-parch-100" : "text-parch-500"}>{stacks >= x.at ? "✓" : "○"} <b>{x.at}</b> — {x.text}</li>)}</ul>}
+        <p className="text-xs text-parch-500">Os acúmulos são do punhal. Cada alma humana só concede 1 acúmulo; trocar de caminho zera o progresso.</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm" disabled={busy || path === "ignea"} onClick={async () => { if (!path || window.confirm("Trocar para a Lâmina Ígnea? Os acúmulos são zerados.")) await run("dagger_action", { p_char_item: o.id, p_action: "caminho", p_text: "ignea" }, "Caminho: Lâmina Ígnea."); }}>Ígnea</button>
+          <button className="btn btn-sm" disabled={busy || path === "boreal"} onClick={async () => { if (!path || window.confirm("Trocar para a Lâmina Boreal? Os acúmulos são zerados.")) await run("dagger_action", { p_char_item: o.id, p_action: "caminho", p_text: "boreal" }, "Caminho: Lâmina Boreal."); }}>Boreal</button>
+          <input aria-label="Nome da alma" className="input !w-40 !py-1" placeholder="De quem é a alma" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm btn-primary" disabled={busy || !path || a.trim() === ""} onClick={async () => { const r = await run("dagger_action", { p_char_item: o.id, p_action: "alma", p_text: a }, "Alma registrada: +1 acúmulo."); if (r.ok) setA(""); }}>Registrar alma</button>
+          <input aria-label="Ajustar acúmulos" className={num} inputMode="numeric" placeholder="Ajustar" value={b} onChange={(e) => setB(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || b === ""} onClick={async () => { const r = await run("dagger_action", { p_char_item: o.id, p_action: "ajustar", p_value: Number(b) }, "Acúmulos ajustados."); if (r.ok) setB(""); }}>Definir</button></div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "estigma") {
+    const liters = st.liters ?? 0;
+    return (
+      <div className={box}>
+        <p>Pele atual: <b className="text-gold-300">{st.skin ?? "nenhuma (carne viva)"}</b>{liters > 0 && <> · Camadas extras: <b>{liters} L</b> <span className="text-xs text-red-300">(−{(liters / 5) * 5} de Mana por turno)</span></>}</p>
+        <p className="text-xs text-parch-500">Permanente: a pele original jamais é recuperada. Encapuzar 30 de Mana · Transmutar 20 · Camada extra 20 a cada 5 L, com manutenção de 5 de Mana por turno a cada 5 L (sem Mana, as camadas caem).</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <input aria-label="Material" className="input !w-36 !py-1" placeholder="Material tocado" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm btn-primary" disabled={busy || dead || a.trim() === ""} onClick={async () => { const r = await run("stigma_action", { p_char_item: o.id, p_action: "encapuzar", p_material: a }, "Material encapuzado (−30 de Mana)."); if (r.ok) setA(""); }}>Encapuzar</button>
+          <button className="btn btn-sm" disabled={busy || dead || !st.skin} onClick={() => run("stigma_action", { p_char_item: o.id, p_action: "transmutar" }, "Pele transmutada (−20 de Mana).")}>Transmutar</button>
+          <input aria-label="Litros da camada" className={num} inputMode="numeric" placeholder="Litros (×5)" value={b} onChange={(e) => setB(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || dead || !st.skin || b === ""} onClick={async () => { const r = await run("stigma_action", { p_char_item: o.id, p_action: "camada", p_liters: Number(b) }, "Camada adicionada."); if (r.ok) setB(""); }}>Adicionar camada</button>
+          <button className="btn btn-sm" disabled={busy || liters === 0} onClick={() => run("stigma_action", { p_char_item: o.id, p_action: "soltar" }, "Camadas extras soltas.")}>Soltar camadas</button></div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "coracao_rubro") {
+    const bar = sheet.hp_current ?? sheet.mana_current ?? 0; const max = sheet.hp_current !== null ? sheet.max_hp ?? 0 : sheet.max_mana ?? 0;
+    const lost = max > 0 ? Math.max(0, ((max - bar) / max) * 100) : 0; const tier = HEART_TIERS.find((t) => lost >= t[0]);
+    const mult = tier ? tier[1] : 1; const phase = sheet.level === 0 || sheet.level >= 15 ? 3 : sheet.level >= 8 ? 2 : 1;
+    const attr = st.attribute as string | undefined; const label: Record<string, string> = { dano: "Dano", velocidade: "Velocidade", cura: "Cura (regeneração)" };
+    if (!st.consumed) return (
+      <div className={box}><p className="text-xs text-parch-300">O Coração Rubro precisa ser consumido: substitui o coração do portador, de forma permanente.</p>
+        {gm && <button className="btn btn-sm btn-danger" disabled={busy || dead} onClick={async () => { if (window.confirm("Consumir o Coração Rubro? É permanente.")) await run("heart_action", { p_char_item: o.id, p_action: "consumir" }, "Coração Rubro consumido."); }}>Consumir</button>}<Msg m={msg} /></div>);
+    return (
+      <div className={box}>
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div className="rounded border border-wine-400/60 p-2"><p className="text-xs uppercase tracking-wider text-parch-500">Sangue ausente</p><p className="font-display text-xl text-red-300">{lost.toFixed(0)}%</p></div>
+          <div className="rounded border border-gold-600/40 p-2"><p className="text-xs uppercase tracking-wider text-parch-500">Multiplicador</p><p className="font-display text-xl text-gold-300">×{String(mult).replace(".", ",")}</p></div>
+          <div className="rounded border border-arcane-500/50 p-2"><p className="text-xs uppercase tracking-wider text-parch-500">Atributo</p><p className="font-display text-xl text-arcane-400">{attr ? label[attr] : "—"}</p></div>
+        </div>
+        {tier && <p className="text-xs text-red-300">Sintomas: {tier[2]}.</p>}
+        {attr === "velocidade" && <p className="text-xs">Velocidade atual: <b>{(sheet.speed_mps * mult).toFixed(1).replace(".", ",")} m/s</b>.</p>}
+        {attr === "cura" && <p className="text-xs">Regeneração de Vida multiplicada por ×{String(mult).replace(".", ",")} a cada turno (aplicada automaticamente).</p>}
+        {attr === "dano" && <p className="text-xs">Multiplique o dano rolado na mesa por ×{String(mult).replace(".", ",")}.</p>}
+        <p className="text-xs text-parch-500">Fase {phase === 1 ? "I — Sangue Pessoal: só o portador sangra; pode se ferir magicamente" : phase === 2 ? "II — Contágio Rubro: sangramento leve (grau 2, −2%/turno) em raio de 10 m; buff em área de até 2× (dividido entre os alvos)" : "III — Campo Hemodinâmico: sangramento médio ao toque (grau 6, −10%/turno) e leve em raio de 20 m"}. Aplique os sangramentos no painel de Sangramento de cada ficha. Qualquer cura só vale no turno seguinte; ferimentos de mesma potência somam ×0,5.</p>
+        {gm && <div className="flex flex-wrap items-center gap-1"><span className="text-xs text-parch-500">Escolha do jogador:</span>
+          {(["dano", "velocidade", "cura"] as const).map((k) => <button key={k} className={`btn btn-sm ${attr === k ? "btn-primary" : ""}`} disabled={busy || attr === k} onClick={() => run("heart_action", { p_char_item: o.id, p_action: "atributo", p_attribute: k }, `Atributo: ${label[k]}.`)}>{label[k]}</button>)}</div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "elmo_imortal") {
+    const mit = st.mit ?? 20; const ret = st.returns ?? 0; const has = !!st.snapshot;
+    return (
+      <div className={box}>
+        <p>Mitigação atual na cabeça: <b className="text-xl text-gold-300">{mit}</b> <span className="text-xs text-parch-500">(máx. 1d20; perde 1d4 a cada mitigação)</span></p>
+        <p>{has ? <>Ponto de Retorno: <b>turno {st.snap_turn}</b> · Retornos usados: <b>{ret}/2</b></> : <span className="text-parch-300">Sem Ponto de Retorno registrado.</span>}{st.revanche && <> · Bênção da revanche: <b className="text-arcane-400">{st.revanche}</b></>}</p>
+        <p className="text-xs text-parch-500">“Retornar” restaura TODAS as fichas da campanha ao Ponto de Retorno (recursos, itens, efeitos) e volta o tempo do calendário. As memórias são mantidas.</p>
+        {gm && <div className="flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm btn-primary" disabled={busy || dead} onClick={async () => { if (!has || window.confirm("Substituir o Ponto de Retorno atual?")) await run("helm_action", { p_char_item: o.id, p_action: "ponto" }, "Ponto de Retorno registrado."); }}>Registrar Ponto de Retorno</button>
+          <input aria-label="1d4 perdido" className={num} inputMode="numeric" placeholder="1d4" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || a === ""} onClick={async () => { const r = await run("helm_action", { p_char_item: o.id, p_action: "mitigar", p_value: Number(a) }, "Mitigação reduzida."); if (r.ok) setA(""); }}>Mitigou</button>
+          <button className="btn btn-sm btn-danger" disabled={busy || !has || ret >= 2} onClick={async () => { if (window.confirm(`RETORNAR ao turno ${st.snap_turn}? Todas as fichas voltam ao estado do Ponto de Retorno e o tempo retrocede.`)) await run("helm_action", { p_char_item: o.id, p_action: "retornar" }, "Retorno realizado: tudo voltou ao Ponto de Retorno."); }}>Retornar</button>
+          <select aria-label="Bênção da revanche" className="input !w-44 !py-1" value={b} onChange={(e) => setB(e.target.value)}><option value="">Bênção da revanche…</option>{blessings.map((x) => <option key={x} value={x}>{x}</option>)}</select>
+          <button className="btn btn-sm" disabled={busy || !b} onClick={async () => { const r = await run("helm_action", { p_char_item: o.id, p_action: "revanche", p_text: b }, "Bênção da revanche definida."); if (r.ok) setB(""); }}>Definir</button>
+          <button className="btn btn-sm" disabled={busy || !has} onClick={async () => { if (window.confirm("Encerrar o combate? O Ponto de Retorno é apagado.")) await run("helm_action", { p_char_item: o.id, p_action: "encerrar" }, "Combate encerrado."); }}>Fim do combate</button></div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "ovelha_lobo") {
+    const tg = st.target as { id?: string; name: string; hp: number; dmg: number } | undefined; const hunt = st.hunt as { avg_hp: number; avg_dmg: number } | undefined;
+    const marks = (st.marks ?? []) as { name: string; hp: number; dmg: number }[];
+    const call = (action: string, args: Record<string, unknown> = {}, ok?: string) => run("wolf_action", { p_char_item: o.id, p_action: action, p_args: args }, ok);
+    if (!st.activated) return (
+      <div className={box}><p className="text-xs text-parch-300">Para ativar, o usuário perfura o próprio peito com a flecha: contrato irreversível com o Lobo Astral.</p>
+        {gm && <button className="btn btn-sm btn-danger" disabled={busy || dead} onClick={async () => { if (window.confirm("Ativar a flecha? O contrato é irreversível.")) await call("ativar", {}, "Contrato selado com o Lobo Astral."); }}>Ativar a flecha</button>}<Msg m={msg} /></div>);
+    return (
+      <div className={box}>
+        <p>Caçadas realizadas: <b>{st.hunts ?? 0}</b>{st.bonus_dmg ? <> · Bônus permanente de dano: <b className="text-gold-300">+{st.bonus_dmg}</b></> : null}</p>
+        {hunt ? <p className="rounded border border-wine-400/60 p-2">🐺 <b>Caçada contra {tg?.name}</b> — Vida máxima de ambos: <b>{hunt.avg_hp}</b> · dano máximo por golpe de ambos: <b>{hunt.avg_dmg}</b>. Só o alvo vê o usuário; o alvo é inatingível por outros.</p>
+          : tg ? <p>Alvo marcado: <b className="text-gold-300">{tg.name}</b> (Vida máx. {tg.hp}, dano máx. por golpe {tg.dmg}). A Caçada começa a 10 m da marca.</p> : <p className="text-parch-300">Nenhum alvo marcado.</p>}
+        {marks.length > 0 && <ul className="space-y-1">{marks.map((mk, i) => <li key={i} className="flex flex-wrap items-center gap-2 rounded border border-ink-600 p-1 text-xs"><span>Marca: <b>{mk.name}</b> (Vida {mk.hp}, dano {mk.dmg})</span>
+          {gm && <><button className="btn btn-sm" disabled={busy} onClick={() => call("consumir", { index: i, kind: "vida" }, `Marca consumida: +${Math.ceil(mk.hp * 0.1)} de Vida máxima.`)}>+{Math.ceil(mk.hp * 0.1)} Vida</button>
+            <button className="btn btn-sm" disabled={busy} onClick={() => call("consumir", { index: i, kind: "dano" }, `Marca consumida: +${Math.ceil(mk.dmg * 0.1)} de dano.`)}>+{Math.ceil(mk.dmg * 0.1)} dano</button></>}</li>)}</ul>}
+        {gm && !hunt && <div className="flex flex-wrap items-end gap-2">
+          <select aria-label="Alvo" className="input !w-44 !py-1" value={a} onChange={(e) => setA(e.target.value)}><option value="">Alvo sem ficha…</option>{targets.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}</select>
+          {!a && <><input aria-label="Nome do alvo" className="input !w-32 !py-1" placeholder="Nome" value={b} onChange={(e) => setB(e.target.value)} /><input aria-label="Vida máxima do alvo" className={num} inputMode="numeric" placeholder="Vida máx." value={c} onChange={(e) => setC(e.target.value)} /></>}
+          <input aria-label="Dano máximo por golpe do alvo" className={num} inputMode="numeric" placeholder="Dano máx." value={d} onChange={(e) => setD(e.target.value)} />
+          <button className="btn btn-sm btn-primary" disabled={busy || dead || d === "" || (!a && (b.trim() === "" || c === ""))} onClick={async () => { const r = await call("marcar", a ? { target: a, dmg: Number(d) } : { name: b, hp: Number(c), dmg: Number(d) }, "Alvo marcado."); if (r.ok) { setA(""); setB(""); setC(""); setD(""); } }}>Marcar alvo</button>
+          {tg && <><input aria-label="Dano máximo por golpe do portador" className={num} inputMode="numeric" placeholder="Meu dano máx." value={c} onChange={(e) => setC(e.target.value)} />
+            <button className="btn btn-sm btn-danger" disabled={busy || dead || c === ""} onClick={async () => { const r = await call("iniciar", { user_dmg: Number(c) }, "Caçada iniciada."); if (r.ok) setC(""); }}>Iniciar Caçada</button></>}</div>}
+        {gm && hunt && <div className="flex flex-wrap items-end gap-2">
+          <button className="btn btn-sm btn-primary" disabled={busy} onClick={() => call("matar", {}, "Alvo abatido: Marca coletada.")}>Matou o alvo</button>
+          <input aria-label="1d10 de sanidade" className={num} inputMode="numeric" placeholder="1d10" value={a} onChange={(e) => setA(e.target.value)} />
+          <button className="btn btn-sm" disabled={busy || a === ""} onClick={async () => { const r = await call("cancelar", { sanity: Number(a) }, "Duelo cancelado: a marca foi perdida."); if (r.ok) setA(""); }}>Cancelar duelo (paga sanidade)</button></div>}
+        <Msg m={msg} /></div>);
+  }
+
+  if (m === "bau_mirral") {
+    return (
+      <div className={box}>
+        <p>{st.destroyed ? <b className="text-red-300">Baú destruído — a alma foi aniquilada.</b> : st.sealed ? <b className="text-arcane-400">● Alma selada — imortal. Sem fome, sono, dor ou colapso vital.</b> : st.barred ? <span className="text-parch-300">O baú foi aberto: esta pessoa jamais será aceita novamente.</span> : <span className="text-parch-300">O baú repousa aberto, esperando consentimento.</span>}</p>
+        {st.sealed && <p className="text-xs text-parch-500">Enquanto selada, a ficha não pode ser marcada como morta. “Novo corpo” devolve os atributos do momento do selamento.</p>}
+        {gm && <div className="flex flex-wrap gap-1">
+          {!st.sealed && !st.barred && <button className="btn btn-sm btn-danger" disabled={busy || dead} onClick={async () => { if (window.confirm("Selar a alma no Baú de Mirral? O personagem se torna imortal.")) await run("chest_action", { p_char_item: o.id, p_action: "selar" }, "Alma selada."); }}>Selar alma</button>}
+          {st.sealed && <><button className="btn btn-sm btn-primary" disabled={busy} onClick={async () => { if (window.confirm("Ligar o baú a um novo corpo? A ficha volta aos atributos do selamento.")) await run("chest_action", { p_char_item: o.id, p_action: "novo_corpo" }, "Novo corpo: atributos restaurados."); }}>Novo corpo</button>
+            <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm("Abrir o baú? Um novo corpo é criado e a pessoa jamais será aceita de novo.")) await run("chest_action", { p_char_item: o.id, p_action: "abrir" }, "Baú aberto."); }}>Baú aberto</button>
+            <button className="btn btn-sm btn-danger" disabled={busy} onClick={async () => { if (window.confirm("DESTRUIR o baú? A alma é aniquilada e a ficha é marcada como morta.")) await run("chest_action", { p_char_item: o.id, p_action: "destruir" }, "Baú destruído."); }}>Baú destruído</button></>}</div>}
         <Msg m={msg} /></div>);
   }
   return null;
