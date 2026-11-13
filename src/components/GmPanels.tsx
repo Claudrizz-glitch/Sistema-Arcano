@@ -160,7 +160,7 @@ export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Shee
   const { run, busy, msg, setMsg } = useRpc();
   const [casting, setCasting] = useState<string | null>(null); const [roll, setRoll] = useState(""); const [inv, setInv] = useState("");
   const ctx = { raceSlug: sheet.race_slug, progression: sheet.progression_slug, effectiveRaceCanCast: race.canCast, effectiveRaceName: race.name };
-  const block = (s: Spell) => spellBlock(ctx, { druidic: s.druidic, harmonic: s.harmonic, passive: s.passive, name: s.name, contract: s.kind === "contrato" });
+  const block = (s: Spell) => spellBlock(ctx, { druidic: s.druidic, harmonic: s.harmonic, passive: s.passive, name: s.name, contract: s.kind === "contrato", category: s.category });
   const available = catalog.filter((c) => !owned.some((o) => o.id === c.id));
   const ok = available.filter((s) => !block(s)); const no = available.filter((s) => block(s) && s.kind !== "contrato");
   const n = Number(roll); const rollOk = Number.isInteger(n) && n >= 1 && n <= 20; const invN = Number(inv);
@@ -172,7 +172,7 @@ export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Shee
     <div className="space-y-3">
       {owned.length === 0 ? <p className="text-sm text-parch-500">Nenhum feitiço concedido.</p> : (
         <ul className="space-y-2">{owned.map((s) => {
-          const why = block(s); const stepOk = !s.cost_step || (Number.isInteger(invN) && invN >= s.cost_step && invN % s.cost_step === 0); const cost = s.cost_step ? (stepOk ? invN : null) : s.mana_cost; const fc = casting === s.id && rollOk && cost !== null ? featCost(cost, n, race.featBonus) : null;
+          const why = block(s); const stepOk = !s.cost_step || (Number.isInteger(invN) && invN >= s.cost_step && invN % s.cost_step === 0); const cost = s.cost_step ? (stepOk ? invN : null) : s.mana_cost; const fc = casting === s.id && rollOk && cost !== null ? featCost(cost, n, race.featBonus, s.cd) : null;
           return (
           <li key={s.id} className="rounded-md border border-ink-600 p-3">
             <div className="flex flex-wrap items-start justify-between gap-2">
@@ -189,11 +189,12 @@ export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Shee
             {casting === s.id && !why && (
               <div className="mt-2 rounded-md border border-arcane-500/60 bg-ink-900 p-3 text-sm">
                 {s.cost_step ? (<div className="mb-2"><label className="label" htmlFor={`inv-${s.id}`}>Mana investida (múltiplos de {s.cost_step})</label><input id={`inv-${s.id}`} className="input w-28" inputMode="numeric" value={inv} onChange={(e) => setInv(e.target.value)} /></div>) : null}
-                <label className="label" htmlFor={`roll-${s.id}`}>Teste de Feitos Mágicos — resultado do d20 (1 a 20)</label>
+                <label className="label" htmlFor={`roll-${s.id}`}>Teste de Feitos Mágicos — resultado do d20 (1 a 20){s.cd !== null ? ` · CD ${s.cd}` : ""}</label>
+                <p className="mb-1 text-xs text-parch-500">Abaixo da CD, o custo de Mana sobe proporcionalmente; tirar 1 no dado custa 2×.</p>
                 <input id={`roll-${s.id}`} className="input w-28" inputMode="numeric" autoFocus value={roll} onChange={(e) => setRoll(e.target.value)} />
                 {race.featBonus > 0 && <p className="mt-1 text-xs text-arcane-400">Vantagem racial: +{race.featBonus} em Feitos Mágicos (somada ao dado).</p>}
                 {cost === null ? <p className="mt-2 text-red-300">{s.cost_step ? `Informe a Mana investida (múltiplos de ${s.cost_step}).` : "Este feitiço não tem custo cadastrado: o servidor recusará o desconto."}</p>
-                  : fc ? (<div className="mt-2 space-y-0.5"><p>Multiplicador: <b>{fc.multiplier.toFixed(1).replace(".", ",")}×</b>{fc.bonus ? ` (dado efetivo ${fc.effectiveRoll})` : ""} · Custo final: <b>{fc.cost}</b> de Mana <span className="text-xs text-parch-500">(base {fc.baseCost}, arredondado para cima)</span></p>
+                  : fc ? (<div className="mt-2 space-y-0.5"><p>Multiplicador: <b>{fc.multiplier.toFixed(2).replace(".", ",")}×</b>{fc.bonus ? ` (dado efetivo ${fc.effectiveRoll})` : ""} · Custo final: <b>{fc.cost}</b> de Mana <span className="text-xs text-parch-500">(base {fc.baseCost}, arredondado para cima)</span></p>
                     <p>Mana: {sheet.mana_current ?? "—"} → <b className={(sheet.mana_current ?? 0) < fc.cost ? "text-red-300" : ""}>{(sheet.mana_current ?? 0) - fc.cost}</b></p>
                     {(sheet.mana_current ?? 0) < fc.cost && <p className="text-red-300">Mana insuficiente — o servidor não permitirá a conjuração.</p>}</div>)
                   : <p className="mt-2 text-parch-500">Informe o resultado do dado para calcular o custo.</p>}

@@ -33,13 +33,16 @@ test("tabelas oficiais: todos os 21 níveis de cada raça batem exatamente com o
   }
 });
 
-test("Feitos Mágicos: tabela de multiplicadores e arredondamento para cima", () => {
-  const exp: Record<number, number> = { 20: 100, 11: 100, 10: 100, 9: 120, 8: 130, 7: 140, 6: 150, 5: 160, 4: 170, 3: 180, 2: 190, 1: 200 };
-  for (const [roll, cost] of Object.entries(exp)) assert.equal(featCost(100, Number(roll)).cost, cost, `d20=${roll}`);
-  assert.equal(featCost(15, 8).cost, 20); // 19,5 → 20
-  assert.equal(featCost(40, 1).multiplier, 2);
+test("Feitos Mágicos: abaixo da CD o custo sobe proporcionalmente até 2× no 1", () => {
+  // CD 11: 11+ → 100 · 10 → 110 · 6 → 150 · 2 → 190 · 1 → 200
+  const exp: Record<number, number> = { 20: 100, 11: 100, 10: 110, 6: 150, 2: 190, 1: 200 };
+  for (const [roll, cost] of Object.entries(exp)) assert.equal(featCost(100, Number(roll), 0, 11).cost, cost);
+  assert.equal(featCost(15, 8, 0, 10).cost, 19); // 15 × 11/9 = 18,33 → 19
+  assert.equal(featCost(40, 1, 0, 5).multiplier, 2);
+  assert.equal(featCost(40, 1, 5, 5).cost, 80); // 1 no dado é sempre 2×, mesmo com bônus
+  assert.equal(featCost(100, 3, 0, null).cost, 100); // sem CD: custo normal
   assert.throws(() => featCost(100, 0)); assert.throws(() => featCost(100, 21));
-  assert.equal(featCost(100, 4, 5).cost, 120); // Profano: +5 → 9
+  assert.equal(featCost(100, 6, 5, 12).cost, 110); // Profano: 6+5 = 11, CD 12 → 100 × 12/11 = 109,1 → 110
 });
 
 test("sangramento: % do HP máximo, arredondado para cima, nunca zero", () => {
@@ -59,16 +62,16 @@ test("absorção: 1/s = 6 por turno; 5/s = 30; respeita destino e origem", () =>
   assert.equal(absorptionTransfer(30, 18, null), 18); assert.equal(absorptionTransfer(6, 22, 4), 4); assert.equal(absorptionTransfer(6, 0, 10), 0);
 });
 
-test("calendário: começa no dia 69 do inverno; 22 dias até a primavera; Grande Eclipse a cada 22 anos", () => {
+test("calendário: ano 44, dia 69 do Inverno; Eclipse no 1º da Primavera a cada 22 anos (0, 22, 44…)", () => {
   const d0 = calendarDate(0, 6);
-  assert.deepEqual([d0.season, d0.day, d0.year], ["Inverno", 69, 1]);
-  assert.equal(d0.eclipse.daysUntil, 22); // inverno termina no dia 90; o 1º dia da primavera chega 22 dias depois do dia 69
+  assert.deepEqual([d0.season, d0.day, d0.year], ["Inverno", 69, 44]);
+  assert.deepEqual([d0.eclipse.year, d0.eclipse.daysUntil], [44, 22]);
   const day = 14400; // turnos de 6 s em 1 dia
   assert.deepEqual([calendarDate(21 * day, 6).season, calendarDate(21 * day, 6).day], ["Inverno", 90]);
   const e = calendarDate(22 * day, 6);
-  assert.deepEqual([e.season, e.day, e.year, e.eclipse.isToday], ["Primavera", 1, 2, true]);
-  const next = calendarDate(23 * day, 6); assert.equal(next.eclipse.year, 24); assert.equal(next.eclipse.daysUntil, 7919);
-  assert.equal(calendarDate((22 + 360) * day, 6).year, 3);
+  assert.deepEqual([e.season, e.day, e.year, e.eclipse.isToday], ["Primavera", 1, 44, true]);
+  const next = calendarDate(23 * day, 6); assert.equal(next.eclipse.year, 66); assert.equal(next.eclipse.daysUntil, 22 * 360 - 1);
+  assert.equal(calendarDate((22 + 270) * day, 6).year, 45); // o ano vira no 1º do Inverno
 });
 
 test("Velocidade (N=4) e Força de Massa seguem piso((nível−1)/N); nível 0 dobra", () => {
@@ -95,7 +98,10 @@ test("elegibilidade racial de feitiços", () => {
   assert.equal(spellBlock(ch("druida", "druida_puro"), { ...sp, harmonic: false }), null);
   assert.equal(spellBlock(ch("humano", "druida_puro"), sp), null);                  // acesso independe da raça original
   assert.ok(spellBlock(ch("humano", "humano"), sp)); assert.ok(spellBlock(ch("forjado", "forjado"), sp)); assert.ok(spellBlock(ch("profano", "profano"), sp));
-  assert.ok(spellBlock(ch("humano", "humano"), { druidic: false, harmonic: null, passive: true, name: "Ruptura" })); // Ruptura não é feitiço
+  assert.ok(spellBlock(ch("humano", "humano"), { druidic: false, harmonic: null, passive: true, name: "Regra" })); // regra passiva não é feitiço
+  assert.equal(spellBlock(ch("druida", "druida"), { druidic: false, harmonic: null, passive: false, name: "Égide", category: "Técnica fundamental" }), null); // manipulação de mana
+  assert.ok(spellBlock(ch("druida", "druida"), { druidic: false, harmonic: null, passive: false, name: "Lumus", category: "Feitiço geral" }));
+  assert.equal(spellBlock(ch("druida", "druida_puro"), { druidic: false, harmonic: null, passive: false, name: "Lumus", category: "Feitiço geral" }), null);
 });
 
 test("bênçãos extras automáticas", () => {

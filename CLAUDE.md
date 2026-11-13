@@ -44,9 +44,14 @@ druídicos, contratos) · seções com instrução de exportação (abaixo).
 - Retratos de jogadores e NPCs existem só dentro do doc (não há cópia local).
 - Arquivos originais são grandes: otimizar (ex.: WebP) antes de colocar em `public/`.
 
-## Calendário (decisão do usuário, 2026-11-12)
-A campanha começa no **dia 69 do Inverno**; o Inverno termina no dia 90, faltando exatamente 22 dias para o 1º da Primavera
-(Grande Eclipse). Roteiro do doc: 1ª sessão 69, 2ª sessão 71, amanhecer do dia 72 = data atual da campanha "O Eclipse".
+## Calendário (decisão do usuário, 2026-11-14)
+Anos contados desde o Clube de Tarot e a criação da Capital (ano 0). O ano começa no Inverno (Inverno, Primavera, Verão, Outono;
+90 dias cada). Grande Eclipse no 1º da Primavera dos anos 0, 22, 44… A campanha "O Eclipse" começou no dia 69 do Inverno do ano 44
+(22 dias até o Eclipse). Roteiro: 1ª sessão 69, 2ª sessão 71, amanhecer do dia 72.
+
+## Regras decididas (2026-11-14)
+- Teste de Feitos Mágicos: abaixo da CD, custo de mana sobe proporcionalmente até 2× com 1 no dado (cast_spell / featCost).
+- Druída comum: feitiços druídicos harmônicos + manipulação de mana (categoria "Técnica fundamental"). Druída Puro: tudo.
 
 ## Banco
 Migrações versionadas em `supabase/migrations/` (a partir da 0014); scripts de dados em `supabase/data/`.

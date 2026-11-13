@@ -1,16 +1,17 @@
 export type RaceInfo = { slug: string; progression: string; canCast: boolean; name: string };
-export type SpellInfo = { druidic: boolean; harmonic: boolean | null; passive: boolean; name: string; contract?: boolean };
+export type SpellInfo = { druidic: boolean; harmonic: boolean | null; passive: boolean; name: string; contract?: boolean; category?: string };
 /** Espelho (apenas para a interface) da validação do servidor `_spell_block`. Retorna o motivo do bloqueio ou null. */
 export function spellBlock(char: { raceSlug: string; progression: string; effectiveRaceCanCast: boolean; effectiveRaceName: string }, s: SpellInfo): string | null {
   if (s.contract) return `${s.name} é um contrato geral: registre-o na seção Contratos da ficha.`;
   if (s.passive) return `${s.name} é uma regra passiva, não um feitiço conjurável.`;
   if (!char.effectiveRaceCanCast) return `${char.effectiveRaceName} não pode realizar magia.`;
+  if (char.progression === "druida_puro") return null; // Druída Puro: qualquer feitiço
+  const msg = "Druídas comuns acessam apenas feitiços druídicos harmônicos e a manipulação de mana.";
   if (s.druidic) {
-    if (char.progression === "druida_puro") return null;
-    if (char.raceSlug === "druida") return s.harmonic === true ? null : "Druídas comuns acessam apenas feitiços druídicos harmônicos.";
+    if (char.raceSlug === "druida") return s.harmonic === true ? null : msg;
     return "Feitiços druídicos exigem Druída ou Druída Puro.";
   }
-  if (char.raceSlug === "druida" && char.progression !== "druida_puro") return "Druídas comuns acessam apenas feitiços druídicos harmônicos.";
+  if (char.raceSlug === "druida" && s.category !== "Técnica fundamental") return msg;
   return null;
 }
 /** Bênçãos extras: concedida quando TODAS as comuns do grupo estão presentes; removida (se automática) quando deixam de estar. */

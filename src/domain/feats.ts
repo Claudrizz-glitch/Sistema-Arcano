@@ -1,18 +1,17 @@
 /**
- * Feitos Mágicos: o resultado do d20 (informado pelo Mestre) multiplica o CUSTO de Mana.
- * Tabela oficial (prevalece sobre a frase "+0,1 por ponto", que daria 9 → 1,1x): 10+ → 1,0x · 9 → 1,2x · … · 1 → 2,0x.
- * Representado em décimos para evitar erro de ponto flutuante.
+ * Teste de Feitos Mágicos (decisão do Mestre, 2026-11-14): rola-se 1d20 antes de conjurar.
+ * Na CD do feitiço ou acima: custo normal. Abaixo da CD: o custo de Mana sobe proporcionalmente,
+ * até 2× quando se tira 1 no dado. Custo final arredondado para CIMA. `bonus` = vantagem racial (Profano +5).
  */
-export function feat_tenths(roll: number): number {
-  if (!Number.isInteger(roll) || roll < 1) throw new Error("Resultado do dado inválido");
-  return roll >= 10 ? 10 : 21 - roll;
-}
-export type FeatCost = { baseCost: number; roll: number; bonus: number; effectiveRoll: number; multiplier: number; cost: number };
-/** `bonus` = vantagem racial (Profano +5). Custo final arredondado para CIMA. */
-export function featCost(baseCost: number, roll: number, bonus = 0): FeatCost {
+export type FeatCost = { baseCost: number; roll: number; bonus: number; effectiveRoll: number; cd: number | null; multiplier: number; cost: number };
+export function featCost(baseCost: number, roll: number, bonus = 0, cd: number | null = null): FeatCost {
   if (!Number.isInteger(roll) || roll < 1 || roll > 20) throw new Error("O resultado do d20 deve ser de 1 a 20");
   if (!Number.isInteger(baseCost) || baseCost < 0) throw new Error("Custo-base inválido");
   const effectiveRoll = roll + bonus;
-  const tenths = feat_tenths(effectiveRoll);
-  return { baseCost, roll, bonus, effectiveRoll, multiplier: tenths / 10, cost: Math.ceil((baseCost * tenths) / 10) };
+  let cost: number;
+  if (roll === 1) cost = baseCost * 2;
+  else if (cd === null || cd <= 1 || effectiveRoll >= cd) cost = baseCost;
+  else cost = Math.min(baseCost * 2, Math.ceil((baseCost * (2 * cd - 1 - effectiveRoll)) / (cd - 1)));
+  const multiplier = baseCost === 0 ? 1 : Math.round((cost / baseCost) * 100) / 100;
+  return { baseCost, roll, bonus, effectiveRoll, cd, multiplier, cost };
 }
