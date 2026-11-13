@@ -244,7 +244,7 @@ export function BlessingsSection({ sheet, owned, catalog, gm, rights }: { sheet:
 
 /* ---------- itens e equipamentos ---------- */
 export type OwnedItem = CharItem & { item: Item };
-export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeconds = 6, turn = 0, blessings = [] }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean; targets?: { id: string; name: string; level: number }[]; turnSeconds?: number; turn?: number; blessings?: string[] }) {
+export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeconds = 6, turn = 0, turnBase = 0, blessings = [] }: { sheet: Sheet; owned: OwnedItem[]; catalog: Item[]; gm: boolean; targets?: { id: string; name: string; level: number }[]; turnSeconds?: number; turn?: number; turnBase?: number; blessings?: string[] }) {
   const { run, busy, msg } = useRpc(); const [qty, setQty] = useState("1");
   return (
     <div className="space-y-3">
@@ -264,7 +264,7 @@ export function ItemsSection({ sheet, owned, catalog, gm, targets = [], turnSeco
                   {o.state?.wielded && <SacrificeForm charItem={o.id} />}</div>}
               </div>)}
             <ItemMechanics o={o} sheet={sheet} gm={gm} targets={targets} turnSeconds={turnSeconds} />
-            <ItemMechanics2 o={o} sheet={sheet} gm={gm} targets={targets} turn={turn} blessings={blessings} />
+            <ItemMechanics2 o={o} sheet={sheet} gm={gm} targets={targets} turn={turn} turnBase={turnBase} blessings={blessings} />
             {gm && <div className="flex gap-1">
               {!o.item.properties?.mechanic && <button className="btn btn-sm" disabled={busy} onClick={() => run("set_equipped", { p_char_item: o.id, p_equipped: !o.equipped })}>{o.equipped ? "Desequipar" : "Equipar"}</button>}
               <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(["estigma", "coracao_rubro", "ovelha_lobo", "olho_de_cobra", "bau_mirral"].includes(String(o.item.properties?.mechanic)) ? `“${o.item.name}” é permanente pelas regras. Remover mesmo assim (apaga contadores e estado)?` : `Remover “${o.item.name}” da ficha?`)) await run("revoke_item", { p_char_item: o.id }, "Item removido."); }}>Remover</button></div>}
@@ -359,7 +359,8 @@ function ItemMechanics({ o, sheet, gm, targets, turnSeconds }: { o: OwnedItem; s
 
 /* ---------- mecânicas dos itens (Fases 2 e 3) — só o Mestre aciona; o jogador vê o painel ---------- */
 const HEART_TIERS: [number, number, string][] = [[99, 5, "Morte iminente no mesmo turno"], [84, 4, "Apagões, colapso muscular, estado de choque"], [67, 3, "Visão escurecendo, tremores fortes, perda de equilíbrio"], [50, 2.5, "Confusão, dor no peito, perda de coordenação"], [34, 2, "Visão turva, respiração acelerada, fraqueza"], [17, 1.5, "Tontura leve e suor frio"], [9, 1.2, "Aumento de frequência cardíaca"]];
-function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedItem; sheet: Sheet; gm: boolean; targets: { id: string; name: string; level: number }[]; turn: number; blessings: string[] }) {
+function ItemMechanics2({ o, sheet, gm, targets, turn, turnBase, blessings }: { o: OwnedItem; sheet: Sheet; gm: boolean; targets: { id: string; name: string; level: number }[]; turn: number; turnBase: number; blessings: string[] }) {
+  const rel = (n: number) => (n >= turnBase ? `turno ${n - turnBase}` : "um ponto da sessão anterior");
   const { run, busy, msg, setMsg } = useRpc();
   const [a, setA] = useState(""); const [b, setB] = useState(""); const [c, setC] = useState(""); const [d, setD] = useState("");
   const p = o.item.properties ?? {}; const m = p.mechanic as string | undefined; const st = (o.state ?? {}) as Record<string, any>; const dead = sheet.status === "morta";
@@ -370,7 +371,7 @@ function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedIt
     const glow = st.glow_until != null && turn <= st.glow_until; const hits = glow ? (st.hits ?? 0) : 0; const perm = glow ? (st.perm ?? 0) : 0; const cd = 18 - perm - hits;
     return (
       <div className={box}>
-        <p>CD de Ruptura atual: <b className="text-xl text-gold-300">{cd}</b> {glow ? <span className="badge ml-1 border-wine-400 text-red-300">● brilhando até o turno {st.glow_until}</span> : <span className="text-xs text-parch-500">lâmina apagada (CD base 18)</span>}</p>
+        <p>CD de Ruptura atual: <b className="text-xl text-gold-300">{cd}</b> {glow ? <span className="badge ml-1 border-wine-400 text-red-300">● brilhando até o {rel(st.glow_until)}</span> : <span className="text-xs text-parch-500">lâmina apagada (CD base 18)</span>}</p>
         <p className="text-xs text-parch-500">Cada ataque básico reduz a CD em 1 e renova o brilho por 12 s (2 turnos). Ruptura ativada: a CD volta ao valor base, que fica 1 ponto menor enquanto o brilho durar. Anões podem usar.</p>
         {gm && <div className="flex flex-wrap items-end gap-2">
           <button className="btn btn-sm" disabled={busy || dead} onClick={async () => { const r = await run("crimson_attack", { p_char_item: o.id }); if (r.ok) setMsg({ kind: "ok", text: `Ataque básico: CD de Ruptura agora ${r.data.cd}.` }); }}>Ataque básico</button>
@@ -443,13 +444,13 @@ function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedIt
     return (
       <div className={box}>
         <p>Mitigação atual na cabeça: <b className="text-xl text-gold-300">{mit}</b> <span className="text-xs text-parch-500">(máx. 1d20; perde 1d4 a cada mitigação)</span></p>
-        <p>{has ? <>Ponto de Retorno: <b>turno {st.snap_turn}</b> · Retornos usados: <b>{ret}/2</b></> : <span className="text-parch-300">Sem Ponto de Retorno registrado.</span>}{st.revanche && <> · Bênção da revanche: <b className="text-arcane-400">{st.revanche}</b></>}</p>
+        <p>{has ? <>Ponto de Retorno: <b>{rel(st.snap_turn)}</b> · Retornos usados: <b>{ret}/2</b></> : <span className="text-parch-300">Sem Ponto de Retorno registrado.</span>}{st.revanche && <> · Bênção da revanche: <b className="text-arcane-400">{st.revanche}</b></>}</p>
         <p className="text-xs text-parch-500">“Retornar” restaura TODAS as fichas da campanha ao Ponto de Retorno (recursos, itens, efeitos) e volta o tempo do calendário. As memórias são mantidas.</p>
         {gm && <div className="flex flex-wrap items-end gap-2">
           <button className="btn btn-sm btn-primary" disabled={busy || dead} onClick={async () => { if (!has || window.confirm("Substituir o Ponto de Retorno atual?")) await run("helm_action", { p_char_item: o.id, p_action: "ponto" }, "Ponto de Retorno registrado."); }}>Registrar Ponto de Retorno</button>
           <input aria-label="1d4 perdido" className={num} inputMode="numeric" placeholder="1d4" value={a} onChange={(e) => setA(e.target.value)} />
           <button className="btn btn-sm" disabled={busy || a === ""} onClick={async () => { const r = await run("helm_action", { p_char_item: o.id, p_action: "mitigar", p_value: Number(a) }, "Mitigação reduzida."); if (r.ok) setA(""); }}>Mitigou</button>
-          <button className="btn btn-sm btn-danger" disabled={busy || !has || ret >= 2} onClick={async () => { if (window.confirm(`RETORNAR ao turno ${st.snap_turn}? Todas as fichas voltam ao estado do Ponto de Retorno e o tempo retrocede.`)) await run("helm_action", { p_char_item: o.id, p_action: "retornar" }, "Retorno realizado: tudo voltou ao Ponto de Retorno."); }}>Retornar</button>
+          <button className="btn btn-sm btn-danger" disabled={busy || !has || ret >= 2} onClick={async () => { if (window.confirm(`RETORNAR ao ${rel(st.snap_turn)}? Todas as fichas voltam ao estado do Ponto de Retorno e o tempo retrocede.`)) await run("helm_action", { p_char_item: o.id, p_action: "retornar" }, "Retorno realizado: tudo voltou ao Ponto de Retorno."); }}>Retornar</button>
           <select aria-label="Bênção da revanche" className="input !w-44 !py-1" value={b} onChange={(e) => setB(e.target.value)}><option value="">Bênção da revanche…</option>{blessings.map((x) => <option key={x} value={x}>{x}</option>)}</select>
           <button className="btn btn-sm" disabled={busy || !b} onClick={async () => { const r = await run("helm_action", { p_char_item: o.id, p_action: "revanche", p_text: b }, "Bênção da revanche definida."); if (r.ok) setB(""); }}>Definir</button>
           <button className="btn btn-sm" disabled={busy || !has} onClick={async () => { if (window.confirm("Encerrar o combate? O Ponto de Retorno é apagado.")) await run("helm_action", { p_char_item: o.id, p_action: "encerrar" }, "Combate encerrado."); }}>Fim do combate</button></div>}
@@ -528,7 +529,7 @@ function ItemMechanics2({ o, sheet, gm, targets, turn, blessings }: { o: OwnedIt
     const away = st.away_until != null && turn < st.away_until;
     return (
       <div className={box}>
-        <p>{away ? <><b className="text-amber-300">○ Fora do bolso</b> — volta ao amanhecer (turno {st.away_until}; faltam {st.away_until - turn} turnos)</> : <b className="text-gold-300">● No bolso do dono</b>}</p>
+        <p>{away ? <><b className="text-amber-300">○ Fora do bolso</b> — volta ao amanhecer (faltam {st.away_until - turn} turnos)</> : <b className="text-gold-300">● No bolso do dono</b>}</p>
         <p className="text-xs text-parch-500">Moeda de ouro mágica: se for gasta ou perdida, reaparece no bolso do dono no amanhecer (06:00).</p>
         {gm && <div className="flex flex-wrap gap-1">
           <button className="btn btn-sm" disabled={busy || away} onClick={() => tk("gastar", undefined, "Moeda gasta: volta ao amanhecer.")}>Gastou / perdeu a moeda</button>
@@ -602,7 +603,7 @@ export function ModifiersSection({ sheet, mods }: { sheet: Sheet; mods: CharModi
 }
 
 /* ---------- histórico ---------- */
-export function LogSection({ log, gm }: { log: LogRow[]; gm: boolean }) {
+export function LogSection({ log, gm, turnBase = 0 }: { log: LogRow[]; gm: boolean; turnBase?: number }) {
   const { run, busy, msg } = useRpc();
   if (log.length === 0) return <p className="text-sm text-parch-500">Sem registros ainda.</p>;
   return (
@@ -612,7 +613,7 @@ export function LogSection({ log, gm }: { log: LogRow[]; gm: boolean }) {
         const det = r.mana_before !== undefined ? `Mana ${r.mana_before} → ${r.mana_after}${r.spell ? ` (${r.spell})` : ""}` : r.hp_before !== undefined ? `Vida ${r.hp_before} → ${r.hp_after}` : "";
         return (
           <li key={l.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
-            <span><b className={l.reverted_at ? "text-parch-500 line-through" : "text-gold-300"}>{ACTION_LABEL[l.action] ?? l.action}</b> {det} <span className="text-xs text-parch-500">· turno {l.turn ?? "—"} · {new Date(l.created_at).toLocaleString("pt-BR")}</span>{l.reverted_at && <span className="badge ml-2 border-ink-600">revertida</span>}</span>
+            <span><b className={l.reverted_at ? "text-parch-500 line-through" : "text-gold-300"}>{ACTION_LABEL[l.action] ?? l.action}</b> {det} <span className="text-xs text-parch-500">{l.turn != null && l.turn >= turnBase ? ` · turno ${l.turn - turnBase}` : ""} · {new Date(l.created_at).toLocaleString("pt-BR")}</span>{l.reverted_at && <span className="badge ml-2 border-ink-600">revertida</span>}</span>
             {gm && REVERSIBLE.includes(l.action) && !l.reverted_at && <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm("Reverter esta ação? O histórico original é preservado.")) await run("revert_action", { p_action: l.id }, "Ação revertida."); }}>Reverter</button>}
           </li>);
       })}</ul>

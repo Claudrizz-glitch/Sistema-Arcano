@@ -12,7 +12,7 @@ import type { Absorption, Bleeding, BleedGradeRow, Blessing, CharBlessing, CharC
 const TABLES = ["characters", "character_spells", "character_blessings", "character_items", "character_contracts", "character_modifiers", "character_bleedings", "mana_absorptions", "action_log"];
 export default async function FichaPage({ params }: { params: Promise<{ id: string; cid: string }> }) {
   const { id, cid } = await params;
-  const { sb, campaign, role, user } = await campaignContext(id);
+  const { sb, campaign, role, user, sessionStart } = await campaignContext(id);
   const gm = role === "mestre";
   // RLS: jogador só enxerga a própria ficha; NPC/ficha alheia => vazio => 404
   const { data: row } = await sb.from("v_characters").select("*").eq("id", cid).eq("campaign_id", id).maybeSingle();
@@ -132,7 +132,7 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
           <Card title="Vida, mana e sanidade"><ResourcePanel sheet={sheet} race={ctx} /></Card>
           <Card title="Nível e experiência"><LevelPanel sheet={sheet} xpNeeded={xpNeeded} canConvert={sheet.progression_slug !== "druida_puro" && sheet.status !== "morta"} /></Card>
           <Card title="Modificadores e efeitos"><ModifiersSection sheet={sheet} mods={(cm ?? []) as CharModifier[]} /></Card>
-          {hasBar && <Card title="Sangramento"><BleedingPanel sheet={sheet} grades={(gr ?? []) as BleedGradeRow[]} bleedings={bleedings} bar={barMax} /></Card>}
+          {hasBar && <Card title="Sangramento"><BleedingPanel sheet={sheet} grades={(gr ?? []) as BleedGradeRow[]} bleedings={bleedings} bar={barMax} turnBase={sessionStart} /></Card>}
           {ctx.manaIsLife && <Card title="Forjado — absorção de mana e núcleo"><ForgedPanel sheet={sheet} absorptions={(ab0 ?? []) as Absorption[]} others={others} turnSeconds={campaign.turn_seconds} /></Card>}
         </div>
       )}
@@ -140,14 +140,14 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
       <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Feitiços"><SpellsSection sheet={sheet} owned={ownedSpells} catalog={spellCat} gm={gm} race={ctx} deck={ownedItems.some((x) => x.item.properties?.mechanic === "baralho_arcano")} /></Card>
         <Card title="Bênçãos"><BlessingsSection sheet={sheet} owned={ownedBless} catalog={blessCat} gm={gm} rights={rights} /></Card>
-        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} turn={campaign.current_turn} blessings={blessCat.map((b) => b.name)} /></Card>
+        <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} turn={campaign.current_turn} turnBase={sessionStart} blessings={blessCat.map((b) => b.name)} /></Card>
         <Card title="Contratos"><ContractsSection sheet={sheet} owned={(cc ?? []) as CharContract[]} gm={gm} /></Card>
       </div>
       <Card title="Descrição, inventário e anotações">
         {gm ? <GmEditForm sheet={sheet} /> : canEditText ? <PlayerEditForm sheet={sheet} /> : (<div className="space-y-2 text-sm"><p className="whitespace-pre-line">{sheet.description || "—"}</p><p className="whitespace-pre-line text-parch-300">{sheet.inventory_text}</p></div>)}
         {!gm && sheet.narrative_notes && <p className="mt-3 whitespace-pre-line text-sm text-parch-300">{sheet.narrative_notes}</p>}
       </Card>
-      <Card title="Histórico de alterações"><LogSection log={(lg ?? []) as LogRow[]} gm={gm} /></Card>
+      <Card title="Histórico de alterações"><LogSection log={(lg ?? []) as LogRow[]} gm={gm} turnBase={sessionStart} /></Card>
     </div>
   );
 }

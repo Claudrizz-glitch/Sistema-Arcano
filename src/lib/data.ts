@@ -16,7 +16,12 @@ export async function campaignContext(id: string) {
   if (!c) notFound();
   const { data: m } = await ctx.sb.from("campaign_members").select("role").eq("campaign_id", id).eq("user_id", ctx.user.id).maybeSingle();
   if (!m) notFound();
-  return { ...ctx, campaign: c as Campaign, role: (m as { role: Role }).role };
+  // O contador de turnos mostrado no site recomeça a cada sessão; o calendário usa o turno absoluto e continua.
+  const { data: ses } = await ctx.sb.from("sessions").select("number,start_turn").eq("campaign_id", id).not("started_at", "is", null).order("number", { ascending: false }).limit(1).maybeSingle();
+  const sessionStart = Number((ses as { start_turn: number } | null)?.start_turn ?? 0);
+  const campaign = c as Campaign;
+  return { ...ctx, campaign, role: (m as { role: Role }).role, sessionStart, sessionNumber: (ses as { number: number } | null)?.number ?? null,
+    sessionTurn: Math.max(0, campaign.current_turn - sessionStart) };
 }
 export async function requireGm(id: string) {
   const ctx = await campaignContext(id);

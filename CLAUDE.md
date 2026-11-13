@@ -91,3 +91,8 @@ ATENÇÃO: o banco, chamado pelo site, recusa DELETE/UPDATE sem WHERE dentro das
 ## Membros e defesas (2026-11-16)
 remove_member(campanha, usuário): só o Mestre; as fichas do jogador voltam ao Mestre como reservadas. defense_wear: armaduras e
 escudos perdem 1d4 de mitigação por uso (estado em character_items.state.mit). Todas as lacunas de regra (rule_gaps) estão resolvidas.
+
+## Turno da sessão (2026-11-16)
+campaigns.current_turn é absoluto e move o calendário. O "turno N" mostrado no site é relativo à sessão atual:
+current_turn − sessions.start_turn (campaignContext devolve sessionStart / sessionTurn / sessionNumber). Iniciar uma sessão
+zera o contador mostrado e NÃO mexe no calendário: a sessão começa do mesmo ponto em que a anterior parou.

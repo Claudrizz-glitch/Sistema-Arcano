@@ -5,7 +5,8 @@ import { Bar } from "./ui";
 import type { Encounter, Participant, Sheet } from "@/lib/types";
 
 /* ---------- avançar turno ---------- */
-export function TimePanel({ campaignId, turn, turnSeconds }: { campaignId: string; turn: number; turnSeconds: number }) {
+export function TimePanel({ campaignId, turn, turnSeconds, sessionStart = 0, sessionNumber = null }: { campaignId: string; turn: number; turnSeconds: number; sessionStart?: number; sessionNumber?: number | null }) {
+  const rel = (n: number) => Math.max(0, n - sessionStart);
   const { run, busy, msg, setMsg } = useRpc();
   const [n, setN] = useState("1"); const [unit, setUnit] = useState<"turnos" | "horas" | "dias">("turnos"); const [last, setLast] = useState<any>(null);
   const perUnit = unit === "turnos" ? 1 : unit === "horas" ? Math.round(3600 / turnSeconds) : Math.round(86400 / turnSeconds);
@@ -14,11 +15,11 @@ export function TimePanel({ campaignId, turn, turnSeconds }: { campaignId: strin
     const r = await run(by > 1000 ? "advance_time" : "advance_turn", by > 1000
       ? { p_campaign: campaignId, p_expected_turn: turn, p_turns: by, p_key: newKey() }
       : { p_campaign: campaignId, p_expected_turn: turn, p_by: by, p_key: newKey() });
-    if (r.ok) { setLast(r.data); setMsg({ kind: "ok", text: `Turno ${r.data.from_turn} → ${r.data.to_turn} (${label(by)} de tempo).` }); }
+    if (r.ok) { setLast(r.data); setMsg({ kind: "ok", text: `Turno ${rel(r.data.from_turn)} → ${rel(r.data.to_turn)} (${label(by)} de tempo).` }); }
   }
   return (
     <div className="space-y-3">
-      <p className="text-sm text-parch-300">Turno atual: <b className="text-2xl text-gold-300">{turn}</b></p>
+      <p className="text-sm text-parch-300">Turno atual{sessionNumber ? ` da sessão ${sessionNumber}` : ""}: <b className="text-2xl text-gold-300">{rel(turn)}</b></p>
       <div className="flex flex-wrap items-end gap-2">
         <button className="btn btn-primary text-base" disabled={busy} onClick={() => advance(1)}>Passar para o próximo turno</button>
         <div><label className="label" htmlFor="ntr">Passar tempo</label><div className="flex gap-1">

@@ -8,7 +8,7 @@ import type { Member, Sheet } from "@/lib/types";
 
 export default async function Visao({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { sb, campaign, role, user } = await campaignContext(id);
+  const { sb, campaign, role, user, sessionTurn, sessionNumber } = await campaignContext(id);
   const gm = role === "mestre";
   const { data: ms } = await sb.from("campaign_members").select("*").eq("campaign_id", id);
   const members = (ms ?? []) as Member[];
@@ -26,7 +26,7 @@ export default async function Visao({ params }: { params: Promise<{ id: string }
           <p className="text-sm text-parch-300">{campaign.description || "Sem descrição."}</p>
           {(() => { const fd = fictionalDate(campaign.current_turn, campaign.turn_seconds, campaign.calendar_config); return (<>
             <p className="mt-3 text-sm">Data de Arkhavel: <b className="text-gold-300">{dateLabel(fd)}</b> · {fd.time}</p>
-            <p className="mt-1 text-sm text-parch-300">{eclipseLabel(fd)} · turno {campaign.current_turn} (1 turno = {campaign.turn_seconds} s)</p></>); })()}
+            <p className="mt-1 text-sm text-parch-300">{eclipseLabel(fd)} · turno {sessionTurn}{sessionNumber ? ` da sessão ${sessionNumber}` : ""} (1 turno = {campaign.turn_seconds} s)</p></>); })()}
         </Card>
         {gm && pend.length > 0 && (
           <Card title={`Fichas aguardando aprovação (${pend.length})`}>

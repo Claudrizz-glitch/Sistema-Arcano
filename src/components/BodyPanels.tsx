@@ -5,7 +5,7 @@ import { bleedLoss } from "@/domain/bleeding";
 import type { Absorption, Bleeding, BleedGradeRow, Sheet } from "@/lib/types";
 
 /** Sangramento: todas as fichas ativas com barra de recurso. Cada ferimento é registrado e encerrado individualmente. */
-export function BleedingPanel({ sheet, grades, bleedings, bar }: { sheet: Sheet; grades: BleedGradeRow[]; bleedings: Bleeding[]; bar: number | null }) {
+export function BleedingPanel({ sheet, grades, bleedings, bar, turnBase = 0 }: { sheet: Sheet; grades: BleedGradeRow[]; bleedings: Bleeding[]; bar: number | null; turnBase?: number }) {
   const { run, busy, msg, setMsg } = useRpc();
   const [grade, setGrade] = useState("1"); const [note, setNote] = useState("");
   const [bDmg, setBDmg] = useState(""); const [bTurns, setBTurns] = useState("");
@@ -26,7 +26,7 @@ export function BleedingPanel({ sheet, grades, bleedings, bar }: { sheet: Sheet;
               <li key={b.id} className="flex flex-wrap items-start justify-between gap-2 rounded-md border border-ink-600 p-2 text-sm">
                 <span>{b.kind === "queimadura" ? <b className="text-gold-300">🔥 Queimadura — {b.flat_damage} por turno{b.turns_left ? ` · ${b.turns_left} turno(s) restantes` : " · até ser tratada"}</b> : b.kind === "privacao" ? <b className="text-gold-300">Privação de mana (5%/turno)</b> : <b className="text-gold-300">Grau {b.grade}{b.rate_percent ? ` — ${b.rate_percent}%` : " — morte iminente"}</b>}
                   {b.rate_percent && bar ? <span className="ml-2 text-xs text-red-300">−{bleedLoss(bar, b.rate_percent)}/turno</span> : null}
-                  <span className="block text-xs text-parch-500">{b.kind === "queimadura" ? "Dano fixo por turno." : info?.description ?? "Mais de 1 minuto sem a barra cheia."}{b.note ? ` · ${b.note}` : ""} · desde o turno {b.started_turn}</span></span>
+                  <span className="block text-xs text-parch-500">{b.kind === "queimadura" ? "Dano fixo por turno." : info?.description ?? "Mais de 1 minuto sem a barra cheia."}{b.note ? ` · ${b.note}` : ""} · {b.started_turn >= turnBase ? `desde o turno ${b.started_turn - turnBase}` : "desde uma sessão anterior"}</span></span>
                 <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm("Encerrar este sangramento?")) await run("remove_bleeding", { p_bleeding: b.id }, "Sangramento encerrado."); }}>Encerrar</button>
               </li>); })}</ul>
         </>)}
