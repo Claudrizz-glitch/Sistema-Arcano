@@ -39,7 +39,8 @@ test("Feitos Mágicos: abaixo da CD o custo sobe proporcionalmente até 2× no 1
   for (const [roll, cost] of Object.entries(exp)) assert.equal(featCost(100, Number(roll), 0, 11).cost, cost);
   assert.equal(featCost(15, 8, 0, 10).cost, 19); // 15 × 11/9 = 18,33 → 19
   assert.equal(featCost(40, 1, 0, 5).multiplier, 2);
-  assert.equal(featCost(40, 1, 5, 5).cost, 80); // 1 no dado é sempre 2×, mesmo com bônus
+  assert.equal(featCost(40, 1, 5, 5).cost, 40); // Profano: 1 + 5 = 6 ≥ CD 5 → custo normal
+  assert.equal(featCost(100, 1, 5, 11).cost, 150); // Profano: pior resultado é 6 → como um 6, nunca 2×
   assert.equal(featCost(100, 3, 0, null).cost, 100); // sem CD: custo normal
   assert.throws(() => featCost(100, 0)); assert.throws(() => featCost(100, 21));
   assert.equal(featCost(100, 6, 5, 12).cost, 110); // Profano: 6+5 = 11, CD 12 → 100 × 12/11 = 109,1 → 110

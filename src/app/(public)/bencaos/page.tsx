@@ -14,7 +14,7 @@ export default async function Bencaos({ searchParams }: { searchParams: Promise<
   const groups = order.map((g) => ({ g, items: list.filter((b) => b.grp === g) })).filter((x) => x.items.length);
   return (
     <>
-      <PageTitle sub="Níveis especiais 3, 5, 8, 13 e 21 concedem o direito a uma bênção (máx. 5 comuns). A bênção extra de cada grupo não conta no limite.">As 22 Bênçãos</PageTitle>
+      <PageTitle sub="Níveis especiais 3, 5, 8, 13 e 21 concedem o direito a uma bênção (máx. 5 comuns). A bênção extra de cada grupo não conta no limite. Arcanos e Bispos têm a Bênção Completa, que não ocupa slot.">As 22 Bênçãos</PageTitle>
       <SearchForm q={q} placeholder="Pesquisar bênção…" />
       {groups.length === 0 ? <Empty>Nenhuma bênção encontrada.</Empty> : groups.map(({ g, items }) => (
         <section key={g} className="mb-6">

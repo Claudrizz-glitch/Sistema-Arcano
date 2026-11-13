@@ -214,24 +214,27 @@ export function SpellsSection({ sheet, owned, catalog, gm, race }: { sheet: Shee
 }
 
 /* ---------- bênçãos ---------- */
-export type OwnedBlessing = Blessing & { exception_override: boolean };
+export type OwnedBlessing = Blessing & { exception_override: boolean; complete?: boolean };
 export function BlessingsSection({ sheet, owned, catalog, gm, rights }: { sheet: Sheet; owned: OwnedBlessing[]; catalog: Blessing[]; gm: boolean; rights: number }) {
-  const { run, busy, msg } = useRpc(); const [ovr, setOvr] = useState(false);
-  const commons = owned.filter((b) => !b.is_extra).length;
-  const available = catalog.filter((c) => !c.is_extra && !owned.some((o) => o.id === c.id));
+  const { run, busy, msg } = useRpc(); const [ovr, setOvr] = useState(false); const [complete, setComplete] = useState(false);
+  const commons = owned.filter((b) => !b.is_extra && !b.complete).length;
+  // Completa: qualquer uma das 22 (inclusive a do emoji). Fragmentada: só as comuns; a extra vem automática.
+  const available = catalog.filter((c) => (complete || !c.is_extra) && !owned.some((o) => o.id === c.id));
   return (
     <div className="space-y-3">
-      <p className="text-sm">Bênçãos comuns: <b>{commons}</b> de <b>{rights}</b> direito(s) por nível. <span className="text-xs text-parch-500">A extra do grupo é concedida automaticamente ao completar todas as comuns do grupo e não conta no limite.</span></p>
+      <p className="text-sm">Bênçãos fragmentadas: <b>{commons}</b> de <b>{rights}</b> slot(s) por nível. <span className="text-xs text-parch-500">A extra do grupo é concedida automaticamente ao completar todas as comuns do grupo e não conta no limite. Bênçãos Completas (Arcanos e Bispos) não ocupam slot.</span></p>
       {owned.length === 0 ? <p className="text-sm text-parch-500">Nenhuma bênção concedida.</p> : (
         <ul className="space-y-2">{owned.map((b) => (
           <li key={b.id} className="flex items-start justify-between gap-2 rounded-md border border-ink-600 p-3">
-            <div><b className="font-display text-gold-300">{b.name}</b> <span className="badge ml-1 border-ink-600">Grupo {b.grp}</span>{b.is_extra && <span className="badge ml-1 border-gold-400 text-gold-300">✦ Extra automática</span>}{b.exception_override && <span className="badge ml-1 border-amber-500 text-amber-300">exceção</span>}
+            <div><b className="font-display text-gold-300">{b.name}</b> <span className="badge ml-1 border-ink-600">Grupo {b.grp}</span>{b.complete ? <span className="badge ml-1 border-arcane-500 text-arcane-400">☀ Completa</span> : b.is_extra && <span className="badge ml-1 border-gold-400 text-gold-300">✦ Extra automática</span>}{b.exception_override && <span className="badge ml-1 border-amber-500 text-amber-300">exceção</span>}
               <p className="mt-1 text-sm text-parch-300">{b.effect || b.description}</p></div>
-            {gm && !b.is_extra && <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(`Remover a bênção “${b.name}”?`)) await run("revoke_blessing", { p_char: sheet.id, p_blessing: b.id }, "Bênção removida."); }}>Remover</button>}
+            {gm && (!b.is_extra || b.complete) && <button className="btn btn-sm" disabled={busy} onClick={async () => { if (window.confirm(`Remover a bênção “${b.name}”?`)) await run("revoke_blessing", { p_char: sheet.id, p_blessing: b.id }, "Bênção removida."); }}>Remover</button>}
           </li>))}</ul>)}
-      {gm && <Picker label="Conceder bênção comum" busy={busy} items={available.map((b) => ({ id: b.id, name: b.name, sub: `Grupo ${b.grp}` }))}
-        extra={<label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={ovr} onChange={(e) => setOvr(e.target.checked)} /> Exceção do Mestre (ignora o limite de bênçãos comuns)</label>}
-        onPick={(id) => run("grant_blessing", { p_char: sheet.id, p_blessing: id, p_note: "", p_override: ovr }, "Bênção concedida.")} />}
+      {gm && <Picker label={complete ? "Conceder Bênção Completa" : "Conceder bênção fragmentada"} busy={busy} items={available.map((b) => ({ id: b.id, name: b.name, sub: `Grupo ${b.grp}${b.is_extra ? " · extra" : ""}` }))}
+        extra={<div className="space-y-1">
+          <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={complete} onChange={(e) => setComplete(e.target.checked)} /> Bênção Completa (só Arcanos e Bispos — sem limite, não ocupa slot)</label>
+          {!complete && <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={ovr} onChange={(e) => setOvr(e.target.checked)} /> Exceção do Mestre (ignora o limite de slots)</label>}</div>}
+        onPick={(id) => run("grant_blessing", { p_char: sheet.id, p_blessing: id, p_note: "", p_override: complete ? false : ovr, p_complete: complete }, complete ? "Bênção Completa concedida." : "Bênção concedida.")} />}
       <Msg m={msg} />
     </div>
   );

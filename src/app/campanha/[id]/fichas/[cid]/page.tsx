@@ -47,7 +47,7 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
     itemIds.length ? sb.from("items").select("*").in("id", itemIds) : Promise.resolve({ data: [] }),
   ]);
   const ownedSpells = ((sp ?? []) as Spell[]).map((s) => ({ ...s, granted_at: "" })) as OwnedSpell[];
-  const ownedBless = ((bl ?? []) as Blessing[]).map((b) => ({ ...b, exception_override: ((cb ?? []) as CharBlessing[]).find((x) => x.blessing_id === b.id)?.exception_override ?? false })) as OwnedBlessing[];
+  const ownedBless = ((bl ?? []) as Blessing[]).map((b) => ({ ...b, exception_override: ((cb ?? []) as CharBlessing[]).find((x) => x.blessing_id === b.id)?.exception_override ?? false, complete: ((cb ?? []) as CharBlessing[]).find((x) => x.blessing_id === b.id)?.complete ?? false })) as OwnedBlessing[];
   const ownedItems = ((ci ?? []) as CharItem[]).map((c) => ({ ...c, item: ((it ?? []) as Item[]).find((i) => i.id === c.item_id)! })).filter((x) => x.item) as OwnedItem[];
 
   let spellCat: Spell[] = [], blessCat: Blessing[] = [], itemCat: Item[] = [], others: { id: string; name: string; mana: number | null }[] = [];

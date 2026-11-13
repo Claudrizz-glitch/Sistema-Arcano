@@ -52,6 +52,9 @@ Anos contados desde o Clube de Tarot e a criação da Capital (ano 0). O ano com
 ## Regras decididas (2026-11-14)
 - Teste de Feitos Mágicos: abaixo da CD, custo de mana sobe proporcionalmente até 2× com 1 no dado (cast_spell / featCost).
 - Druída comum: feitiços druídicos harmônicos + manipulação de mana (categoria "Técnica fundamental"). Druída Puro: tudo.
+- Profano: +5 no dado de feitos ao pé da letra (pior resultado = 6, nunca paga 2×).
+- Bênção Completa (Arcanos e Bispos): character_blessings.complete; não ocupa slot nem tem limite; grant_blessing(p_complete).
+- NPCs do doc criados: Arcanos e Kael nível 0, todos mortos exceto o Mago (decisão do Mestre).
 
 ## Banco
 Migrações versionadas em `supabase/migrations/` (a partir da 0014); scripts de dados em `supabase/data/`.
