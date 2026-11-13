@@ -32,7 +32,7 @@ druídicos, contratos) · seções com instrução de exportação (abaixo).
 | Seção do doc | Destino indicado no próprio doc |
 |---|---|
 | (FICHAS DE JOGADOR PARA IMPORTAÇÃO) — Adamastor, Jorge, Barbosa, Maxssimus, Rumpelstiltskin | Fichas de jogador da campanha |
-| Roteiro | Anotação **privada do Mestre por dia** (página /campanha/[id]/diario); a partir do dia 69 de Inverno cada dia tem um campo público (jogadores editam) e um privado (Mestre) |
+| Roteiro | Diário **por sessão** (página /campanha/[id]/diario): roteiro privado do Mestre e, em cada sessão iniciada, anotações do grupo (públicas) e do Mestre (privadas). Decisão do usuário em 2026-11-16, no lugar do diário por dia |
 | Notas | Anotações gerais do Mestre |
 | Personagens — Mago, Kael, Morte, Força, Torre, Enamorados, Julgamento, Louco | Fichas de NPC |
 
@@ -82,3 +82,8 @@ Só o Mestre aciona; o jogador apenas vê o painel. Estado de cada item em chara
 - elmo_imortal (helm_action: ponto / mitigar / retornar / revanche / encerrar; 'retornar' restaura TODAS as fichas e volta o turno),
   ovelha_lobo (wolf_action; média via character_modifiers.hp_bonus), bau_mirral (chest_action; selada não pode morrer).
 - Fotos de fichas em sheet_snapshots (sem acesso direto; só funções do banco).
+
+## Diário por sessão (2026-11-16)
+Tabelas sessions (pública para membros depois de iniciada) e session_gm (roteiro e anotações do Mestre). RPCs: session_draft_save,
+session_start, session_gm_save, session_public_save. A tabela day_notes ficou sem uso (dados migrados para as sessões 1 e 2).
+ATENÇÃO: o banco, chamado pelo site, recusa DELETE/UPDATE sem WHERE dentro das funções — sempre usar "where true" em tabelas temporárias.

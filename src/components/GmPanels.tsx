@@ -295,6 +295,9 @@ function ItemMechanics({ o, sheet, gm, targets, turnSeconds }: { o: OwnedItem; s
         </div><Msg m={msg} />
       </div>);
   }
+  if (m === "semente" && o.state?.consumed) {
+    return <div className={box}><p><span className="badge border-emerald-500 text-emerald-300">✓ Consumida</span> <span className="text-xs text-parch-300">O portador foi convertido permanentemente em Druída Puro.</span></p></div>;
+  }
   if (m === "pocao" || m === "semente") {
     const what = m === "semente" ? "Consumir: converte permanentemente em Druída Puro e libera todos os feitiços druídicos." : p.heal ? `Cura ${p.heal} de Vida.` : `Restaura ${p.mana} de Mana.`;
     return (
