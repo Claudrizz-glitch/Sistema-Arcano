@@ -21,7 +21,7 @@ export function calendarDate(turn: number, turnSeconds: number, cfg: CalendarCon
   const abs = startIdx + Math.floor(total / 86400); const sod = total % 86400;
   const year = cfg.startYear + Math.floor(abs / yearLen); const inYear = abs % yearLen; const si = Math.floor(inYear / dps);
   const eOff = Math.max(0, cfg.seasons.indexOf(cfg.eclipseSeason)) * dps;
-  const k = Math.max(0, Math.ceil(((abs - eOff) / yearLen + cfg.startYear - cfg.firstEclipseYear) / cfg.eclipseEveryYears));
+  const k = Math.ceil(((abs - eOff) / yearLen + cfg.startYear - cfg.firstEclipseYear) / cfg.eclipseEveryYears); // sem piso: há eclipses antes do ano 0
   const eYear = cfg.firstEclipseYear + k * cfg.eclipseEveryYears; const eAbs = (eYear - cfg.startYear) * yearLen + eOff;
   return { year, season: cfg.seasons[si], seasonIndex: si, day: (inYear % dps) + 1, dayOfYear: inYear + 1, secondsOfDay: sod,
     time: `${pad(Math.floor(sod / 3600))}:${pad(Math.floor((sod % 3600) / 60))}:${pad(sod % 60)}`, eclipse: { year: eYear, daysUntil: eAbs - abs, isToday: eAbs === abs } };

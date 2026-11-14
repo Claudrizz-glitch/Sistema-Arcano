@@ -6,7 +6,7 @@ const display = Cinzel({ subsets: ["latin"], variable: "--font-display" });
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata: Metadata = {
-  title: { default: "Arkhavel — Sistema Arcano", template: "%s · Arkhavel" },
+  title: { default: "Arkhavel", template: "%s · Arkhavel" },
   description: "Plataforma do RPG de mesa Arkhavel: regras, fichas, campanhas e ferramentas do Mestre.",
 };
 

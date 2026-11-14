@@ -16,7 +16,7 @@ export default async function Regras({ searchParams }: { searchParams: Promise<{
   const topics = (data ?? []) as Topic[];
   return (
     <>
-      <PageTitle sub="Regras, lore e referências do sistema Arcano">Regras de Arkhavel</PageTitle>
+      <PageTitle sub="Regras, lore e referências de Arkhavel">Regras de Arkhavel</PageTitle>
       <SearchForm q={q} placeholder="Pesquisar nas regras…" />
       {topics.length > 1 && !q && (
         <nav aria-label="Tópicos" className="mb-6 flex flex-wrap gap-2 text-sm">

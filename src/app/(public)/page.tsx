@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <>
       <section className="py-10 text-center">
-        <p className="text-sm uppercase tracking-[0.4em] text-parch-500">Sistema Arcano</p>
         <h1 className="mt-2 text-5xl sm:text-6xl">Arkhavel</h1>
         <div className="divider mx-auto max-w-md" />
         <p className="mx-auto max-w-2xl text-parch-300">

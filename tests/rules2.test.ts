@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { featCost } from "../src/domain/feats.ts";
 import { BLEED_GRADES, bleedLoss, privationActive, absorptionPerTurn, absorptionTransfer } from "../src/domain/bleeding.ts";
-import { calendarDate } from "../src/domain/calendar.ts";
+import { calendarDate, DEFAULT_CALENDAR } from "../src/domain/calendar.ts";
 import { effectiveStats, speedMps, massForce, steppedAttribute } from "../src/domain/levels.ts";
 import { spellBlock, extrasToGrant, extrasToRevoke } from "../src/domain/eligibility.ts";
 import { processRegen } from "../src/domain/time.ts";
@@ -73,6 +73,16 @@ test("calendário: ano 44, dia 69 do Inverno; Eclipse no 1º da Primavera a cada
   assert.deepEqual([e.season, e.day, e.year, e.eclipse.isToday], ["Primavera", 1, 44, true]);
   const next = calendarDate(23 * day, 6); assert.equal(next.eclipse.year, 66); assert.equal(next.eclipse.daysUntil, 22 * 360 - 1);
   assert.equal(calendarDate((22 + 270) * day, 6).year, 45); // o ano vira no 1º do Inverno
+});
+
+test("calendário: eclipses a cada 22 anos também antes do ano 0; início configurável", () => {
+  const base = { ...DEFAULT_CALENDAR, startDay: 1, startSecondsOfDay: 6 * 3600 };
+  const a = calendarDate(0, 6, { ...base, startYear: -10 });
+  assert.deepEqual([a.year, a.season, a.day, a.time, a.eclipse.year], [-10, "Inverno", 1, "06:00:00", 0]);
+  assert.equal(calendarDate(0, 6, { ...base, startYear: -30 }).eclipse.year, -22);
+  assert.equal(calendarDate(0, 6, { ...base, startYear: -22 }).eclipse.daysUntil, 90); // Inverno 1 → Primavera 1
+  const v = calendarDate(0, 6, { ...base, startYear: 3, startSeason: "Verão", startDay: 45 });
+  assert.deepEqual([v.season, v.day, v.year, v.eclipse.year], ["Verão", 45, 3, 22]);
 });
 
 test("Velocidade (N=4) e Força de Massa seguem piso((nível−1)/N); nível 0 dobra", () => {

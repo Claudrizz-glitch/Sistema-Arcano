@@ -17,7 +17,7 @@ export default async function Sistema() {
   }));
   return (
     <>
-      <PageTitle sub="Conteúdo oficial do Sistema Arcano: vale para todas as campanhas, e o que estiver publicado aparece para todos no site.">Gerenciar sistema</PageTitle>
+      <PageTitle sub="Conteúdo oficial de Arkhavel: vale para todas as campanhas, e o que estiver publicado aparece para todos no site.">Gerenciar sistema</PageTitle>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link href="/painel/sistema/racas" className="card no-underline hover:border-gold-400"><h2 className="text-xl">Raças</h2><p className="mt-2 text-sm text-parch-300">Textos, variantes e tabelas de progressão de cada raça na mesma página.</p></Link>
         {ORDER.map((k) => { const d = KIND_DEFS[k]; return (

@@ -1,6 +1,7 @@
-# Arkhavel — Sistema Arcano
+# Arkhavel
 
-Plataforma web do RPG Sistema Arcano: Next.js 15 + TypeScript + Tailwind + Supabase (projeto `kgypkewdbrutorqrqjlt`).
+Plataforma web do RPG Arkhavel (o nome "Sistema Arcano" foi aposentado no site, no repositório e no domínio em 2026-11-14;
+o Google Doc de regras ainda se chama "Sistema Arcano"): Next.js 15 + TypeScript + Tailwind + Supabase (projeto `kgypkewdbrutorqrqjlt`).
 Veja também `README.md` e `docs/` (DECISOES, ETAPA3, INSTALACAO).
 
 ## Fonte oficial (hierarquia de informação)
@@ -96,3 +97,7 @@ escudos perdem 1d4 de mitigação por uso (estado em character_items.state.mit).
 campaigns.current_turn é absoluto e move o calendário. O "turno N" mostrado no site é relativo à sessão atual:
 current_turn − sessions.start_turn (campaignContext devolve sessionStart / sessionTurn / sessionNumber). Iniciar uma sessão
 zera o contador mostrado e NÃO mexe no calendário: a sessão começa do mesmo ponto em que a anterior parou.
+
+## Início da campanha (2026-11-14)
+create_campaign(nome, descrição, estação, dia, ano, segundos do dia): o Mestre define data e hora de início. Modelo fixo: Inverno,
+Primavera, Verão, Outono (90 dias cada); ano 0 = Clube de Tarot e criação de Arkhavel; Eclipse a cada 22 anos, antes e depois do ano 0.

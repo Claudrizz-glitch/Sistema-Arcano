@@ -1,4 +1,4 @@
-# Arkhavel — Sistema Arcano (plataforma web)
+# Arkhavel (plataforma web)
 
 Next.js 15 (App Router) + TypeScript estrito + Tailwind + Supabase (Auth, Postgres/RLS/RPC, Realtime).
 O backend (esquema, RLS, RPCs, seed oficial) JÁ está no ar no projeto Supabase `kgypkewdbrutorqrqjlt` (sa-east-1).

@@ -19,11 +19,23 @@ export function CreateCampaignForm() {
   return (
     <form className="space-y-2" onSubmit={async (e) => {
       e.preventDefault(); const f = new FormData(e.currentTarget);
-      const r = await run("create_campaign", { p_name: String(f.get("name")), p_description: String(f.get("description") ?? "") });
+      const [hh, mm] = String(f.get("time") || "06:00").split(":").map(Number);
+      const r = await run("create_campaign", { p_name: String(f.get("name")), p_description: String(f.get("description") ?? ""),
+        p_season: String(f.get("season")), p_day: Number(f.get("day")), p_year: Number(f.get("year")), p_seconds: (hh || 0) * 3600 + (mm || 0) * 60 });
       if (r.ok) router.push(`/campanha/${r.data}`);
     }}>
       <div><label className="label" htmlFor="cn">Nome da campanha</label><input id="cn" name="name" className="input" required maxLength={120} /></div>
       <div><label className="label" htmlFor="cd">Descrição</label><textarea id="cd" name="description" className="input" rows={2} /></div>
+      <fieldset className="rounded-md border border-ink-600 p-2">
+        <legend className="label px-1">Início da campanha (calendário de Arkhavel)</legend>
+        <div className="grid grid-cols-2 gap-2">
+          <div><label className="label" htmlFor="cs">Estação</label><select id="cs" name="season" className="input" defaultValue="Inverno">{["Inverno", "Primavera", "Verão", "Outono"].map((x) => <option key={x}>{x}</option>)}</select></div>
+          <div><label className="label" htmlFor="cday">Dia (1 a 90)</label><input id="cday" name="day" type="number" min={1} max={90} defaultValue={69} className="input" required /></div>
+          <div><label className="label" htmlFor="cy">Ano</label><input id="cy" name="year" type="number" defaultValue={44} className="input" required /></div>
+          <div><label className="label" htmlFor="ct">Hora</label><input id="ct" name="time" type="time" defaultValue="06:00" className="input" required /></div>
+        </div>
+        <p className="mt-1 text-xs text-parch-500">4 estações de 90 dias, começando pelo Inverno. O ano 0 é o do Clube de Tarot e da criação de Arkhavel (anos negativos são anteriores). O Grande Eclipse acontece a cada 22 anos, antes e depois do ano 0, no 1º dia da Primavera.</p>
+      </fieldset>
       <button className="btn btn-primary" disabled={busy}>Criar campanha</button><Msg m={msg} />
     </form>
   );
