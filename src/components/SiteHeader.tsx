@@ -25,5 +25,5 @@ export async function SiteHeader() {
   );
 }
 export function SiteFooter() {
-  return <footer className="mt-16 border-t border-ink-700 py-6 text-center text-xs text-parch-500">Arkhavel — conteúdo extraído do documento oficial de regras.</footer>;
+  return <footer className="mt-16 border-t border-ink-700 py-6 text-center text-xs text-parch-500">Sistema Arcano · Arkhavel — conteúdo extraído do documento oficial de regras.</footer>;
 }
