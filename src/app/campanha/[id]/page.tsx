@@ -20,7 +20,7 @@ export default async function Visao({ params }: { params: Promise<{ id: string }
   const pend = sheets.filter((s) => s.status === "pendente" && s.kind === "jogador");
   const { data: gaps } = gm ? await sb.from("rule_gaps").select("*").is("campaign_id", null).eq("status", "aberta") : { data: [] };
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid items-start gap-4 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         <Card title="Estado da campanha">
           <p className="text-sm text-parch-300">{campaign.description || "Sem descrição."}</p>
@@ -35,7 +35,7 @@ export default async function Visao({ params }: { params: Promise<{ id: string }
         )}
         <Card title={gm ? "Personagens em jogo" : "Meus personagens ativos"}>
           {active.length === 0 ? <Empty>Nenhum personagem ativo no momento.</Empty> : (
-            <ul className="grid gap-3 sm:grid-cols-2">{active.map((s) => (
+            <ul className="grid items-start gap-3 sm:grid-cols-2">{active.map((s) => (
               <li key={s.id} className="rounded-md border border-ink-600 p-3">
                 <Link href={`/campanha/${id}/fichas/${s.id}`} className="font-display text-lg no-underline">{s.name}</Link>
                 <p className="mb-2 text-xs text-parch-500">Nível {s.level} · {s.race_slug}{s.kind === "mestre" ? " · NPC (privado)" : ""}</p>

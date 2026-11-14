@@ -19,7 +19,7 @@ export default async function Painel() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 py-8">
         <PageTitle sub={`Olá, ${profile.display_name}${profile.is_master ? " — Mestre autorizado" : ""}`}>Meu painel</PageTitle>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid items-start gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <Card title="Minhas campanhas">
               {campaigns.length === 0 ? <Empty>Você ainda não participa de nenhuma campanha. Use um código de convite ao lado{profile.is_master ? " ou crie uma nova campanha" : ""}.</Empty> : (

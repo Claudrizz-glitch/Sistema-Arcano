@@ -13,7 +13,7 @@ export default async function Racas() {
     <>
       <PageTitle sub="Cada raça segue a sua própria tabela oficial — nenhuma progressão é compartilhada por suposição.">Raças e variantes</PageTitle>
       {rs.length === 0 ? <Empty>Nenhuma raça cadastrada.</Empty> : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid items-start gap-4 sm:grid-cols-2">
           {rs.map((r) => (
             <Link key={r.slug} href={`/racas/${r.slug}`} className="card no-underline hover:border-gold-400">
               <h2 className="text-xl">{r.name}</h2>

@@ -639,14 +639,11 @@ export function GmEditForm({ sheet }: { sheet: Sheet }) {
   const { run, busy, msg } = useRpc();
   return (
     <form className="grid gap-2 sm:grid-cols-2" onSubmit={async (e) => { e.preventDefault(); const f = new FormData(e.currentTarget);
-      await run("gm_edit_sheet", { p_char: sheet.id, p_fields: { name: String(f.get("name")), title_line: String(f.get("title")), description: String(f.get("description")), inventory_text: String(f.get("inventory")), narrative_notes: String(f.get("notes")), reach_m: Number(f.get("reach")), special_combat_notes: String(f.get("combat")) } }, "Ficha salva."); }}>
+      await run("gm_edit_sheet", { p_char: sheet.id, p_fields: { name: String(f.get("name")), title_line: String(f.get("title")), reach_m: Number(f.get("reach")), special_combat_notes: String(f.get("combat")) } }, "Ficha salva."); }}>
       <div><label className="label" htmlFor="gname">Nome</label><input id="gname" name="name" className="input" defaultValue={sheet.name} required /></div>
       <div><label className="label" htmlFor="gtitle">Epíteto / apresentação</label><input id="gtitle" name="title" className="input" defaultValue={sheet.title_line} /></div>
       <div><label className="label" htmlFor="greach">Alcance padrão (m)</label><input id="greach" name="reach" type="number" step="0.5" min={0} className="input" defaultValue={sheet.reach_m} /></div>
       <div><label className="label" htmlFor="gcombat">Condições especiais de combate</label><input id="gcombat" name="combat" className="input" defaultValue={sheet.special_combat_notes} /></div>
-      <div className="sm:col-span-2"><label className="label" htmlFor="gdesc">Descrição</label><textarea id="gdesc" name="description" className="input" rows={3} defaultValue={sheet.description} /></div>
-      <div className="sm:col-span-2"><label className="label" htmlFor="ginv">Inventário livre</label><textarea id="ginv" name="inventory" className="input" rows={3} defaultValue={sheet.inventory_text} /></div>
-      <div className="sm:col-span-2"><label className="label" htmlFor="gnotes">Anotações narrativas</label><textarea id="gnotes" name="notes" className="input" rows={3} defaultValue={sheet.narrative_notes} /></div>
       <div className="sm:col-span-2"><button className="btn btn-primary" disabled={busy}>Salvar</button> <Msg m={msg} /></div>
     </form>
   );

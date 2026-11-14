@@ -22,7 +22,7 @@ export default async function Fichas({ params, searchParams }: { params: Promise
   const order = { pendente: 0, ativa: 1, morta: 2 } as const;
   list = [...list].sort((a, b) => order[a.status] - order[b.status] || a.name.localeCompare(b.name));
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid items-start gap-4 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         {gm && (
           <p className="flex flex-wrap gap-2 text-sm">
@@ -33,7 +33,7 @@ export default async function Fichas({ params, searchParams }: { params: Promise
           </p>
         )}
         {list.length === 0 ? <Empty>{gm ? "Nenhuma ficha encontrada. Crie um NPC ao lado ou aguarde os jogadores criarem fichas." : "Você ainda não tem fichas. Crie a primeira ao lado — o Mestre a revisará e ativará."}</Empty> : (
-          <ul className="grid gap-3 sm:grid-cols-2">{list.map((x) => (
+          <ul className="grid items-start gap-3 sm:grid-cols-2">{list.map((x) => (
             <li key={x.id} className="card">
               <div className="flex items-start justify-between gap-2">
                 {x.portrait_url && <img src={x.portrait_url} alt="" loading="lazy" className="h-14 w-14 shrink-0 rounded-md border border-gold-600/30 object-cover object-top" />}

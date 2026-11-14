@@ -22,7 +22,7 @@ export default function Home() {
           <Link className="btn btn-primary no-underline" href="/entrar">Entrar na campanha</Link>
         </div>
       </section>
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {CARDS.map((c) => (
           <Link key={c.href} href={c.href} className="card no-underline transition hover:border-gold-400">
             <h2 className="text-xl">{c.t}</h2><p className="mt-1 text-sm text-parch-300">{c.d}</p>

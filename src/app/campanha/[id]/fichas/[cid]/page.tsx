@@ -3,9 +3,10 @@ import Link from "next/link";
 import { campaignContext } from "@/lib/data";
 import { Bar, Card, StatusBadge } from "@/components/ui";
 import { RealtimeRefresh } from "@/components/client";
-import { BlessingsSection, ContractsSection, GmEditForm, ItemsSection, LevelPanel, LogSection, ModifiersSection, PlayerEditForm, ResourcePanel, SpellsSection, StatusPanel, type OwnedBlessing, type OwnedItem, type OwnedSpell, type RaceCtx } from "@/components/GmPanels";
+import { BlessingsSection, ContractsSection, GmEditForm, ItemsSection, LevelPanel, LogSection, ModifiersSection, ResourcePanel, SpellsSection, StatusPanel, type OwnedBlessing, type OwnedItem, type OwnedSpell, type RaceCtx } from "@/components/GmPanels";
 import { BleedingPanel, ForgedPanel } from "@/components/BodyPanels";
 import { SheetPortrait } from "@/components/SheetPortrait";
+import { SheetTextCard } from "@/components/SheetTextCards";
 import { SheetOwnership, type PlayerOption } from "@/components/SheetOwnership";
 import type { Absorption, Bleeding, BleedGradeRow, Blessing, CharBlessing, CharContract, CharItem, CharModifier, CharSpell, Item, LogRow, Race, Sheet, Spell, Variant } from "@/lib/types";
 
@@ -122,12 +123,12 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
             {variant?.description && <p className="mt-2 border-t border-ink-700 pt-2 text-parch-300"><b>{variant.name}:</b> {variant.description}</p>}</details>)}
       </Card>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="columns-1 gap-4 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid">
         <Card title="Retrato"><SheetPortrait sheet={sheet} gm={gm} canEdit={gm || canEditText} /></Card>
         {gm && <Card title="Dono da ficha"><SheetOwnership sheet={sheet} players={players} limit={campaign.max_sheets_per_player} ownerName={owner?.display_name ?? null} /></Card>}
       </div>
       {gm && (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="columns-1 gap-4 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid">
           <Card title="Estado da ficha"><StatusPanel sheet={sheet} /></Card>
           <Card title="Vida, mana e sanidade"><ResourcePanel sheet={sheet} race={ctx} /></Card>
           <Card title="Nível e experiência"><LevelPanel sheet={sheet} xpNeeded={xpNeeded} canConvert={sheet.progression_slug !== "druida_puro" && sheet.status !== "morta"} /></Card>
@@ -137,16 +138,18 @@ export default async function FichaPage({ params }: { params: Promise<{ id: stri
         </div>
       )}
       {!gm && hasBar && bleedings.some((b) => b.active) && <Card title="Sangramentos ativos"><ul className="text-sm">{bleedings.filter((b) => b.active).map((b) => <li key={b.id}>{b.kind === "queimadura" ? `Queimadura — ${b.flat_damage} por turno${b.turns_left ? ` (${b.turns_left} turno(s) restantes)` : " (até ser tratada)"}` : b.kind === "privacao" ? "Privação de mana (5%/turno)" : `Grau ${b.grade}${b.rate_percent ? ` — ${b.rate_percent}%/turno` : " — morte iminente"}`}</li>)}</ul></Card>}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="columns-1 gap-4 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid">
         <Card title="Feitiços"><SpellsSection sheet={sheet} owned={ownedSpells} catalog={spellCat} gm={gm} race={ctx} deck={ownedItems.some((x) => x.item.properties?.mechanic === "baralho_arcano")} /></Card>
         <Card title="Bênçãos"><BlessingsSection sheet={sheet} owned={ownedBless} catalog={blessCat} gm={gm} rights={rights} /></Card>
         <Card title="Equipamentos e itens"><ItemsSection sheet={sheet} owned={ownedItems} catalog={itemCat} gm={gm} targets={targets} turnSeconds={campaign.turn_seconds} turn={campaign.current_turn} turnBase={sessionStart} blessings={blessCat.map((b) => b.name)} /></Card>
         <Card title="Contratos"><ContractsSection sheet={sheet} owned={(cc ?? []) as CharContract[]} gm={gm} /></Card>
       </div>
-      <Card title="Descrição, inventário e anotações">
-        {gm ? <GmEditForm sheet={sheet} /> : canEditText ? <PlayerEditForm sheet={sheet} /> : (<div className="space-y-2 text-sm"><p className="whitespace-pre-line">{sheet.description || "—"}</p><p className="whitespace-pre-line text-parch-300">{sheet.inventory_text}</p></div>)}
-        {!gm && sheet.narrative_notes && <p className="mt-3 whitespace-pre-line text-sm text-parch-300">{sheet.narrative_notes}</p>}
-      </Card>
+      <div className="columns-1 gap-4 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid">
+        {gm && <Card title="Dados da ficha"><GmEditForm sheet={sheet} /></Card>}
+        <SheetTextCard sheet={sheet} field="description" gm={gm} canEdit={gm || canEditText} />
+        <SheetTextCard sheet={sheet} field="inventory_text" gm={gm} canEdit={gm || canEditText} />
+        {(gm || sheet.narrative_notes) && <SheetTextCard sheet={sheet} field="narrative_notes" gm={gm} canEdit={gm} />}
+      </div>
       <Card title="Histórico de alterações"><LogSection log={(lg ?? []) as LogRow[]} gm={gm} turnBase={sessionStart} /></Card>
     </div>
   );

@@ -23,7 +23,7 @@ export default async function Turnos({ params }: { params: Promise<{ id: string 
   const active = encounters.filter((e) => e.status === "ativo"); const done = encounters.filter((e) => e.status === "encerrado");
   const fd = fictionalDate(campaign.current_turn, campaign.turn_seconds, campaign.calendar_config);
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid items-start gap-4 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         {gm && <Card title="Passar o tempo"><TimePanel campaignId={id} turn={campaign.current_turn} turnSeconds={campaign.turn_seconds} sessionStart={sessionStart} sessionNumber={sessionNumber} /></Card>}
         {active.length === 0 ? <Card title="Combate"><Empty>{gm ? "Nenhum encontro em andamento. Inicie um ao lado." : "Nenhum encontro em andamento."}</Empty></Card>
