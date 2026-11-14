@@ -9,8 +9,8 @@ import type { Note } from "@/lib/types";
 
 type Editing = Note | "novo" | null;
 
-// Acesso direto à tabela master_notes: protegido por RLS (somente o Mestre da campanha lê/escreve).
-export function NotesManager({ campaignId, userId, notes }: { campaignId: string; userId: string; notes: Note[] }) {
+// Acesso direto à tabela plot_notes: protegido por RLS (somente o Mestre autorizado, dono da anotação, lê e escreve).
+export function NotesManager({ userId, notes }: { userId: string; notes: Note[] }) {
   const sb = useMemo(() => createClient(), []); const router = useRouter();
   const [editing, setEditing] = useState<Editing>(null); const [q, setQ] = useState(""); const [arch, setArch] = useState(false); const [tag, setTag] = useState("");
   const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<{ kind: "ok" | "erro"; text: string } | null>(null);
@@ -20,13 +20,13 @@ export function NotesManager({ campaignId, userId, notes }: { campaignId: string
   async function save(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); const f = new FormData(e.currentTarget); setBusy(true); setMsg(null);
     const row = { title: String(f.get("title")).trim(), content: String(f.get("content")), tags: String(f.get("tags")).split(",").map((t) => t.trim()).filter(Boolean) };
-    const res = editing === "novo" ? await sb.from("master_notes").insert({ ...row, campaign_id: campaignId, author_id: userId }) : await sb.from("master_notes").update(row).eq("id", (editing as Note).id);
+    const res = editing === "novo" ? await sb.from("plot_notes").insert({ ...row, author_id: userId }) : await sb.from("plot_notes").update(row).eq("id", (editing as Note).id);
     setBusy(false);
     if (res.error) return setMsg({ kind: "erro", text: friendly(res.error.message) });
     setMsg({ kind: "ok", text: "Anotação salva." }); setEditing(null); router.refresh();
   }
-  async function toggleArchive(n: Note) { const { error } = await sb.from("master_notes").update({ archived: !n.archived }).eq("id", n.id); if (error) setMsg({ kind: "erro", text: friendly(error.message) }); else router.refresh(); }
-  async function del(n: Note) { if (!window.confirm(`Excluir “${n.title || "sem título"}” definitivamente?`)) return; const { error } = await sb.from("master_notes").delete().eq("id", n.id); if (error) setMsg({ kind: "erro", text: friendly(error.message) }); else router.refresh(); }
+  async function toggleArchive(n: Note) { const { error } = await sb.from("plot_notes").update({ archived: !n.archived }).eq("id", n.id); if (error) setMsg({ kind: "erro", text: friendly(error.message) }); else router.refresh(); }
+  async function del(n: Note) { if (!window.confirm(`Excluir “${n.title || "sem título"}” definitivamente?`)) return; const { error } = await sb.from("plot_notes").delete().eq("id", n.id); if (error) setMsg({ kind: "erro", text: friendly(error.message) }); else router.refresh(); }
 
   const form = (n: Note | null) => (
     <form key={n?.id ?? "novo"} onSubmit={save} className="card space-y-3 border-gold-400/60">
@@ -53,7 +53,7 @@ export function NotesManager({ campaignId, userId, notes }: { campaignId: string
         </p>)}
       <Msg m={msg} />
       {editing === "novo" && form(null)}
-      {shown.length === 0 && editing !== "novo" ? <p className="rounded-md border border-dashed border-ink-600 p-8 text-center text-sm text-parch-500">Nenhuma anotação{arch ? " arquivada" : ""}. Use este espaço para planejar sessões, segredos, pistas e antagonistas — só você pode ler.</p> : (
+      {shown.length === 0 && editing !== "novo" ? <p className="rounded-md border border-dashed border-ink-600 p-8 text-center text-sm text-parch-500">Nenhuma anotação{arch ? " arquivada" : ""}. Use este espaço para o enredo do mundo: segredos, pistas, antagonistas e o que ainda vai acontecer — só você pode ler.</p> : (
         <div className="columns-1 gap-4 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid">
           {shown.map((n) => editing !== "novo" && editing?.id === n.id ? <div key={n.id}>{form(n)}</div> : (
             <article key={n.id} className="card">

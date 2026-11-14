@@ -34,7 +34,7 @@ druídicos, contratos) · seções com instrução de exportação (abaixo).
 |---|---|
 | (FICHAS DE JOGADOR PARA IMPORTAÇÃO) — Adamastor, Jorge, Barbosa, Maxssimus, Rumpelstiltskin | Fichas de jogador da campanha |
 | Roteiro | Diário **por sessão** (página /campanha/[id]/diario): roteiro privado do Mestre e, em cada sessão iniciada, anotações do grupo (públicas) e do Mestre (privadas). Decisão do usuário em 2026-11-16, no lugar do diário por dia |
-| Notas | Anotações gerais do Mestre |
+| Notas | **Enredo** (Meu painel → Enredo): anotações privadas do Mestre, independentes de campanha (tabela plot_notes; a aba "Anotações" da campanha foi removida em 2026-11-14) |
 | Personagens — Mago, Kael, Morte, Força, Torre, Enamorados, Julgamento, Louco | Fichas de NPC |
 
 ### Imagens
