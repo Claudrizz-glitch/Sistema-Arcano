@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { friendly } from "@/lib/errors";
 import { Msg } from "./client";
 import { Markdown } from "./Markdown";
+import { Collapsible } from "./Collapsible";
 import type { Note } from "@/lib/types";
 
 type Editing = Note | "novo" | null;
@@ -62,7 +63,7 @@ export function NotesManager({ userId, notes }: { userId: string; notes: Note[] 
                 <span className="shrink-0 text-xs font-sans text-parch-500">{new Date(n.updated_at).toLocaleDateString("pt-BR")}</span>
               </header>
               {n.tags.length > 0 && <p className="mb-2 flex flex-wrap gap-1">{n.tags.map((t) => <span key={t} className="badge border-gold-600/50 text-xs">{t}</span>)}</p>}
-              <div className="text-sm text-parch-100/90">{n.content ? <Markdown source={n.content} /> : <p className="text-parch-500">Sem conteúdo.</p>}</div>
+              <Collapsible><div className="text-sm text-parch-100/90">{n.content ? <Markdown source={n.content} /> : <p className="text-parch-500">Sem conteúdo.</p>}</div></Collapsible>
               <footer className="mt-3 flex flex-wrap gap-2 border-t border-ink-700 pt-3">
                 <button className="btn btn-sm" onClick={() => setEditing(n)}>Editar</button>
                 <button className="btn btn-sm" onClick={() => toggleArchive(n)}>{n.archived ? "Desarquivar" : "Arquivar"}</button>

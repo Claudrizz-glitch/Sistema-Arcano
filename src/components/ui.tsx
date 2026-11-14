@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Collapsible } from "./Collapsible";
 
 export function Card({ title, children, className = "", actions }: { title?: string; children: ReactNode; className?: string; actions?: ReactNode }) {
   return (
@@ -10,7 +11,7 @@ export function Card({ title, children, className = "", actions }: { title?: str
           {actions}
         </div>
       )}
-      {children}
+      <Collapsible>{children}</Collapsible>
     </section>
   );
 }

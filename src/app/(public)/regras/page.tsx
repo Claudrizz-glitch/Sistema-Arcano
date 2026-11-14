@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Empty, PageTitle, SearchForm } from "@/components/ui";
 import { Markdown } from "@/components/Markdown";
+import { Collapsible } from "@/components/Collapsible";
 import type { Topic } from "@/lib/types";
 
 export const metadata = { title: "Regras" };
@@ -28,7 +29,7 @@ export default async function Regras({ searchParams }: { searchParams: Promise<{
           {topics.map((t) => (
             <section key={t.id} id={t.slug} className="card scroll-mt-4">
               <h2 className="card-title flex items-center justify-between gap-2"><span>{t.title}</span><Link href={`/regras/${t.slug}`} className="text-xs font-sans no-underline text-parch-500 hover:text-gold-300">link direto</Link></h2>
-              <div className="text-sm text-parch-100/90"><Markdown source={t.body_md} /></div>
+              <Collapsible><div className="text-sm text-parch-100/90"><Markdown source={t.body_md} /></div></Collapsible>
             </section>
           ))}
         </div>

@@ -101,3 +101,8 @@ zera o contador mostrado e NÃO mexe no calendário: a sessão começa do mesmo 
 ## Início da campanha (2026-11-14)
 create_campaign(nome, descrição, estação, dia, ano, segundos do dia): o Mestre define data e hora de início. Modelo fixo: Inverno,
 Primavera, Verão, Outono (90 dias cada); ano 0 = Clube de Tarot e criação de Arkhavel; Eclipse a cada 22 anos, antes e depois do ano 0.
+
+## Ícone e cards (2026-11-14)
+Ícone do site: emblema do eclipse dourado (src/app/icon.png, apple-icon.png, favicon.ico; original em public/img/emblema.webp).
+Cards grandes: componente Collapsible (limite de ~26 rem, fade e botão "Mostrar tudo/Recolher"; só aparece se o conteúdo passar do limite).
+Já aplicado em Card (ui.tsx), tópicos de /regras, Enredo (NotesManager) e cards de texto da ficha (SheetTextCards).

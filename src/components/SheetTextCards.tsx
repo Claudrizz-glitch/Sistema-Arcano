@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Msg, useRpc } from "./client";
 import { Markdown } from "./Markdown";
+import { Collapsible } from "./Collapsible";
 import type { Sheet } from "@/lib/types";
 
 type Field = "description" | "inventory_text" | "narrative_notes";
@@ -33,7 +34,7 @@ export function SheetTextCard({ sheet, field, canEdit, gm }: { sheet: Sheet; fie
         </form>
       ) : (
         <div className="space-y-2">
-          {value ? <div className="text-sm text-parch-100/90"><Markdown source={value} /></div> : <p className="text-sm text-parch-500">{m.empty}</p>}
+          {value ? <Collapsible><div className="text-sm text-parch-100/90"><Markdown source={value} /></div></Collapsible> : <p className="text-sm text-parch-500">{m.empty}</p>}
           {canEdit && <button className="btn btn-sm" onClick={() => setEditing(true)}>{value ? "Editar" : "Escrever"}</button>}
         </div>
       )}
